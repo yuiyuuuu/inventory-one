@@ -1,0 +1,45 @@
+.home-parent {
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.home-q {
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+}
+
+.home-inparent {
+  width: 50%;
+  border: 1px solid #1c1c1c;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  padding: 10px 30px 10px 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @media only screen and (max-width: 500px) {
+    width: 80%;
+  }
+}
+
+.home-searchq {
+  width: 100%;
+  height: 100%;
+  margin-left: 8px;
+  font-size: 18px;
+}
+
+.home-itemmap {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+
+  @media only screen and (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
