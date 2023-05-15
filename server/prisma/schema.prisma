@@ -14,4 +14,6 @@ model Item{
   id String @id @default(uuid())
   name String
   quantity Int
+  image String?
+  createdAt DateTime @default(now()) @db.Timestamp
 }

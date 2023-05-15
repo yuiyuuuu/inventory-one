@@ -12,7 +12,9 @@
 }
 
 .item-img {
-  max-width: 150px;
+  width: 150px;
+  height: 100px;
+  margin-right: 10px;
 
   @media only screen and (max-width: 500px) {
     max-width: 100px;
