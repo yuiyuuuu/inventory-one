@@ -1,4 +1,5 @@
 import React from "react";
+import XIcon from "../global/XIcon";
 
 const CreateOverlay = ({
   setShowCreateOverlay,
@@ -70,6 +71,14 @@ const CreateOverlay = ({
         >
           Submit
         </button>
+
+        <XIcon
+          top={"21px"}
+          right={"30px"}
+          func={function () {
+            setShowCreateOverlay(false);
+          }}
+        />
       </div>
 
       <div

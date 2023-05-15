@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
 import { Buffer } from "buffer";
-import { makePutRequest } from "../requests/requestFunctions";
+import {
+  makeDeleteRequest,
+  makePutRequest,
+} from "../requests/requestFunctions";
+import XIcon from "../global/XIcon";
 
 const EditOverlay = ({
   selectedProduct,
@@ -12,6 +16,7 @@ const EditOverlay = ({
   setQueryResults,
   allProducts,
   queryResults,
+  fetchProducts,
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -46,12 +51,13 @@ const EditOverlay = ({
 
   async function handleSubmitEdit() {
     const obj = {
+      id: selectedProduct.id,
       name: selectedProduct.name,
       quantity: Number(selectedProduct.quantity),
       image: selectedProduct.image || null,
     };
 
-    await makePutRequest("/item/edit", obj)
+    await makePutRequest("/item/edit/info", obj)
       .then((res) => {
         setSelectedProduct({});
 
@@ -64,6 +70,22 @@ const EditOverlay = ({
         //finish the request api route
         alert("Product Edited");
         setShowEditOverlay(false);
+      })
+      .catch(() => {
+        alert("Something went wrong, try again");
+      });
+  }
+
+  async function handleDelete() {
+    await makeDeleteRequest(`/item/delete/${selectedProduct.id}`)
+      .then(() => {
+        setShowEditOverlay(false);
+        setAllProducts((prev) =>
+          prev.filter((v) => v.id !== selectedProduct.id)
+        );
+
+        setSelectedProduct({});
+        alert("Product Deleted");
       })
       .catch(() => {
         alert("Something went wrong, try again");
@@ -130,12 +152,26 @@ const EditOverlay = ({
           </div>
         )}
 
+        <div className='homec-div'></div>
+
         <button
           className='homec-submit homec-but'
           onClick={() => handleSubmitEdit()}
         >
           Submit
         </button>
+
+        <button className='homec-del homec-but' onClick={() => handleDelete()}>
+          Delete Product
+        </button>
+
+        <XIcon
+          top={"21px"}
+          right={"30px"}
+          func={function () {
+            setShowEditOverlay(false);
+          }}
+        />
       </div>
 
       <div

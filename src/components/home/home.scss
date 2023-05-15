@@ -83,6 +83,7 @@
   padding: 20px;
   width: 500px;
   box-sizing: border-box;
+  position: relative;
 
   @media only screen and (max-width: 500px) {
     width: 350px;
@@ -161,4 +162,16 @@
   background-color: rgb(33, 228, 33);
   color: white;
   margin-top: 15px;
+}
+
+.homec-del {
+  background-color: red;
+  margin-top: 15px;
+  color: white;
+}
+
+.homec-div {
+  margin-top: 20px;
+  border-top: 1px solid #edeff1;
+  width: 65%;
 }

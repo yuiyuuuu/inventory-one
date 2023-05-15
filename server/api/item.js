@@ -74,3 +74,36 @@ router.put("/editqty/one", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/edit/info", async (req, res, next) => {
+  try {
+    const update = await prisma.item.update({
+      where: {
+        id: req.body.id,
+      },
+      data: {
+        name: req.body.name,
+        quantity: req.body.quantity,
+        image: req.body.image,
+      },
+    });
+
+    res.send(update);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/delete/:id", async (req, res, next) => {
+  try {
+    await prisma.item.delete({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.send("success");
+  } catch (error) {
+    next(error);
+  }
+});

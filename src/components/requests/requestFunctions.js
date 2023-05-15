@@ -28,3 +28,12 @@ export async function makePutRequest(url, body) {
     console.log(error);
   }
 }
+
+export async function makeDeleteRequest(url) {
+  try {
+    const { data } = await axios.delete(`/api/${url}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

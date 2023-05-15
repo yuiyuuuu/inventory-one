@@ -24,11 +24,14 @@
 .item-t {
   font-size: 17px;
   margin-bottom: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .item-c {
   color: #7c7c7c;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .item-cli {
