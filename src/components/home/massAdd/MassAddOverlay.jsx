@@ -51,7 +51,7 @@ const MassAddOverlay = ({
           onClick={() =>
             setResult((prev) => [
               ...prev,
-              { name: "", quantity: 0, image: null },
+              { name: "", quantity: 0, image: null, units: null },
             ])
           }
         >

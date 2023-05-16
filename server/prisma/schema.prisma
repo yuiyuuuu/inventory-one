@@ -15,5 +15,6 @@ model Item{
   name String
   quantity Int
   image String?
+  units String?
   createdAt DateTime @default(now()) @db.Timestamp
 }

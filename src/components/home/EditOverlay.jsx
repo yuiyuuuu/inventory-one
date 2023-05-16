@@ -55,6 +55,7 @@ const EditOverlay = ({
       name: selectedProduct.name,
       quantity: Number(selectedProduct.quantity),
       image: selectedProduct.image || null,
+      units: selectedProduct?.units,
     };
 
     await makePutRequest("/item/edit/info", obj)
@@ -119,6 +120,19 @@ const EditOverlay = ({
             onChange={(e) =>
               setSelectedProduct((prev) => {
                 return { ...prev, quantity: e.target.value };
+              })
+            }
+          />
+        </div>
+
+        <div className='homec-inputcontainer'>
+          <input
+            placeholder='Units'
+            className='homec-input'
+            value={selectedProduct.units}
+            onChange={(e) =>
+              setSelectedProduct((prev) => {
+                return { ...prev, units: e.target.value };
               })
             }
           />

@@ -41,6 +41,19 @@ const CreateOverlay = ({
             }
           />
         </div>
+
+        <div className='homec-inputcontainer'>
+          <input
+            placeholder='Units'
+            className='homec-input'
+            value={productInfo.units}
+            onChange={(e) =>
+              setProductInfo((prev) => {
+                return { ...prev, units: e.target.value };
+              })
+            }
+          />
+        </div>
         {!productInfo?.image && (
           <button className='homec-upload' onClick={() => handleImageUpload()}>
             Upload Image

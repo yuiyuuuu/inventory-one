@@ -54,6 +54,7 @@ router.post("/create", async (req, res, next) => {
         name: body.name,
         quantity: body.quantity || 0,
         image: body.image || null,
+        units: req.body.units || null,
       },
     });
 
@@ -113,6 +114,7 @@ router.put("/edit/info", async (req, res, next) => {
         name: req.body.name,
         quantity: req.body.quantity,
         image: req.body.image,
+        units: req.body.units || null,
       },
     });
 

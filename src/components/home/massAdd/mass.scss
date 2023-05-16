@@ -32,6 +32,13 @@
 .masse-input {
   width: 100%;
   padding-bottom: 5px;
+
+  @media only screen and (max-width: 650px) {
+    font-size: 12px;
+    &::placeholder {
+      font-size: 10px;
+    }
+  }
 }
 
 .masse-inputcon {

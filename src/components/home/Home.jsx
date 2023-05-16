@@ -56,6 +56,7 @@ const Home = () => {
       name: productInfo.name,
       quantity: Number(productInfo.quantity),
       image: productInfo.image,
+      units: productInfo.units,
     };
 
     await makePostRequest("/item/create", obj)

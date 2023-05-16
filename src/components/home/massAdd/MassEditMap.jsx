@@ -67,9 +67,7 @@ const MassEditMap = ({ result, setResult, item, index }) => {
             });
           }}
         />
-        <div
-          style={{ marginBottom: "-4px", marginRight: "4px", minWidth: "15px" }}
-        >
+        <div style={{ marginBottom: "-4px", minWidth: "15px" }}>
           {index + 1 + "."}
         </div>
         <div style={{ marginLeft: "4px" }} className='masse-inputcon'>
@@ -87,7 +85,7 @@ const MassEditMap = ({ result, setResult, item, index }) => {
             }}
           />
         </div>
-        <div className='masse-inputcon' style={{ width: "22%" }}>
+        <div className='masse-inputcon' style={{ width: "15%" }}>
           <input
             placeholder='Quantity'
             className='masse-input'
@@ -100,6 +98,22 @@ const MassEditMap = ({ result, setResult, item, index }) => {
                   i !== index
                     ? v
                     : { ...item, quantity: Number(e.target.value) }
+                )
+              );
+            }}
+          />
+        </div>
+
+        <div className='masse-inputcon' style={{ width: "15%" }}>
+          <input
+            placeholder='Units'
+            className='masse-input'
+            id={`masseinput3-${index}`}
+            value={item.units || null}
+            onChange={(e) => {
+              setResult((prev) =>
+                prev.map((v, i) =>
+                  i !== index ? v : { ...item, units: e.target.value }
                 )
               );
             }}

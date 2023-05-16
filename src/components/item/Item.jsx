@@ -13,6 +13,7 @@ const Item = ({
   setSelectedProduct,
   setShowEditOverlay,
 }) => {
+  console.log(item);
   return (
     <div className='item-parent'>
       <div className='item-row'>
@@ -26,7 +27,9 @@ const Item = ({
         />
         <div className='item-i'>
           <div className='item-t'>{item.name}</div>
-          <div className='item-c'>Quantity: {item.quantity}</div>
+          <div className='item-c item-t'>
+            QTY: {item.quantity} {item?.units || "pieces"}
+          </div>
         </div>
 
         <div className='item-po'>
