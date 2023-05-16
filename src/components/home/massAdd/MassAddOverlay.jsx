@@ -14,13 +14,14 @@ const MassAddOverlay = ({
 }) => {
   const [result, setResult] = useState([]);
 
+  console.log(result);
+
   async function handleSubmit() {
     const obj = result;
 
-    await makePostRequest("/item/create/mass", obj).then(() => {
+    await makePostRequest("/item/create/mass", obj).then((res) => {
       setShowMassOverlay(false);
-
-      fetchProducts();
+      setAllProducts(res);
     });
   }
 

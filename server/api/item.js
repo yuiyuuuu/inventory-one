@@ -21,13 +21,25 @@ router.post("/create/mass", async (req, res, next) => {
   try {
     const arr = req.body;
 
-    arr.forEach(async (item) => {
-      await prisma.item.create({
-        data: item,
+    const v = new Promise((resolve, reject) => {
+      arr.forEach(async (item, index, array) => {
+        await prisma.item.create({
+          data: item,
+        });
+
+        if (index === array.length - 1) resolve();
       });
     });
 
-    res.send("").status(200);
+    v.then(async () => {
+      const fetchall = await prisma.item.findMany({
+        orderBy: {
+          name: "asc",
+        },
+      });
+
+      res.send(fetchall).status(200);
+    });
   } catch (error) {
     next(error);
   }

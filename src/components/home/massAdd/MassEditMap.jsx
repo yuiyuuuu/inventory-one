@@ -53,14 +53,16 @@ const MassEditMap = ({ result, setResult, item, index }) => {
           func={function () {
             $(`#masseinput-${index}`).val("");
             $(`#masseinput2-${index}`).val("");
-
             setImage(null);
             setFilename(null);
 
-            setResult((prev) => {
-              const v = prev.slice();
+            setResult(() => {
+              if (result.length === 1) {
+                return []; //edge case
+              }
+
+              const v = result.slice();
               v.splice(index, 1);
-              v[index] = {};
               return v;
             });
           }}
