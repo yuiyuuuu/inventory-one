@@ -22,6 +22,7 @@ const Home = () => {
 
   const [inputValue, setInputValue] = useState("");
   const [queryResults, setQueryResults] = useState([]);
+  const [searchActive, setSearchActive] = useState(false);
 
   //create overlay
   const [showCreateOverlay, setShowCreateOverlay] = useState(false);
@@ -141,7 +142,7 @@ const Home = () => {
   useEffect(() => {
     //timer for username input
     var typingTimer; //timer identifier
-    var doneTypingInterval = 750; //time in ms, 5 seconds for example
+    var doneTypingInterval = 500; //time in ms, 5 seconds for example
     var $input = $("#home-search");
 
     //on keyup, start the countdown
@@ -156,7 +157,8 @@ const Home = () => {
     });
 
     function doneTyping() {
-      if ($("#home-search").val() === "") {
+      if ($("#home-search").val() === "" || !$("#home-search").val()) {
+        setSearchActive(false);
         setQueryResults([]);
       }
 
@@ -171,6 +173,7 @@ const Home = () => {
       });
 
       setQueryResults(result.sort((a, b) => a.name.localeCompare(b.name)));
+      setSearchActive(true);
     }
   }, [$("#home-search")]);
 
@@ -214,7 +217,9 @@ const Home = () => {
         </button>
       </div>
 
-      {queryResults.length ? (
+      {searchActive && !queryResults?.length ? (
+        <div className='home-no'>No products found</div>
+      ) : queryResults.length ? (
         <div className='home-itemmap'>
           {queryResults?.map((item) => (
             <Item
