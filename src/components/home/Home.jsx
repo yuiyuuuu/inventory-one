@@ -31,7 +31,7 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState({});
 
   //mass edit
-  const [showMassOverlay, setShowMassOverlay] = useState(true);
+  const [showMassOverlay, setShowMassOverlay] = useState(false);
 
   //product info
   const [productInfo, setProductInfo] = useState({
@@ -141,7 +141,7 @@ const Home = () => {
   useEffect(() => {
     //timer for username input
     var typingTimer; //timer identifier
-    var doneTypingInterval = 1000; //time in ms, 5 seconds for example
+    var doneTypingInterval = 750; //time in ms, 5 seconds for example
     var $input = $("#home-search");
 
     //on keyup, start the countdown
@@ -163,7 +163,9 @@ const Home = () => {
       const result = [];
 
       allProducts.slice().forEach((v) => {
-        if (v.name.includes($("#home-search").val())) {
+        if (
+          v.name.toLowerCase().includes($("#home-search").val().toLowerCase())
+        ) {
           result.push(v);
         }
       });
