@@ -15,6 +15,7 @@ import CreateOverlay from "./CreateOverlay";
 
 import $ from "jquery";
 import EditOverlay from "./EditOverlay";
+import MassAddOverlay from "./massAdd/MassAddOverlay";
 
 const Home = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -28,6 +29,9 @@ const Home = () => {
   //edit overlay
   const [showEditOverlay, setShowEditOverlay] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
+
+  //mass edit
+  const [showMassOverlay, setShowMassOverlay] = useState(true);
 
   //product info
   const [productInfo, setProductInfo] = useState({
@@ -198,6 +202,14 @@ const Home = () => {
         <button className='home-add' onClick={() => setShowCreateOverlay(true)}>
           Add Product
         </button>
+
+        <button
+          className='home-add'
+          style={{ marginLeft: "20px" }}
+          onClick={() => setShowMassOverlay(true)}
+        >
+          Mass Add
+        </button>
       </div>
 
       {queryResults.length ? (
@@ -248,6 +260,15 @@ const Home = () => {
           setQueryResults={setQueryResults}
           allProducts={allProducts}
           queryResults={queryResults}
+        />
+      )}
+
+      {showMassOverlay && (
+        <MassAddOverlay
+          setShowMassOverlay={setShowMassOverlay}
+          showMassOverlay={showMassOverlay}
+          fetchProducts={fetchProducts}
+          setAllProducts={setAllProducts}
         />
       )}
     </div>

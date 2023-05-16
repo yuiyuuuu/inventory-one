@@ -17,6 +17,22 @@ router.get("/fetchall", async (req, res, next) => {
   }
 });
 
+router.post("/create/mass", async (req, res, next) => {
+  try {
+    const arr = req.body;
+
+    arr.forEach(async (item) => {
+      await prisma.item.create({
+        data: item,
+      });
+    });
+
+    res.send("").status(200);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/create", async (req, res, next) => {
   try {
     const body = req.body;

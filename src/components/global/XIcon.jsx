@@ -1,13 +1,12 @@
 import React from "react";
 
-const XIcon = ({ top, left, right, func }) => {
+const XIcon = ({ top, left, right, func, size, color, position }) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       xmlnsXlink='http://www.w3.org/1999/xlink'
-      fill='#000000'
-      height='15px'
-      width='15px'
+      height={size || "15px"}
+      width={size || "15px"}
       version='1.1'
       id='Capa_1'
       viewBox='0 0 460.775 460.775'
@@ -19,6 +18,8 @@ const XIcon = ({ top, left, right, func }) => {
         position: "absolute",
         width: "15px",
         cursor: "pointer",
+        fill: color || "black",
+        position: position || "absolute",
       }}
       onClick={() => func()}
     >
