@@ -13,7 +13,6 @@ const Item = ({
   setSelectedProduct,
   setShowEditOverlay,
 }) => {
-  console.log(item);
   return (
     <div className='item-parent'>
       <div className='item-row'>

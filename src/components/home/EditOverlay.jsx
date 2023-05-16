@@ -85,6 +85,12 @@ const EditOverlay = ({
           prev.filter((v) => v.id !== selectedProduct.id)
         );
 
+        if (queryResults) {
+          setQueryResults(
+            queryResults.filter((v) => v.id !== selectedProduct.id)
+          );
+        }
+
         setSelectedProduct({});
         alert("Product Deleted");
       })
