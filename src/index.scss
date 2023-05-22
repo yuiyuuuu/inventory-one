@@ -30,7 +30,9 @@ button {
   position: relative;
   width: 80px;
   height: 80px;
+  overflow: hidden;
 }
+
 .lds-ring div {
   box-sizing: border-box;
   display: block;
