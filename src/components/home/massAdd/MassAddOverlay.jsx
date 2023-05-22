@@ -14,8 +14,11 @@ const MassAddOverlay = ({
 }) => {
   const [result, setResult] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   async function handleSubmit() {
     const obj = result;
+    setLoading(true);
 
     await makePostRequest("/item/create/mass", obj)
       .then((res) => {
@@ -23,9 +26,11 @@ const MassAddOverlay = ({
 
         setShowMassOverlay(false);
         setAllProducts(res);
+        setLoading(false);
       })
       .catch(() => {
         alert("Something went wrong, try again");
+        setLoading(false);
       });
   }
 
@@ -86,6 +91,17 @@ const MassAddOverlay = ({
           document.body.style.overflow = "auto";
         }}
       />
+
+      {loading && (
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

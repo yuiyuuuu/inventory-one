@@ -28,10 +28,12 @@ const Home = () => {
 
   //create overlay
   const [showCreateOverlay, setShowCreateOverlay] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
 
   //edit overlay
   const [showEditOverlay, setShowEditOverlay] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [editLoading, setEditLoading] = useState(false);
 
   //mass edit
   const [showMassOverlay, setShowMassOverlay] = useState(false);
@@ -61,6 +63,8 @@ const Home = () => {
       units: productInfo.units,
     };
 
+    setCreateLoading(true);
+
     await makePostRequest("/item/create", obj)
       .then(() => {
         setProductInfo({
@@ -72,9 +76,11 @@ const Home = () => {
         fetchProducts();
         alert("Product Added");
         setShowCreateOverlay(false);
+        setCreateLoading(false);
       })
       .catch(() => {
         alert("Something went wrong, try again");
+        setCreateLoading(false);
       });
   }
 
@@ -291,6 +297,7 @@ const Home = () => {
           imagePreview={imagePreview}
           handleSubmit={handleSubmit}
           setImagePreview={setImagePreview}
+          createLoading={createLoading}
         />
       )}
 
@@ -303,6 +310,7 @@ const Home = () => {
           setQueryResults={setQueryResults}
           allProducts={allProducts}
           queryResults={queryResults}
+          editLoading={editLoading}
         />
       )}
 

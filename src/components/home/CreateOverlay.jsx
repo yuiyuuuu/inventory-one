@@ -9,6 +9,7 @@ const CreateOverlay = ({
   imagePreview,
   handleSubmit,
   setImagePreview,
+  createLoading,
 }) => {
   return (
     <div className='home-createoverlay'>
@@ -103,6 +104,17 @@ const CreateOverlay = ({
           document.body.style.overflow = "auto";
         }}
       />
+
+      {createLoading && (
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

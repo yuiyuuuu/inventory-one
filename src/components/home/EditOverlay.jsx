@@ -20,6 +20,8 @@ const EditOverlay = ({
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   function handleImageUpload(e) {
     const input = document.createElement("input");
     input.type = "file";
@@ -58,6 +60,8 @@ const EditOverlay = ({
       units: selectedProduct?.units,
     };
 
+    setLoading(true);
+
     await makePutRequest("/item/edit/info", obj)
       .then((res) => {
         setSelectedProduct({});
@@ -71,9 +75,11 @@ const EditOverlay = ({
         //finish the request api route
         alert("Product Edited");
         setShowEditOverlay(false);
+        setLoading(false);
       })
       .catch(() => {
         alert("Something went wrong, try again");
+        setLoading(false);
       });
   }
 
@@ -203,6 +209,17 @@ const EditOverlay = ({
           document.body.style.overflow = "auto";
         }}
       />
+
+      {loading && (
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
