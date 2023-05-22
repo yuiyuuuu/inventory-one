@@ -121,8 +121,6 @@ const Home = () => {
     utils.book_append_sheet(newBook, sheet, "Data");
 
     writeFileXLSX(newBook, "SheetJSReactAoO.xlsx");
-
-    console.log(sheet);
   }
 
   async function addSubtractOne(which, productInfo) {
@@ -225,14 +223,23 @@ const Home = () => {
       </div>
 
       <div className='home-q home-t'>
-        <button className='home-add' onClick={() => setShowCreateOverlay(true)}>
+        <button
+          className='home-add'
+          onClick={() => {
+            setShowCreateOverlay(true);
+            document.body.style.overflow = "hidden";
+          }}
+        >
           Add Product
         </button>
 
         <button
           className='home-add'
           style={{ marginLeft: "20px" }}
-          onClick={() => setShowMassOverlay(true)}
+          onClick={() => {
+            setShowMassOverlay(true);
+            document.body.style.overflow = "hidden";
+          }}
         >
           Mass Add
         </button>

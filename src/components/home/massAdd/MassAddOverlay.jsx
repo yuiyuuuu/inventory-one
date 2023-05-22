@@ -73,7 +73,8 @@ const MassAddOverlay = ({
           top={"21px"}
           right={"30px"}
           func={function () {
-            return setShowMassOverlay(false);
+            setShowMassOverlay(false);
+            document.body.style.overflow = "auto";
           }}
         />
       </div>
@@ -82,6 +83,7 @@ const MassAddOverlay = ({
         className='homec-clickback'
         onClick={() => {
           setShowMassOverlay(false);
+          document.body.style.overflow = "auto";
         }}
       />
     </div>
