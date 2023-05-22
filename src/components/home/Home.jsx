@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import { read, utils, writeFileXLSX } from "xlsx";
+
 import "./home.scss";
 
 import {
@@ -104,6 +106,24 @@ const Home = () => {
 
     getBase64Image(objecturl);
   };
+
+  function handleExportExcel() {
+    const v = allProducts.slice().forEach((v) => {
+      delete v.id;
+      delete v.createdAt;
+      delete v.image;
+
+      v.units = v.units || "pieces";
+    });
+
+    const sheet = utils.json_to_sheet(allProducts);
+    const newBook = utils.book_new();
+    utils.book_append_sheet(newBook, sheet, "Data");
+
+    writeFileXLSX(newBook, "SheetJSReactAoO.xlsx");
+
+    console.log(sheet);
+  }
 
   async function addSubtractOne(which, productInfo) {
     let obj = { id: productInfo.id };
@@ -215,6 +235,14 @@ const Home = () => {
           onClick={() => setShowMassOverlay(true)}
         >
           Mass Add
+        </button>
+
+        <button
+          className='home-add home-export'
+          style={{ marginLeft: "20px" }}
+          onClick={() => handleExportExcel()}
+        >
+          Export xlsx
         </button>
       </div>
 
