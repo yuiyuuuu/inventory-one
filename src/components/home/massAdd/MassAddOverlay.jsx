@@ -27,10 +27,12 @@ const MassAddOverlay = ({
         setShowMassOverlay(false);
         setAllProducts(res);
         setLoading(false);
+        document.querySelector("html").style.overflow = "";
       })
       .catch(() => {
         alert("Something went wrong, try again");
         setLoading(false);
+        document.querySelector("html").style.overflow = "";
       });
   }
 

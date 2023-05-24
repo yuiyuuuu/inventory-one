@@ -77,10 +77,12 @@ const Home = () => {
         alert("Product Added");
         setShowCreateOverlay(false);
         setCreateLoading(false);
+        document.querySelector("html").style.overflow = "";
       })
       .catch(() => {
         alert("Something went wrong, try again");
         setCreateLoading(false);
+        document.querySelector("html").style.overflow = "";
       });
   }
 

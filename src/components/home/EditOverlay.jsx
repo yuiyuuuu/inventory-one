@@ -76,10 +76,12 @@ const EditOverlay = ({
         alert("Product Edited");
         setShowEditOverlay(false);
         setLoading(false);
+        document.querySelector("html").style.overflow = "";
       })
       .catch(() => {
         alert("Something went wrong, try again");
         setLoading(false);
+        document.querySelector("html").style.overflow = "";
       });
   }
 
