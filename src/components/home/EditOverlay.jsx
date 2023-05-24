@@ -20,7 +20,7 @@ const EditOverlay = ({
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   function handleImageUpload(e) {
     const input = document.createElement("input");

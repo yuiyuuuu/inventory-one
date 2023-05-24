@@ -114,15 +114,20 @@ const Home = () => {
   };
 
   function handleExportExcel() {
-    const v = allProducts.slice().forEach((v) => {
-      delete v.id;
-      delete v.createdAt;
-      delete v.image;
+    const c = [...allProducts];
 
-      v.units = v.units || "pieces";
+    const re = [];
+
+    c.forEach((v) => {
+      //prevents mutation to the allproducts array
+      re.push({
+        name: v.name,
+        quantity: v.quantity,
+        units: v.units || "pieces",
+      });
     });
 
-    const sheet = utils.json_to_sheet(allProducts);
+    const sheet = utils.json_to_sheet(re);
     const newBook = utils.book_new();
     utils.book_append_sheet(newBook, sheet, "Data");
 
