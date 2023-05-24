@@ -238,7 +238,7 @@ const Home = () => {
           className='home-add'
           onClick={() => {
             setShowCreateOverlay(true);
-            document.body.style.overflow = "hidden";
+            document.querySelector("html").style.overflow = "hidden";
           }}
         >
           Add Product
@@ -249,7 +249,7 @@ const Home = () => {
           style={{ marginLeft: "20px" }}
           onClick={() => {
             setShowMassOverlay(true);
-            document.body.style.overflow = "hidden";
+            document.querySelector("html").style.overflow = "hidden";
           }}
         >
           Mass Add

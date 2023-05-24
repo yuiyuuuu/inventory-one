@@ -196,7 +196,7 @@ const EditOverlay = ({
           right={"30px"}
           func={function () {
             setShowEditOverlay(false);
-            document.body.style.overflow = "auto";
+            document.querySelector("html").style.overflow = "";
           }}
         />
       </div>
@@ -206,7 +206,7 @@ const EditOverlay = ({
         onClick={() => {
           setShowEditOverlay(false);
           setSelectedProduct(null);
-          document.body.style.overflow = "auto";
+          document.querySelector("html").style.overflow = "";
         }}
       />
 

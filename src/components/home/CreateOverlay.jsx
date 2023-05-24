@@ -91,7 +91,7 @@ const CreateOverlay = ({
           right={"30px"}
           func={function () {
             setShowCreateOverlay(false);
-            document.body.style.overflow = "auto";
+            document.querySelector("html").style.overflow = "";
           }}
         />
       </div>
@@ -101,7 +101,7 @@ const CreateOverlay = ({
         onClick={() => {
           setShowCreateOverlay(false);
           setProductInfo({ name: "", qty: 0, image: null });
-          document.body.style.overflow = "auto";
+          document.querySelector("html").style.overflow = "";
         }}
       />
 

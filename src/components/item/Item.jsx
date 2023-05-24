@@ -51,6 +51,7 @@ const Item = ({
             onClick={() => {
               setSelectedProduct(item);
               setShowEditOverlay(true);
+              document.querySelector("html").style.overflow = "hidden";
             }}
           >
             <Pen />
