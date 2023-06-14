@@ -43,9 +43,41 @@ const MassEditMap = ({ result, setResult, item, index }) => {
     getBase64Image(objecturl);
   };
 
+  useEffect(() => {
+    $(`#masseinput-${index}`).focus(() => {
+      $(`#masseinput-${index}`)
+        .parent()
+        .css("border-bottom", "1px solid rgba(0, 255, 255)");
+    });
+
+    $(`#masseinput-${index}`).focusout(() => {
+      $(`#masseinput-${index}`).parent().css("border-bottom", "1px solid red");
+    });
+
+    $(`#masseinput2-${index}`).focus(() => {
+      $(`#masseinput2-${index}`)
+        .parent()
+        .css("border-bottom", "1px solid rgba(0, 255, 255)");
+    });
+
+    $(`#masseinput2-${index}`).focusout(() => {
+      $(`#masseinput2-${index}`).parent().css("border-bottom", "1px solid red");
+    });
+
+    $(`#masseinput3-${index}`).focus(() => {
+      $(`#masseinput3-${index}`)
+        .parent()
+        .css("border-bottom", "1px solid rgba(0, 255, 255)");
+    });
+
+    $(`#masseinput3-${index}`).focusout(() => {
+      $(`#masseinput3-${index}`).parent().css("border-bottom", "1px solid red");
+    });
+  }, []);
+
   return (
-    <div className='masse-parent' key={index}>
-      <div className='masse-inner'>
+    <div className="masse-parent" key={index}>
+      <div className="masse-inner">
         <XIcon
           color={"red"}
           size={"11px"}
@@ -70,10 +102,10 @@ const MassEditMap = ({ result, setResult, item, index }) => {
         <div style={{ marginBottom: "-4px", minWidth: "15px" }}>
           {index + 1 + "."}
         </div>
-        <div style={{ marginLeft: "4px" }} className='masse-inputcon'>
+        <div style={{ marginLeft: "4px" }} className="masse-inputcon">
           <input
-            placeholder='Name'
-            className='masse-input'
+            placeholder="Name"
+            className="masse-input"
             id={`masseinput-${index}`}
             value={item.name || null}
             onChange={(e) => {
@@ -85,13 +117,13 @@ const MassEditMap = ({ result, setResult, item, index }) => {
             }}
           />
         </div>
-        <div className='masse-inputcon' style={{ width: "15%" }}>
+        <div className="masse-inputcon" style={{ width: "15%" }}>
           <input
-            placeholder='Quantity'
-            className='masse-input'
+            placeholder="Quantity"
+            className="masse-input"
             id={`masseinput2-${index}`}
             value={item.quantity || null}
-            type='number'
+            type="number"
             onChange={(e) => {
               setResult((prev) =>
                 prev.map((v, i) =>
@@ -104,10 +136,10 @@ const MassEditMap = ({ result, setResult, item, index }) => {
           />
         </div>
 
-        <div className='masse-inputcon' style={{ width: "15%" }}>
+        <div className="masse-inputcon" style={{ width: "15%" }}>
           <input
-            placeholder='Units'
-            className='masse-input'
+            placeholder="Units"
+            className="masse-input"
             id={`masseinput3-${index}`}
             value={item.units || null}
             onChange={(e) => {
@@ -121,7 +153,7 @@ const MassEditMap = ({ result, setResult, item, index }) => {
         </div>
         {!image && (
           <div
-            className='masse-upload mass-but'
+            className="masse-upload mass-but"
             style={{ margin: 0 }}
             onClick={() => handleImageUpload()}
           >
@@ -129,7 +161,7 @@ const MassEditMap = ({ result, setResult, item, index }) => {
           </div>
         )}
 
-        {image && <div className='masse-filename'>{fileName}</div>}
+        {image && <div className="masse-filename">{fileName}</div>}
       </div>
     </div>
   );

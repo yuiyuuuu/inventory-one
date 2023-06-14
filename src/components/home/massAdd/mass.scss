@@ -6,7 +6,6 @@
 
 .mass-con {
   max-height: 78vh;
-  overflow: scroll;
   width: 100%;
   overflow-x: hidden;
 }
@@ -33,6 +32,7 @@
 .masse-input {
   width: 100%;
   padding-bottom: 5px;
+  background-color: transparent;
 
   @media only screen and (max-width: 650px) {
     font-size: 12px;
@@ -43,10 +43,11 @@
 }
 
 .masse-inputcon {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid red;
   margin-right: 10px;
   width: 33%;
   max-width: 240px;
+  transition: all 0.3s ease;
 }
 
 .masse-upload {

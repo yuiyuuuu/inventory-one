@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import XIcon from "../../global/XIcon";
+
 import { makePostRequest } from "../../requests/requestFunctions";
 
 import "./mass.scss";
 
 import MassEditMap from "./MassEditMap";
+import XIcon from "../../global/XIcon";
 
 const MassAddOverlay = ({
   setShowMassOverlay,
@@ -38,15 +39,15 @@ const MassAddOverlay = ({
 
   return (
     <div
-      className='home-createoverlay'
+      className="home-createoverlay"
       style={{ display: !showMassOverlay && "none" }}
     >
-      <div className='homec-inner' style={{ padding: "6px" }}>
-        <div className='homec-l' style={{ padding: "10px" }}>
+      <div className="homec-inner">
+        <div className="homec-l" style={{ padding: "10px" }}>
           Mass Add
         </div>
 
-        <div className='mass-con'>
+        <div className="mass-con">
           {result.map((item, i) => (
             <MassEditMap
               item={item}
@@ -58,7 +59,7 @@ const MassAddOverlay = ({
         </div>
 
         <button
-          className='mass-add mass-but'
+          className="mass-add mass-but"
           onClick={() =>
             setResult((prev) => [
               ...prev,
@@ -70,7 +71,7 @@ const MassAddOverlay = ({
         </button>
 
         <button
-          className='mass-add mass-but homec-but'
+          className="mass-add mass-but homec-but"
           onClick={() => handleSubmit()}
         >
           Submit
@@ -87,7 +88,7 @@ const MassAddOverlay = ({
       </div>
 
       <div
-        className='homec-clickback'
+        className="homec-clickback"
         onClick={() => {
           setShowMassOverlay(false);
           document.querySelector("html").style.overflow = "";
@@ -95,8 +96,8 @@ const MassAddOverlay = ({
       />
 
       {loading && (
-        <div className='submit-loading'>
-          <div className='lds-ring' id='spinner-form'>
+        <div className="submit-loading">
+          <div className="lds-ring" id="spinner-form">
             <div></div>
             <div></div>
             <div></div>

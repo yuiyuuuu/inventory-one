@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Buffer } from "buffer";
 import {
   makeDeleteRequest,
   makePutRequest,
 } from "../requests/requestFunctions";
+import $ from "jquery";
+
 import XIcon from "../global/XIcon";
 
 const EditOverlay = ({
@@ -16,7 +18,6 @@ const EditOverlay = ({
   setQueryResults,
   allProducts,
   queryResults,
-  fetchProducts,
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -107,15 +108,48 @@ const EditOverlay = ({
       });
   }
 
-  return (
-    <div className='home-createoverlay'>
-      <div className='homec-inner'>
-        <div className='homec-l'>Edit a Product</div>
+  useEffect(() => {
+    $("#create-name").focus(() => {
+      $("#create-name")
+        .parent()
+        .css("border-bottom", "1px solid rgba(0, 255,255)");
+    });
 
-        <div className='homec-inputcontainer'>
+    $("#create-name").focusout(() => {
+      $("#create-name").parent().css("border-bottom", "1px solid red");
+    });
+
+    $("#create-qty").focus(() => {
+      $("#create-qty")
+        .parent()
+        .css("border-bottom", "1px solid rgba(0, 255,255)");
+    });
+
+    $("#create-qty").focusout(() => {
+      $("#create-qty").parent().css("border-bottom", "1px solid red");
+    });
+
+    $("#create-units").focus(() => {
+      $("#create-units")
+        .parent()
+        .css("border-bottom", "1px solid rgba(0, 255,255)");
+    });
+
+    $("#create-units").focusout(() => {
+      $("#create-units").parent().css("border-bottom", "1px solid red");
+    });
+  }, []);
+
+  return (
+    <div className="home-createoverlay">
+      <div className="homec-inner">
+        <div className="homec-l">Edit a Product</div>
+
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Name'
-            className='homec-input'
+            placeholder="Name"
+            className="homec-input"
+            id="create-name"
             value={selectedProduct?.name}
             onChange={(e) =>
               setSelectedProduct((prev) => {
@@ -125,12 +159,13 @@ const EditOverlay = ({
           />
         </div>
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Quantity'
-            className='homec-input'
+            placeholder="Quantity"
+            className="homec-input"
+            id="create-qty"
             value={selectedProduct.quantity}
-            type='number'
+            type="number"
             onChange={(e) =>
               setSelectedProduct((prev) => {
                 return { ...prev, quantity: e.target.value };
@@ -139,10 +174,11 @@ const EditOverlay = ({
           />
         </div>
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Units'
-            className='homec-input'
+            placeholder="Units"
+            className="homec-input"
+            id="create-units"
             value={selectedProduct.units}
             onChange={(e) =>
               setSelectedProduct((prev) => {
@@ -152,23 +188,23 @@ const EditOverlay = ({
           />
         </div>
         {!selectedProduct?.image && (
-          <button className='homec-upload' onClick={() => handleImageUpload()}>
+          <button className="homec-upload" onClick={() => handleImageUpload()}>
             Upload Image
           </button>
         )}
 
         {selectedProduct.image && (
-          <div className='flexcol-aligncenter'>
+          <div className="flexcol-aligncenter">
             <img
               src={
                 imagePreview
                   ? imagePreview
                   : `data:image/png;base64,${selectedProduct.image}`
               }
-              className='homec-imgpre'
+              className="homec-imgpre"
             />
             <button
-              className='homec-but homec-remove'
+              className="homec-but homec-remove"
               onClick={() => {
                 setSelectedProduct((prev) => {
                   return { ...prev, image: null };
@@ -180,16 +216,16 @@ const EditOverlay = ({
           </div>
         )}
 
-        <div className='homec-div'></div>
+        <div className="homec-div"></div>
 
         <button
-          className='homec-submit homec-but'
+          className="homec-submit homec-but"
           onClick={() => handleSubmitEdit()}
         >
           Submit
         </button>
 
-        <button className='homec-del homec-but' onClick={() => handleDelete()}>
+        <button className="homec-del homec-but" onClick={() => handleDelete()}>
           Delete Product
         </button>
 
@@ -204,7 +240,7 @@ const EditOverlay = ({
       </div>
 
       <div
-        className='homec-clickback'
+        className="homec-clickback"
         onClick={() => {
           setShowEditOverlay(false);
           setSelectedProduct(null);
@@ -213,8 +249,8 @@ const EditOverlay = ({
       />
 
       {loading && (
-        <div className='submit-loading'>
-          <div className='lds-ring' id='spinner-form'>
+        <div className="submit-loading">
+          <div className="lds-ring" id="spinner-form">
             <div></div>
             <div></div>
             <div></div>

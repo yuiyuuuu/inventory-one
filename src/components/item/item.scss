@@ -1,16 +1,25 @@
 .item-parent {
-  width: 100%;
-  padding: 0 10px;
+  margin: 0 10px 10px;
   box-sizing: border-box;
-  margin-bottom: 10px;
   display: flex;
   justify-content: center;
+  padding: 10px 0;
 }
 
 .item-row {
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: black;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0px 0px 12px 0px red;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0px 0px 18px 2px rgba(0, 255, 255);
+  }
 }
 
 .item-img {
@@ -48,9 +57,9 @@
 }
 
 .item-overwrite {
-  width: 37px;
-  height: 37px;
-  border-radius: 10px;
+  width: 31px;
+  height: 31px;
+  border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
