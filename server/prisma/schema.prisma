@@ -14,7 +14,7 @@ model Item{
   id String @id @default(uuid())
   name String
   quantity Int //current quantity
-  historyQTY Int //how many sold in the past
+  historyQTY Int? //how many sold in the past
   // lastCompletedPerson String? //the last person that completed an order with this item
   completedTimes String [] //the timestamps of this item being ordered
   image String?
