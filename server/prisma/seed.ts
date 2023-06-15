@@ -69,7 +69,11 @@ const findqty = () => {
     if (group[v.SUPPLY_NUM].completedDates.length > 20)
       group[v.SUPPLY_NUM].completedDates.shift();
 
-    group[v.SUPPLY_NUM].completedDates.push(v.COMPLETE_DATE);
+    group[v.SUPPLY_NUM].completedDates.push({
+      completedTime: v.COMPLETE_DATE,
+      qty: v.QTY,
+      completedBy: v.COMPLETE_ID,
+    });
     group[v.SUPPLY_NUM].lastCompletedPerson = v.COMPLETE_ID;
   });
 

@@ -1,46 +1,79 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import "./pi.scss";
 
 import Chart from "chart.js/auto";
 
-const ProductInfo = () => {
+const ProductInfo = ({ data, setShowSingleProduct }) => {
+  const [noHistory, setNoHistory] = useState(false);
+
   useEffect(() => {
-    const data = [
-      { year: 2010, count: 10 },
-      { year: 2011, count: 20 },
-      { year: 2012, count: 15 },
-      { year: 2013, count: 25 },
-      { year: 2014, count: 22 },
-      { year: 2015, count: 30 },
-      { year: 2016, count: 28 },
-    ];
+    if (!data.completedTimes) return;
+    if (!data.completedTimes.length) {
+      setNoHistory(true);
+      return;
+    }
+
     new Chart(document.getElementById("pi-parent"), {
       type: "bar",
       options: {
-        animation: false,
         plugins: {
-          legend: {
-            display: false,
-          },
           tooltip: {
-            enabled: false,
+            callbacks: {
+              footer: () => {
+                let v = "";
+                data.completedTimes.forEach((t) => {
+                  v = `Completed By ${t.completedBy}`;
+                });
+
+                return v;
+              },
+            },
+          },
+          legend: {
+            labels: {
+              color: "white",
+            },
+          },
+        },
+        color: "white",
+        scales: {
+          x: {
+            ticks: {
+              color: "white",
+            },
+          },
+
+          y: {
+            ticks: {
+              color: "white",
+            },
           },
         },
       },
       data: {
-        labels: data.map((row) => row.year),
+        labels: data.completedTimes.map((row) => row.completedTime),
         datasets: [
           {
-            label: "Acquisitions by year",
-            data: data.map((row) => row.count),
+            label: "# Completed by Date",
+            data: data.completedTimes.map((row) => row.qty),
+            backgroundColor: "#B41717",
+            hoverBackgroundColor: "rgba(0, 255, 255)",
           },
         ],
       },
     });
-  }, []);
+  }, [data]);
 
   return (
-    <div>
-      <canvas className='pi-parent' id='pi-parent'></canvas>
+    <div className="pi-container" onClick={() => setShowSingleProduct(false)}>
+      <div className="pi-canvascontainer" onClick={(e) => e.stopPropagation()}>
+        {noHistory ? (
+          <div>No Product History</div>
+        ) : (
+          <canvas className="pi-parent" id="pi-parent"></canvas>
+        )}
+      </div>
     </div>
   );
 };

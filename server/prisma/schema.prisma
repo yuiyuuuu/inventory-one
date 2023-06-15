@@ -16,8 +16,13 @@ model Item{
   quantity Int //current quantity
   historyQTY Int? //how many sold in the past
   // lastCompletedPerson String? //the last person that completed an order with this item
-  completedTimes String [] //the timestamps of this item being ordered
+  completedTimes Json [] //the timestamps of this item being ordered along with the qty
   image String?
   units String?
   createdAt DateTime @default(now()) @db.Timestamp
+}
+
+model Yesterday{
+  id String @id @default(uuid())
+  stock Json []
 }
