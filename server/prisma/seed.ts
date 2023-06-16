@@ -66,14 +66,27 @@ const findqty = () => {
 
     group[v.SUPPLY_NUM].quantity = group[v.SUPPLY_NUM].quantity + v.QTY;
 
-    if (group[v.SUPPLY_NUM].completedDates.length > 20)
-      group[v.SUPPLY_NUM].completedDates.shift();
+    // if (group[v.SUPPLY_NUM].completedDates.length > 20)
+    //   group[v.SUPPLY_NUM].completedDates.shift();
 
-    group[v.SUPPLY_NUM].completedDates.push({
-      completedTime: v.COMPLETE_DATE,
-      qty: v.QTY,
-      completedBy: v.COMPLETE_ID,
-    });
+    const find = group[v.SUPPLY_NUM].completedDates.findIndex(
+      (ob) => ob?.completedTime === v.COMPLETE_DATE
+    );
+
+    if (find < 0) {
+      group[v.SUPPLY_NUM].completedDates.push({
+        completedTime: v.COMPLETE_DATE,
+        completedTimeStamp: new Date(v.COMPLETE_DATE).getTime(),
+        qty: v.QTY,
+        completedBy: v.COMPLETE_ID,
+      });
+    } else {
+      group[v.SUPPLY_NUM].completedDates[find] = {
+        ...group[v.SUPPLY_NUM].completedDates[find],
+        qty: group[v.SUPPLY_NUM].completedDates[find].qty + v.QTY,
+      };
+    }
+
     group[v.SUPPLY_NUM].lastCompletedPerson = v.COMPLETE_ID;
   });
 
