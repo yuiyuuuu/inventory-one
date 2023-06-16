@@ -14,6 +14,9 @@ const Item = ({
   setShowEditOverlay,
   setShowSingleProduct,
   setSingleProductData,
+  setShowAddOverlay,
+  setShowSubtractOverlay,
+  setOverlayData,
 }) => {
   return (
     <div
@@ -44,8 +47,10 @@ const Item = ({
             className="item-cli item-m"
             onClick={(e) => {
               e.stopPropagation();
+              setShowAddOverlay(true);
+              setOverlayData(item);
 
-              addSubtractOne("add", item);
+              // addSubtractOne("add", item);
             }}
           >
             <UpArrow />
@@ -55,7 +60,10 @@ const Item = ({
             className="item-cli item-m"
             onClick={(e) => {
               e.stopPropagation();
-              addSubtractOne("subtract", item);
+              setShowSubtractOverlay(true);
+              setOverlayData(item);
+
+              // addSubtractOne("subtract", item);
             }}
           >
             <DownArrow />

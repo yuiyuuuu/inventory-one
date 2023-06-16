@@ -1,0 +1,24 @@
+.ov-parent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.ov-media {
+  @media only screen and (max-width: 650px) {
+    width: 90% !important;
+  }
+}
+
+.ov-divider {
+  width: 20%;
+  height: 1.5px;
+  background-color: #edeff1;
+  margin: 20px 0;
+}

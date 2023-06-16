@@ -150,6 +150,10 @@
 .homec-l {
   font-size: 18px;
   font-weight: 500;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+  }
 }
 
 .homec-inputcontainer {
@@ -182,6 +186,10 @@
   padding: 8px 16px;
   border-radius: 4px;
   position: relative;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+  }
 
   &:hover::before {
     opacity: 0.08;

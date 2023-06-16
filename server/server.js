@@ -25,7 +25,7 @@ app.get("/*", (_req, res) => {
   res.sendFile(path.join(__dirname, "..", "dist/index.html"));
 });
 
-cron.schedule("*/30 * * * * *", async function () {
+cron.schedule("* * 0 * * *", async function () {
   console.log("running every day at 1 am");
 
   const allItems = await prisma.item.findMany({

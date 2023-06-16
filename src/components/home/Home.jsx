@@ -3,6 +3,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import { read, utils, writeFileXLSX } from "xlsx";
 
 import "./home.scss";
+import "../item/addsub/ov.scss";
+
+import $ from "jquery";
 
 import {
   makeGetRequest,
@@ -15,11 +18,11 @@ import SearchSvg from "./svg/SearchSvg";
 import Item from "../item/Item";
 import CreateOverlay from "./CreateOverlay";
 
-import $ from "jquery";
 import EditOverlay from "./EditOverlay";
 import MassAddOverlay from "./massAdd/MassAddOverlay";
-import Background from "../global/Background";
 import ProductInfo from "../productinfo/ProductInfo";
+import AddOverlay from "../item/addsub/AddOverlay";
+import SubtractOverlay from "../item/addsub/SubtractOverlay";
 
 const Home = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -43,6 +46,12 @@ const Home = () => {
   //show single product info
   const [showSingleProduct, setShowSingleProduct] = useState(false);
   const [singleProductData, setSingleProductData] = useState({});
+
+  //show add and sub overlays
+  const [overlayData, setOverlayData] = useState({});
+
+  const [showAddOverlay, setShowAddOverlay] = useState(false);
+  const [showSubtractOverlay, setShowSubtractOverlay] = useState(false);
 
   //product info
   const [productInfo, setProductInfo] = useState({
@@ -304,6 +313,9 @@ const Home = () => {
               setShowEditOverlay={setShowEditOverlay}
               setShowSingleProduct={setShowSingleProduct}
               setSingleProductData={setSingleProductData}
+              setShowAddOverlay={setShowAddOverlay}
+              setShowSubtractOverlay={setShowSubtractOverlay}
+              setOverlayData={setOverlayData}
             />
           ))}
         </div>
@@ -317,6 +329,9 @@ const Home = () => {
               setShowEditOverlay={setShowEditOverlay}
               setShowSingleProduct={setShowSingleProduct}
               setSingleProductData={setSingleProductData}
+              setShowAddOverlay={setShowAddOverlay}
+              setShowSubtractOverlay={setShowSubtractOverlay}
+              setOverlayData={setOverlayData}
             />
           ))}
         </div>
@@ -364,6 +379,22 @@ const Home = () => {
         <ProductInfo
           data={singleProductData}
           setShowSingleProduct={setShowSingleProduct}
+        />
+      )}
+
+      {showAddOverlay && (
+        <AddOverlay
+          setShowAddOverlay={setShowAddOverlay}
+          setOverlayData={setOverlayData}
+          overlayData={overlayData}
+        />
+      )}
+
+      {showSubtractOverlay && (
+        <SubtractOverlay
+          setShowSubtractOverlay={setShowSubtractOverlay}
+          setOverlayData={setOverlayData}
+          overlayData={overlayData}
         />
       )}
     </div>
