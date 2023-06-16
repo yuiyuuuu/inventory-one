@@ -232,8 +232,6 @@ const Home = () => {
     inputBoxShadow();
   });
 
-  console.log(singleProductData);
-
   if (loading) {
     return (
       <div className="lds-ring lds-co" id="spinner-form">

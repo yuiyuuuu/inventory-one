@@ -42,21 +42,30 @@ const Item = ({
         <div className="item-po">
           <div
             className="item-cli item-m"
-            onClick={() => addSubtractOne("add", item)}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              addSubtractOne("add", item);
+            }}
           >
             <UpArrow />
           </div>
 
           <div
             className="item-cli item-m"
-            onClick={() => addSubtractOne("subtract", item)}
+            onClick={(e) => {
+              e.stopPropagation();
+              addSubtractOne("subtract", item);
+            }}
           >
             <DownArrow />
           </div>
 
           <div
             className="item-overwrite item-cli"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
+
               setSelectedProduct(item);
               setShowEditOverlay(true);
               document.querySelector("html").style.overflow = "hidden";
