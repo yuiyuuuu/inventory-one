@@ -95,13 +95,12 @@ const findqty = () => {
 
 const seed = async () => {
   await prisma.item.deleteMany();
+  await prisma.yesterday.deleteMany();
 
   const re = Object.values(findqty());
 
   for (let i = 0; i < re.length; i++) {
     const cur = re[i];
-
-    console.log(cur);
 
     await prisma.item.create({
       data: {

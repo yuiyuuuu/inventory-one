@@ -20,9 +20,13 @@ model Item{
   image String?
   units String?
   createdAt DateTime @default(now()) @db.Timestamp
+
+  yesterdayStock Yesterday? @relation(fields: [yesterdayId], references: [id])
+  yesterdayId String? @unique
 }
 
 model Yesterday{
   id String @id @default(uuid())
-  stock Json []
+  stock Int @default(0)
+  item Item?
 }
