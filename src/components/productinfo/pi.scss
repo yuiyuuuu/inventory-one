@@ -12,16 +12,17 @@
 }
 
 .pi-sec {
-  width: 50%;
+  width: 60%;
 }
 
 .pi-canvascontainer {
   width: 75%;
   background-color: black;
-  padding: 25px 25px 50px;
+  padding: 25px 25px 35px;
   height: 90%;
   box-shadow: 0px 0px 12px 0px red;
   border-radius: 4px;
+  overflow-y: scroll;
 
   @media only screen and (max-width: 650px) {
     padding: 45px 25px 25px;
@@ -72,6 +73,7 @@
   justify-content: center;
   height: 100%;
   align-items: center;
+  width: 40% !important;
 }
 
 .pi-img {

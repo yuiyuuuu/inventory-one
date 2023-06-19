@@ -46,10 +46,11 @@
 }
 .home-inparent {
   width: 65%;
+  height: 47px;
   border: 1px solid #1c1c1c;
   border-radius: 9999px;
   box-sizing: border-box;
-  padding: 10px 30px 10px 15px;
+  padding: 5px 30px 5px 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -58,6 +59,7 @@
   box-shadow: 0px 0px 12px 0px red;
   margin: auto;
   transition: 0.3s ease all;
+  box-sizing: border-box;
 
   @media only screen and (max-width: 500px) {
     width: 83%;
