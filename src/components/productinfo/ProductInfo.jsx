@@ -5,15 +5,17 @@ import "./pi.scss";
 import Chart from "chart.js/auto";
 
 const ProductInfo = ({ data, setShowSingleProduct }) => {
+  const [resultsSortedByDate, setResultsSortedByDate] = useState({});
+
   const [noHistory, setNoHistory] = useState(false);
 
+  //SHOW HEIGHT STATES
   const [showStats, setShowStats] = useState(true);
+  const [showOrders, setShowOrders] = useState(false);
 
   const [average180, setAverage180] = useState(null);
 
   const [oosDays, setOosDays] = useState(null);
-
-  console.log(data, "dataa");
 
   function find180Average() {
     let total = 0;
@@ -74,19 +76,19 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
       const orders = data.orders;
 
       orders.forEach((v) => {
-        result[v.completedAt] ||= { store: [], user: [] };
+        result[v.completedAt] ||= { store: [], user: [], quantity: 0 };
         result[v.completedAt] = {
           store: [...new Set([...result[v.completedAt].store, v.store.name])],
           user: [...new Set([...result[v.completedAt].user, v.user.name])],
+          quantity: result[v.completedAt].quantity + v.quantity,
         };
       });
     }
 
     combineDates();
+    setResultsSortedByDate(result);
 
     //fix chart here, add results
-
-    console.log(result, "results");
 
     new Chart(document.getElementById("pi-parent"), {
       type: "bar",
@@ -94,8 +96,18 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
         plugins: {
           tooltip: {
             callbacks: {
-              footer: (v) =>
-                `Completed By ${data.orders[v[0].dataIndex].user.name}`,
+              footer: (v) => {
+                return `Completed By ${Object.values(result)[
+                  v[0].dataIndex
+                ].user.join(", ")}
+Stores: ${
+                  Object.values(result)[v[0].dataIndex].store?.length
+                    ? Object.values(result)[v[0].dataIndex].store.join(", ")
+                    : "Unknown"
+                }
+Click to see all orders on this date
+                `;
+              },
             },
           },
           legend: {
@@ -118,13 +130,21 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
             },
           },
         },
+
+        onClick: () => {
+          console.log(
+            "when clicked in the future, redirect to this day with this item. Page should show the item, and all orders on that day along with stores, qty, and user."
+          );
+
+          setShowOrders(true);
+        },
       },
       data: {
-        labels: data.completedTimes.map((row) => row.completedTime),
+        labels: Object.keys(result),
         datasets: [
           {
             label: "# Completed by Date",
-            data: data.completedTimes.map((row) => row.qty),
+            data: Object.values(result).map((v) => v.quantity),
             backgroundColor: "#B41717",
             hoverBackgroundColor: "rgba(0, 255, 255)",
           },
@@ -132,6 +152,8 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
       },
     });
   }, [data]);
+
+  console.log(resultsSortedByDate);
 
   return (
     <div className='pi-container' onClick={() => setShowSingleProduct(false)}>
@@ -189,6 +211,17 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
                       oosDays?.day < 10 ? "0" + oosDays?.day : oosDays?.day
                     }/${oosDays?.year}`}
               </div>
+            </div>
+
+            <div
+              className='pi-octoggle'
+              onClick={() => setShowOrders((prev) => !prev)}
+            >
+              Orders <div className='grow' />
+              <div
+                className='mitem-caret'
+                style={{ transform: !showOrders && "rotate(-90deg)" }}
+              />
             </div>
           </div>
         </div>

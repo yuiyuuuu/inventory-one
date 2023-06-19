@@ -25,74 +25,81 @@ app.get("/*", (_req, res) => {
   res.sendFile(path.join(__dirname, "..", "dist/index.html"));
 });
 
-cron.schedule("* * 0 * * *", async function () {
-  console.log("running every day at 1 am");
+cron.schedule(
+  "0 1 * * *",
+  async function () {
+    console.log("running every day at 1 am");
 
-  const allItems = await prisma.item.findMany({
-    include: {
-      yesterdayStock: true,
-    },
-  });
+    const allItems = await prisma.item.findMany({
+      include: {
+        yesterdayStock: true,
+      },
+    });
 
-  for (let i = 0; i < allItems.length; i++) {
-    const cur = allItems[i];
+    // for (let i = 0; i < allItems.length; i++) {
+    //   const cur = allItems[i];
 
-    if (!cur.yesterdayStock) {
-      await prisma.yesterday.create({
-        data: {
-          stock: 0,
-          item: {
-            connect: {
-              id: cur.id,
-            },
-          },
-        },
-      });
-    } else {
-      const today = new Date();
+    //   if (!cur.yesterdayStock) {
+    //     await prisma.yesterday.create({
+    //       data: {
+    //         stock: 0,
+    //         item: {
+    //           connect: {
+    //             id: cur.id,
+    //           },
+    //         },
+    //       },
+    //     });
+    //   } else {
+    //     const today = new Date();
 
-      const prevStock = await prisma.yesterday.findUnique({
-        where: {
-          id: cur.yesterdayId,
-        },
-      });
+    //     const prevStock = await prisma.yesterday.findUnique({
+    //       where: {
+    //         id: cur.yesterdayId,
+    //       },
+    //     });
 
-      console.log(cur.quantity, "qtyyyyyyyyy");
-      console.log(prevStock);
+    //     console.log(cur.quantity, "qtyyyyyyyyy");
+    //     console.log(prevStock);
 
-      if (cur.quantity < prevStock.stock) {
-        console.log("rannnn");
-        await prisma.item.update({
-          where: {
-            id: cur.id,
-          },
-          data: {
-            completedTimes: [
-              ...cur.completedTimes,
-              {
-                completedTime: `${
-                  today.getMonth() + 1
-                }/${today.getDate()}/${today.getFullYear()}`,
-                completedTimeStamp: today.getTime(),
-                qty: prevStock.stock - cur.quantity,
-                completedBy: "Yingson.Yu",
-              },
-            ],
-          },
-        });
-      }
+    //     if (cur.quantity < prevStock.stock) {
+    //       console.log("rannnn");
+    //       await prisma.item.update({
+    //         where: {
+    //           id: cur.id,
+    //         },
+    //         data: {
+    //           completedTimes: [
+    //             ...cur.completedTimes,
+    //             {
+    //               completedTime: `${
+    //                 today.getMonth() + 1
+    //               }/${today.getDate()}/${today.getFullYear()}`,
+    //               completedTimeStamp: today.getTime(),
+    //               qty: prevStock.stock - cur.quantity,
+    //               completedBy: "Yingson.Yu",
+    //             },
+    //           ],
+    //         },
+    //       });
+    //     }
 
-      //this should be last.
-      await prisma.yesterday.update({
-        where: {
-          id: cur.yesterdayId,
-        },
-        data: {
-          stock: cur.quantity,
-        },
-      });
-    }
+    //     //this should be last.
+    //     await prisma.yesterday.update({
+    //       where: {
+    //         id: cur.yesterdayId,
+    //       },
+    //       data: {
+    //         stock: cur.quantity,
+    //       },
+    //     });
+    //   }
+    // }
+  },
+  {
+    scheduled: true,
+    timezone: "America/Chicago",
   }
-});
+);
 
 app.listen(port, () => console.log("listening on port " + port));
