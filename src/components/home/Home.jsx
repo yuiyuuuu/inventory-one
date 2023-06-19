@@ -243,7 +243,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="lds-ring lds-co" id="spinner-form">
+      <div className='lds-ring lds-co' id='spinner-form'>
         <div></div>
         <div></div>
         <div></div>
@@ -253,26 +253,27 @@ const Home = () => {
   }
 
   return (
-    <div className="home-parent">
-      <img className="home-logo" src="/assets/logo.jpeg" />
-      <div className="home-q">
-        <div className="home-k">
-          <div className="home-inparent">
+    <div className='home-parent'>
+      <img className='home-logo' src='/assets/logo.jpeg' />
+      <div className='home-krink'>Inventory One</div>
+      <div className='home-q'>
+        <div className='home-k'>
+          <div className='home-inparent'>
             <SearchSvg />
             <input
-              className="home-searchq"
+              className='home-searchq'
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Search"
-              id="home-search"
+              placeholder='Search'
+              id='home-search'
             />
           </div>
         </div>
       </div>
 
-      <div className="home-q home-t">
+      <div className='home-q home-t'>
         <button
-          className="home-add"
+          className='home-add'
           onClick={() => {
             setShowCreateOverlay(true);
             document.querySelector("html").style.overflow = "hidden";
@@ -282,7 +283,7 @@ const Home = () => {
         </button>
 
         <button
-          className="home-add"
+          className='home-add'
           style={{ marginLeft: "20px" }}
           onClick={() => {
             setShowMassOverlay(true);
@@ -293,7 +294,7 @@ const Home = () => {
         </button>
 
         <button
-          className="home-add home-export"
+          className='home-add home-export'
           style={{ marginLeft: "20px" }}
           onClick={() => handleExportExcel()}
         >
@@ -302,9 +303,9 @@ const Home = () => {
       </div>
 
       {searchActive && !queryResults?.length ? (
-        <div className="home-no">No products found</div>
+        <div className='home-no'>No products found</div>
       ) : queryResults.length ? (
-        <div className="home-itemmap">
+        <div className='home-itemmap'>
           {queryResults?.map((item) => (
             <Item
               item={item}
@@ -320,7 +321,7 @@ const Home = () => {
           ))}
         </div>
       ) : allProducts.length ? (
-        <div className="home-itemmap">
+        <div className='home-itemmap'>
           {allProducts?.map((item) => (
             <Item
               item={item}
@@ -336,7 +337,7 @@ const Home = () => {
           ))}
         </div>
       ) : (
-        !loading && <div className="home-n">No Products</div>
+        !loading && <div className='home-n'>No Products</div>
       )}
 
       {showCreateOverlay && (

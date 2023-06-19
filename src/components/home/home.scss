@@ -13,10 +13,24 @@
   // radial-gradient(at 81% 21%, hsla(359, 100%, 50%, 0.75) 0px, transparent 50%);
 }
 
+.home-krink {
+  font-family: "Kaushan Script", cursive;
+  font-size: 7.5vw;
+  color: #9a3336;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
 .home-logo {
   width: 65%;
   margin: 20px auto 40px;
   display: block;
+
+  @media only screen and (max-width: 500px) {
+    margin: 20px auto 25px;
+  }
 }
 
 .home-q {
@@ -31,7 +45,7 @@
   padding: 10px;
 }
 .home-inparent {
-  width: 50%;
+  width: 65%;
   border: 1px solid #1c1c1c;
   border-radius: 9999px;
   box-sizing: border-box;
@@ -46,7 +60,7 @@
   transition: 0.3s ease all;
 
   @media only screen and (max-width: 500px) {
-    width: 80%;
+    width: 83%;
   }
 }
 
@@ -59,6 +73,13 @@
 
   &::placeholder {
     color: white;
+  }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+    &::placeholder {
+      font-size: 14px;
+    }
   }
 }
 

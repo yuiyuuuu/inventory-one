@@ -9,6 +9,14 @@ router.get("/fetchall", async (req, res, next) => {
       orderBy: {
         name: "asc",
       },
+      include: {
+        orders: {
+          include: {
+            user: true,
+            store: true,
+          },
+        },
+      },
     });
 
     res.send(data);
@@ -36,6 +44,14 @@ router.post("/create/mass", async (req, res, next) => {
         orderBy: {
           name: "asc",
         },
+        include: {
+          orders: {
+            include: {
+              user: true,
+              store: true,
+            },
+          },
+        },
       });
 
       res.send(fetchall).status(200);
@@ -55,6 +71,15 @@ router.post("/create", async (req, res, next) => {
         quantity: body.quantity || 0,
         image: body.image || null,
         units: req.body.units || null,
+      },
+
+      include: {
+        orders: {
+          include: {
+            user: true,
+            store: true,
+          },
+        },
       },
     });
 
@@ -96,7 +121,17 @@ router.put("/editqty/one", async (req, res, next) => {
       });
     }
 
-    const final = await prisma.item.findUnique({ where: { id: req.body.id } });
+    const final = await prisma.item.findUnique({
+      where: { id: req.body.id },
+      include: {
+        orders: {
+          include: {
+            user: true,
+            store: true,
+          },
+        },
+      },
+    });
 
     res.send(final);
   } catch (error) {
@@ -115,6 +150,14 @@ router.put("/edit/info", async (req, res, next) => {
         quantity: req.body.quantity,
         image: req.body.image,
         units: req.body.units || null,
+      },
+      include: {
+        orders: {
+          include: {
+            user: true,
+            store: true,
+          },
+        },
       },
     });
 

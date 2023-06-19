@@ -13,6 +13,8 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
 
   const [oosDays, setOosDays] = useState(null);
 
+  console.log(data, "dataa");
+
   function find180Average() {
     let total = 0;
 
@@ -22,9 +24,9 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
       new Date().setDate(today.getDate() - 180)
     ).getTime();
 
-    data.completedTimes.forEach((t) => {
-      if (t.completedTimeStamp > priorDate) {
-        total += t.qty;
+    data.orders.forEach((t) => {
+      if (new Date(t.completedAt) > priorDate) {
+        total += t.quantity;
       }
     });
 
@@ -60,11 +62,31 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
   }, [average180]);
 
   useEffect(() => {
-    if (!data.completedTimes) return;
-    if (!data.completedTimes.length) {
+    if (!data.orders) return;
+    if (!data.orders.length) {
       setNoHistory(true);
       return;
     }
+
+    const result = {};
+
+    function combineDates() {
+      const orders = data.orders;
+
+      orders.forEach((v) => {
+        result[v.completedAt] ||= { store: [], user: [] };
+        result[v.completedAt] = {
+          store: [...new Set([...result[v.completedAt].store, v.store.name])],
+          user: [...new Set([...result[v.completedAt].user, v.user.name])],
+        };
+      });
+    }
+
+    combineDates();
+
+    //fix chart here, add results
+
+    console.log(result, "results");
 
     new Chart(document.getElementById("pi-parent"), {
       type: "bar",
@@ -73,9 +95,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
           tooltip: {
             callbacks: {
               footer: (v) =>
-                `Completed By ${
-                  data.completedTimes[v[0].dataIndex].completedBy
-                }`,
+                `Completed By ${data.orders[v[0].dataIndex].user.name}`,
             },
           },
           legend: {
@@ -114,50 +134,50 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
   }, [data]);
 
   return (
-    <div className="pi-container" onClick={() => setShowSingleProduct(false)}>
-      <div className="pi-canvascontainer" onClick={(e) => e.stopPropagation()}>
+    <div className='pi-container' onClick={() => setShowSingleProduct(false)}>
+      <div className='pi-canvascontainer' onClick={(e) => e.stopPropagation()}>
         {noHistory ? (
           <div>No Product History</div>
         ) : (
-          <canvas className="pi-parent" id="pi-parent"></canvas>
+          <canvas className='pi-parent' id='pi-parent'></canvas>
         )}
 
-        <div className="pi-info">
-          <div className="pi-sec pi-fl">
+        <div className='pi-info'>
+          <div className='pi-sec pi-fl'>
             <img
               src={
                 data?.image
                   ? `data:image/png;base64,${data?.image}`
                   : "/assets/soap.jpeg"
               }
-              className="pi-img"
+              className='pi-img'
             />
           </div>
 
-          <div className="pi-sec" style={{ marginLeft: "30px" }}>
-            <div className="pi-ti">{data.name}</div>
+          <div className='pi-sec' style={{ marginLeft: "30px" }}>
+            <div className='pi-ti'>{data.name}</div>
 
             <div
-              className="pi-octoggle"
+              className='pi-octoggle'
               onClick={() => setShowStats((prev) => !prev)}
             >
-              Statistics <div className="grow" />
+              Statistics <div className='grow' />
               <div
-                className="mitem-caret"
+                className='mitem-caret'
                 style={{ transform: !showStats && "rotate(-90deg)" }}
               />
             </div>
 
             <div
               style={{ maxHeight: showStats ? "300px" : 0 }}
-              className="pi-w"
+              className='pi-w'
             >
-              <div className="pi-sub">Current Quantity: {data.quantity}</div>
-              <div className="pi-sub">History Quantity: {data.historyQTY}</div>
-              <div className="pi-sub">
+              <div className='pi-sub'>Current Quantity: {data.quantity}</div>
+              <div className='pi-sub'>History Quantity: {data.historyQTY}</div>
+              <div className='pi-sub'>
                 Average per day (last 180 days): {average180}
               </div>
-              <div className="pi-sub">
+              <div className='pi-sub'>
                 Predicted OOS day:{" "}
                 {data.quantity === 0
                   ? "Out of Stock"
