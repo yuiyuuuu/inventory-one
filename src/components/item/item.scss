@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   padding: 10px 0;
+  width: calc(100% - 20px);
 }
 
 .item-row {
@@ -16,9 +17,16 @@
   cursor: pointer;
   box-shadow: 0px 0px 12px 0px red;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+  margin: 0 20px;
 
   &:hover {
     box-shadow: 0px 0px 18px 2px rgba(0, 255, 255);
+  }
+
+  @media only screen and (max-width: 500px) {
+    width: calc(100% - 40px);
+    padding: 8px 10px;
   }
 }
 
@@ -58,11 +66,9 @@
   cursor: pointer;
   width: 37px;
   height: 37px;
-
-  @media only screen and (max-width: 500px) {
-    width: 32px;
-    height: 32px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .item-m {
@@ -71,31 +77,19 @@
 }
 
 .item-overwrite {
-  width: 31px;
-  height: 31px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: yellow;
-
-  @media only screen and (max-width: 500px) {
-    width: 26px;
-    height: 26px;
-  }
 }
 
 .item-po {
-  margin-left: 7px;
+  margin-left: 10px;
   display: flex;
   align-items: center;
   flex-direction: row;
 }
 
 .item-i {
-  width: 110px;
-
-  @media only screen and (max-width: 500px) {
-    width: 90px;
-  }
+  flex: 1 1 0;
 }
