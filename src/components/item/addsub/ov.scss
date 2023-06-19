@@ -11,6 +11,7 @@
 }
 
 .ov-media {
+  min-height: 60vh;
   @media only screen and (max-width: 650px) {
     width: 90% !important;
   }

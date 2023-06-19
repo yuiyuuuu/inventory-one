@@ -171,8 +171,6 @@ Click to see all orders on this date
     });
   }, [data]);
 
-  console.log(pioHeight);
-
   useEffect(() => {
     if (showOrders) {
       $("#pi-orders").css("max-height", $(".pio-parent").outerHeight());
