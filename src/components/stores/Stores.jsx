@@ -23,11 +23,21 @@ const Stores = () => {
       <img className="home-logo" src="/assets/logo.jpeg" />
       <div className="home-krink">Inventory Stores</div>
 
-      {stores?.map((store) => (
-        <div className="store-map" onClick={() => nav(`/stores/${store?.id}`)}>
-          <div>{store?.name}</div>
-        </div>
-      ))}
+      <div className="store-mapc">
+        {stores?.map((store) => (
+          <div
+            className="store-map"
+            onClick={() => nav(`/stores/${store?.id}`)}
+          >
+            <div className="store-name">{store?.name}</div>
+            <div className="grow" />
+            <div
+              className="mitem-caret"
+              style={{ transform: "rotate(-90deg)" }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
