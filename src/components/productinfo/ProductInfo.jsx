@@ -181,50 +181,56 @@ Click to see all orders on this date
   }, [showOrders, selectedDate]);
 
   return (
-    <div className="pi-container" onClick={() => setShowSingleProduct(false)}>
-      <div className="pi-canvascontainer" onClick={(e) => e.stopPropagation()}>
+    <div
+      className='pi-container'
+      onClick={() => {
+        setShowSingleProduct(false);
+        document.querySelector("html").style.overflow = "";
+      }}
+    >
+      <div className='pi-canvascontainer' onClick={(e) => e.stopPropagation()}>
         {noHistory ? (
           <div>No Product History</div>
         ) : (
-          <canvas className="pi-parent" id="pi-parent"></canvas>
+          <canvas className='pi-parent' id='pi-parent'></canvas>
         )}
 
-        <div className="pi-info">
-          <div className="pi-sec pi-fl">
+        <div className='pi-info'>
+          <div className='pi-sec pi-fl'>
             <img
               src={
                 data?.image
                   ? `data:image/png;base64,${data?.image}`
                   : "/assets/soap.jpeg"
               }
-              className="pi-img"
+              className='pi-img'
             />
           </div>
 
-          <div className="pi-sec" style={{ marginLeft: "30px" }}>
-            <div className="pi-ti">{data.name}</div>
+          <div className='pi-sec' style={{ marginLeft: "30px" }}>
+            <div className='pi-ti'>{data.name}</div>
 
             <div
-              className="pi-octoggle"
+              className='pi-octoggle'
               onClick={() => setShowStats((prev) => !prev)}
             >
-              Statistics <div className="grow" />
+              Statistics <div className='grow' />
               <div
-                className="mitem-caret"
+                className='mitem-caret'
                 style={{ transform: !showStats && "rotate(-90deg)" }}
               />
             </div>
 
             <div
               style={{ maxHeight: showStats ? "300px" : 0 }}
-              className="pi-w"
+              className='pi-w'
             >
-              <div className="pi-sub">Current Quantity: {data.quantity}</div>
-              <div className="pi-sub">History Quantity: {data.historyQTY}</div>
-              <div className="pi-sub">
+              <div className='pi-sub'>Current Quantity: {data.quantity}</div>
+              <div className='pi-sub'>History Quantity: {data.historyQTY}</div>
+              <div className='pi-sub'>
                 Average per day (last 180 days): {average180}
               </div>
-              <div className="pi-sub">
+              <div className='pi-sub'>
                 Predicted OOS day:{" "}
                 {data.quantity === 0
                   ? "Out of Stock"
@@ -239,15 +245,15 @@ Click to see all orders on this date
             </div>
 
             <div
-              className="pi-octoggle"
+              className='pi-octoggle'
               onClick={() => {
                 setShowOrders((prev) => !prev);
               }}
               style={{ marginBottom: "8px", marginTop: "5px" }}
             >
-              Orders <div className="grow" />
+              Orders <div className='grow' />
               <div
-                className="mitem-caret"
+                className='mitem-caret'
                 style={{ transform: !showOrders && "rotate(-90deg)" }}
               />
             </div>
@@ -257,8 +263,8 @@ Click to see all orders on this date
                 overflowY: "unset",
                 minHeight: "30vh",
               }}
-              className="pi-w"
-              id="pi-orders"
+              className='pi-w'
+              id='pi-orders'
             >
               <PiOrders
                 orders={resultsSortedByDate}

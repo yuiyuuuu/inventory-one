@@ -15,7 +15,7 @@ datasource db {
 model Item{
   id String @id @default(uuid())
   name String @unique
-  quantity Int @default(0)//current quantity
+  quantity Int @default(0) //current quantity
   historyQTY Int @default(0)//how many sold in the past
   // lastCompletedPerson String? //the last person that completed an order with this item
   // completedTimes Json [] //the timestamps of this item being ordered along with the qty

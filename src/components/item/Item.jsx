@@ -20,31 +20,32 @@ const Item = ({
 }) => {
   return (
     <div
-      className="item-parent"
+      className='item-parent'
       onClick={() => {
         setShowSingleProduct(true);
         setSingleProductData(item);
+        document.querySelector("html").style.overflow = "hidden";
       }}
     >
-      <div className="item-row">
+      <div className='item-row'>
         <img
           src={
             item.image
               ? `data:image/png;base64,${item.image}`
               : "/assets/soap.jpeg"
           }
-          className="item-img"
+          className='item-img'
         />
-        <div className="item-i">
-          <div className="item-t">{item.name}</div>
-          <div className="item-c item-t">
+        <div className='item-i'>
+          <div className='item-t'>{item.name}</div>
+          <div className='item-c item-t'>
             QTY: {item.quantity} {item?.units || "pieces"}
           </div>
         </div>
 
-        <div className="item-po">
+        <div className='item-po'>
           <div
-            className="item-cli item-m"
+            className='item-cli item-m'
             onClick={(e) => {
               e.stopPropagation();
               setShowAddOverlay(true);
@@ -57,7 +58,7 @@ const Item = ({
           </div>
 
           <div
-            className="item-cli item-m"
+            className='item-cli item-m'
             onClick={(e) => {
               e.stopPropagation();
               setShowSubtractOverlay(true);
@@ -70,7 +71,7 @@ const Item = ({
           </div>
 
           <div
-            className="item-overwrite item-cli"
+            className='item-overwrite item-cli'
             onClick={(e) => {
               e.stopPropagation();
 

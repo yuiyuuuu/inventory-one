@@ -11,7 +11,6 @@
 }
 
 .ov-media {
-  min-height: 60vh;
   @media only screen and (max-width: 650px) {
     width: 90% !important;
   }
@@ -22,4 +21,15 @@
   height: 1.5px;
   background-color: #edeff1;
   margin: 20px 0;
+}
+
+.ov-submit {
+  cursor: pointer;
+  border: 1px solid red;
+  background: none !important;
+  transition: 0.3s ease all;
+
+  &:hover {
+    border: 1px solid rgba(0, 255, 255);
+  }
 }
