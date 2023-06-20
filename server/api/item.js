@@ -110,6 +110,7 @@ router.put("/editqty", async (req, res, next) => {
       let negativeStock = null;
       //prevent negative qty
       const willGoNegative = find.quantity - req.body.quantity < 0;
+
       if (willGoNegative) {
         negativeStock = find.quantity;
 
@@ -132,17 +133,23 @@ router.put("/editqty", async (req, res, next) => {
         });
       }
 
-      await prisma.order.create({
-        data: {
-          itemId: req.body.id,
-          storeId: req.body.storeId,
-          userId: await prisma.user.findUnique({
-            where: { name: req.body.user },
-          }),
-          quantity: negativeStock || req.body.quantity,
-          completedAt: "", //FIX THIS TOMORROW FIRST THING, CHANGE ALL DATES TO TIMESTAMPS
+      const user = await prisma.user.findUnique({
+        where: {
+          name: req.body.user,
         },
       });
+
+      if (find.quantity > 0) {
+        await prisma.order.create({
+          data: {
+            itemId: req.body.id,
+            storeId: req.body.storeId,
+            userId: user.id,
+            quantity: negativeStock || req.body.quantity,
+            completedAt: new Date(),
+          },
+        });
+      }
     }
 
     const final = await prisma.item.findUnique({

@@ -10,12 +10,6 @@
   width: 100%;
 }
 
-.ov-media {
-  @media only screen and (max-width: 650px) {
-    width: 90% !important;
-  }
-}
-
 .ov-divider {
   width: 20%;
   height: 1.5px;
@@ -32,4 +26,9 @@
   &:hover {
     border: 1px solid rgba(0, 255, 255);
   }
+}
+
+.ov-error {
+  margin: 10px 0 0 0;
+  color: red;
 }

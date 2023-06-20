@@ -122,7 +122,7 @@ const findqty = async () => {
 
         userId: user.id,
         quantity: cur.QTY,
-        completedAt: cur.COMPLETE_DATE,
+        completedAt: new Date(cur.COMPLETE_DATE),
       },
     });
 
