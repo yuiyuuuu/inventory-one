@@ -4,6 +4,8 @@ import { makeGetRequest } from "../requests/requestFunctions";
 
 import Chart from "chart.js/auto";
 
+import $ from "jquery";
+
 const months = {
   1: "January",
   2: "February",
@@ -111,25 +113,28 @@ const SingleStore = () => {
   console.log(ordersByQuery);
 
   return (
-    <div className="home-parent">
-      <div className="home-krink">{selectedStore?.name}</div>
+    <div className='home-parent'>
+      <div className='home-krink'>{selectedStore?.name}</div>
 
-      <div className="store-selectcontainer">
-        <div className="pio-rel store-rel">
+      <div className='store-selectcontainer'>
+        <div className='pio-rel store-rel'>
           <div
-            className="store-select"
+            className='store-select'
             onClick={() => setShowYear((prev) => !prev)}
-            id="ss-year"
+            id='ss-year'
           >
             {selectedYear || "Select a year"}
-            <div className="grow" />
-            <div className="mitem-caret" />
+            <div className='grow' />
+            <div className='mitem-caret' />
 
             {showYear && (
-              <div className="pio-selch store-pelch">
+              <div
+                className='pio-selch store-pelch'
+                style={{ top: $("#ss-year").outerHeight() - 1 }}
+              >
                 {Object.keys(storeOrdersSorted).map((v) => (
                   <div
-                    className="pio-ch store-ch"
+                    className='pio-ch store-ch'
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedYear(v);
@@ -145,26 +150,29 @@ const SingleStore = () => {
           </div>
         </div>
 
-        <div className="store-wi" />
-        <div className="pio-rel store-rel">
+        <div className='store-wi' />
+        <div className='pio-rel store-rel'>
           <div
-            className="store-select"
+            className='store-select'
             onClick={() => {
               if (selectedYear) {
                 setShowMonth((prev) => !prev);
               }
             }}
-            id="ss-month"
+            id='ss-month'
           >
             {months[selectedMonth] || "Select a Month"}
-            <div className="grow" />
-            <div className="mitem-caret" />
+            <div className='grow' />
+            <div className='mitem-caret' />
 
             {selectedYear && showMonth && (
-              <div className="pio-selch store-pelch">
+              <div
+                className='pio-selch store-pelch'
+                style={{ top: $("#ss-month").outerHeight() - 1 }}
+              >
                 {Object.keys(storeOrdersSorted[selectedYear]).map((v) => (
                   <div
-                    className="pio-ch store-ch"
+                    className='pio-ch store-ch'
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedMonth(v);
@@ -181,7 +189,7 @@ const SingleStore = () => {
       </div>
 
       <div>
-        <canvas id="ss-chart"></canvas>
+        <canvas id='ss-chart'></canvas>
       </div>
     </div>
   );
