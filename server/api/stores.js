@@ -12,3 +12,25 @@ router.get("/fetchall", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/fetch/:id", async (req, res, next) => {
+  try {
+    const store = await prisma.store.findUnique({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        orders: {
+          include: {
+            item: true,
+            user: true,
+          },
+        },
+      },
+    });
+
+    res.send(store);
+  } catch (error) {
+    next(error);
+  }
+});

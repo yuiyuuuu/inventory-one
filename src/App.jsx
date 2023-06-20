@@ -1,15 +1,22 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Home from "./components/home/Home";
 
 import "./index.scss";
+
+import Home from "./components/home/Home";
+import Stores from "./components/stores/Stores";
+import SingleStore from "./components/stores/SingleStore";
 
 const App = () => {
   return (
     <div>
-      {/* for now, keep this as one home page, 
-      but later on when more features are added, we can add routers and browserrouter*/}
-      <Home />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/stores" element={<Stores />} />
+          <Route exact path="/stores/:id" element={<SingleStore />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };

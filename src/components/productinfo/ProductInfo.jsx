@@ -21,8 +21,6 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
 
   const [oosDays, setOosDays] = useState(null);
 
-  const [pioHeight, setPioHeight] = useState(0);
-
   function find180Average() {
     let total = 0;
 

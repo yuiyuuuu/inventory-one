@@ -4,7 +4,7 @@ const { c } = require("../jsonobj");
 
 const stores = {
   1: "MAIN H/Q",
-  2: "COM-2",
+  2: "COM-1",
   3: "MAD-1",
   4: "MAD-2",
   5: "MILWAUKEE",
