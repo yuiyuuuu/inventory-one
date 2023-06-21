@@ -35,6 +35,9 @@ const SingleStore = () => {
   const [showMonth, setShowMonth] = useState(false);
   const [showYear, setShowYear] = useState(false);
   const [ordersByQuery, setOrdersByQuery] = useState([]);
+  const [sortedOrders, setSortedOrders] = useState([]);
+
+  const [noStore, setNoStore] = useState({ loading: true, notfound: false });
 
   useEffect(() => {
     const id = params.id;
@@ -42,7 +45,12 @@ const SingleStore = () => {
     const fetch = async () => {
       const store = await makeGetRequest(`/stores/fetch/${id}`)
         .then((res) => {
-          setSelectedStore(res);
+          if (res.id) {
+            setSelectedStore(res);
+            setNoStore({ loading: false, notfound: false });
+          } else {
+            setNoStore({ loading: false, notfound: true });
+          }
         })
         .catch(() => {
           alert("Something went wrong, please refresh");
@@ -87,11 +95,14 @@ const SingleStore = () => {
 
     const c = new Chart(document.getElementById("ss-chart"), {
       type: "doughnut",
+      options: {
+        responsive: true,
+      },
       data: {
         labels: Object.keys(result).map((v) => v),
         datasets: [
           {
-            label: "QTY shipped this month",
+            label: " QTY shipped this month",
             data: Object.values(result).map((v) => v),
           },
         ],
@@ -107,13 +118,34 @@ const SingleStore = () => {
       return;
     }
 
-    setOrdersByQuery(storeOrdersSorted[selectedYear][selectedMonth]);
+    const r = storeOrdersSorted[selectedYear][selectedMonth];
+
+    setOrdersByQuery(r);
+
+    const sort = {};
+    r.forEach((v) => {
+      sort[v.completedAt] ||= [];
+      sort[v.completedAt].push(v);
+    });
+
+    setSortedOrders(sort);
   }, [selectedMonth, selectedYear]);
 
-  console.log(ordersByQuery);
+  console.log(sortedOrders); // tomorrow, use this sorted order to map out orders below, sorted by date
+
+  if (!noStore.loading && noStore.notfound) {
+    return (
+      <div className='home-parent'>
+        <img className='home-logo' src='/assets/logo.jpeg' />
+        <div className='home-krink'>No Store Found</div>
+      </div>
+    );
+  }
 
   return (
     <div className='home-parent'>
+      <img className='home-logo' src='/assets/logo.jpeg' />
+
       <div className='home-krink'>{selectedStore?.name}</div>
 
       <div className='store-selectcontainer'>
@@ -188,9 +220,15 @@ const SingleStore = () => {
         </div>
       </div>
 
-      <div>
-        <canvas id='ss-chart'></canvas>
-      </div>
+      {selectedMonth && selectedYear && (
+        <div>
+          <div className='ss-canvascontainer'>
+            <canvas id='ss-chart'></canvas>
+          </div>
+
+          <div></div>
+        </div>
+      )}
     </div>
   );
 };
