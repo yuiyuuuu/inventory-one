@@ -2,7 +2,11 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-const reducer = combineReducers({});
+import sidebarState from "./sidebar";
+
+const reducer = combineReducers({
+  sidebarState,
+});
 
 let middleware = "";
 

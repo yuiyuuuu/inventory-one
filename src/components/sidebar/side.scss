@@ -1,0 +1,54 @@
+.imhungry {
+  height: 5px;
+  width: 50px;
+  background-color: white;
+  transition: all 0.7s ease;
+}
+
+.imhungryc {
+  cursor: pointer;
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  z-index: 3;
+
+  &.active .top {
+    -webkit-transform: translateY(15px) rotateZ(45deg);
+    -moz-transform: translateY(15px) rotateZ(45deg);
+    -ms-transform: translateY(15px) rotateZ(45deg);
+    -o-transform: translateY(15px) rotateZ(45deg);
+    transform: translateY(15px) rotateZ(45deg);
+  }
+
+  &.active .bottom {
+    -webkit-transform: translateY(-15px) rotateZ(-45deg);
+    -moz-transform: translateY(-15px) rotateZ(-45deg);
+    -ms-transform: translateY(-15px) rotateZ(-45deg);
+    -o-transform: translateY(-15px) rotateZ(-45deg);
+    transform: translateY(-15px) rotateZ(-45deg);
+  }
+
+  &.active .middle {
+    width: 0;
+  }
+}
+
+.mar {
+  margin: 10px auto;
+}
+
+.nomar {
+  margin: 0 auto;
+}
+
+.side-parent {
+  height: 100%;
+  width: 300px;
+  background-color: gray;
+  transform: translate(-300px, 0);
+  transition: 0.3s ease all;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}

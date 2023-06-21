@@ -6,10 +6,19 @@ import "./index.scss";
 import Home from "./components/home/Home";
 import Stores from "./components/stores/Stores";
 import SingleStore from "./components/stores/SingleStore";
+import Sidebar from "./components/sidebar/Sidebar";
+import BurgerIcon from "./components/sidebar/BurgerIcon";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const sidebarState = useSelector((state) => state.sidebarState);
+
+  console.log(sidebarState);
+
   return (
     <div>
+      <BurgerIcon />
+      <Sidebar />
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home />} />
