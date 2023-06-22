@@ -26,6 +26,12 @@ button {
   background: none;
 }
 
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+}
+
 .flexcol-aligncenter {
   display: flex;
   align-items: center;
