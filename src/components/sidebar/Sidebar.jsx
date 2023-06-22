@@ -9,7 +9,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className='side-inner'
+      className="side-inner"
       style={{
         transform: sidebarState.display
           ? "translate(0)"
@@ -19,12 +19,14 @@ const Sidebar = () => {
         e.stopPropagation();
       }}
     >
-      <a className='side-a' href='/'>
-        Inventory One
-      </a>
-      <a className='side-a' href='/stores'>
-        Inventory Stores
-      </a>
+      <div className="side-acontainer">
+        <a className="side-a" href="/">
+          Inventory One
+        </a>
+        <a className="side-a" href="/stores">
+          Inventory Stores
+        </a>
+      </div>
     </div>
   );
 };

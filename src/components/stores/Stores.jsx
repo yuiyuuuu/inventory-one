@@ -16,8 +16,6 @@ const Stores = () => {
     });
   }, []);
 
-  console.log(stores);
-
   return (
     <div className="home-parent">
       <img className="home-logo" src="/assets/logo.jpeg" />

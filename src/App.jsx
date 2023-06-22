@@ -15,24 +15,24 @@ const App = () => {
   const dispatch = useDispatch();
   const sidebarState = useSelector((state) => state.sidebarState);
 
-  console.log(sidebarState);
-
   return (
     <div>
+      You were red, and you liked me because I was blue But you touched me, and
+      suddenly I was a lilac sky Then you decided purple just wasn't for you
       <BurgerIcon />
       <Sidebar />
       <BrowserRouter>
         <div
-          className='side-blur'
+          className="side-blur"
           style={{
             zIndex: !sidebarState.display && -1000,
           }}
           onClick={() => dispatch(dispatchSetSidebarState({ display: false }))}
         />
         <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/stores' element={<Stores />} />
-          <Route exact path='/stores/:id' element={<SingleStore />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/stores" element={<Stores />} />
+          <Route exact path="/stores/:id" element={<SingleStore />} />
         </Routes>
       </BrowserRouter>
     </div>

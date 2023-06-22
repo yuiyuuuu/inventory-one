@@ -5,6 +5,7 @@ import { makeGetRequest } from "../requests/requestFunctions";
 import Chart from "chart.js/auto";
 
 import $ from "jquery";
+import SingleStoreMap from "./SingleStoreMap";
 
 const months = {
   1: "January",
@@ -124,49 +125,53 @@ const SingleStore = () => {
 
     const sort = {};
     r.forEach((v) => {
-      sort[v.completedAt] ||= [];
-      sort[v.completedAt].push(v);
+      const d = new Date(v.completedAt);
+
+      const str = `${
+        d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
+      }/${d.getDate()}/${d.getFullYear()}`;
+
+      sort[str] ||= [];
+      sort[str].push(v);
     });
 
     setSortedOrders(sort);
   }, [selectedMonth, selectedYear]);
 
-  console.log(sortedOrders); // tomorrow, use this sorted order to map out orders below, sorted by date
-
   if (!noStore.loading && noStore.notfound) {
     return (
-      <div className='home-parent'>
-        <img className='home-logo' src='/assets/logo.jpeg' />
-        <div className='home-krink'>No Store Found</div>
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">No Store Found</div>
       </div>
     );
   }
 
   return (
-    <div className='home-parent'>
-      <img className='home-logo' src='/assets/logo.jpeg' />
+    <div className="home-parent">
+      <img className="home-logo" src="/assets/logo.jpeg" />
 
-      <div className='home-krink'>{selectedStore?.name}</div>
+      <div className="home-krink">{selectedStore?.name}</div>
 
-      <div className='store-selectcontainer'>
-        <div className='pio-rel store-rel'>
+      <div className="store-selectcontainer">
+        <div className="pio-rel store-rel">
           <div
-            className='store-select'
+            className="store-select"
             onClick={() => setShowYear((prev) => !prev)}
-            id='ss-year'
+            id="ss-year"
           >
             {selectedYear || "Select a year"}
-            <div className='grow' />
-            <div className='mitem-caret' />
+            <div className="grow" />
+            <div className="mitem-caret" />
 
             {showYear && (
               <div
-                className='pio-selch store-pelch'
+                className="pio-selch store-pelch"
                 style={{ top: $("#ss-year").outerHeight() - 1 }}
               >
                 {Object.keys(storeOrdersSorted).map((v) => (
                   <div
-                    className='pio-ch store-ch'
+                    className="pio-ch store-ch"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedYear(v);
@@ -182,29 +187,29 @@ const SingleStore = () => {
           </div>
         </div>
 
-        <div className='store-wi' />
-        <div className='pio-rel store-rel'>
+        <div className="store-wi" />
+        <div className="pio-rel store-rel">
           <div
-            className='store-select'
+            className="store-select"
             onClick={() => {
               if (selectedYear) {
                 setShowMonth((prev) => !prev);
               }
             }}
-            id='ss-month'
+            id="ss-month"
           >
             {months[selectedMonth] || "Select a Month"}
-            <div className='grow' />
-            <div className='mitem-caret' />
+            <div className="grow" />
+            <div className="mitem-caret" />
 
             {selectedYear && showMonth && (
               <div
-                className='pio-selch store-pelch'
+                className="pio-selch store-pelch"
                 style={{ top: $("#ss-month").outerHeight() - 1 }}
               >
                 {Object.keys(storeOrdersSorted[selectedYear]).map((v) => (
                   <div
-                    className='pio-ch store-ch'
+                    className="pio-ch store-ch"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedMonth(v);
@@ -222,11 +227,24 @@ const SingleStore = () => {
 
       {selectedMonth && selectedYear && (
         <div>
-          <div className='ss-canvascontainer'>
-            <canvas id='ss-chart'></canvas>
+          <div className="ss-canvascontainer">
+            <canvas id="ss-chart"></canvas>
           </div>
 
-          <div></div>
+          <div className="ss-orders">
+            <div
+              className="home-krink"
+              style={{ marginTop: "25px", marginBottom: "0" }}
+            >
+              Orders
+            </div>
+
+            <div className="ss-mapcontainer">
+              {Object.keys(sortedOrders)?.map((date) => (
+                <SingleStoreMap sortedOrders={sortedOrders} date={date} />
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
