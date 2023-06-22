@@ -17,8 +17,6 @@ const App = () => {
 
   return (
     <div>
-      You were red, and you liked me because I was blue But you touched me, and
-      suddenly I was a lilac sky Then you decided purple just wasn't for you
       <BurgerIcon />
       <Sidebar />
       <BrowserRouter>
