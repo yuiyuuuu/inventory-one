@@ -11,16 +11,17 @@ const BurgerIcon = () => {
   const sidebarState = useSelector((state) => state.sidebarState);
 
   function toggleSidebar() {
-    $(".imhungryc").toggleClass("active");
-
     dispatch(dispatchSetSidebarState({ display: !sidebarState.display }));
   }
 
   return (
-    <div className="imhungryc" onClick={() => toggleSidebar()}>
-      <div className="imhungry mar top"></div>
-      <div className="imhungry nomar middle"></div>
-      <div className="imhungry mar bottom"></div>
+    <div
+      className={`imhungryc ${sidebarState.display ? "active" : ""}`}
+      onClick={() => toggleSidebar()}
+    >
+      <div className='imhungry mar top'></div>
+      <div className='imhungry nomar middle'></div>
+      <div className='imhungry mar bottom'></div>
     </div>
   );
 };
