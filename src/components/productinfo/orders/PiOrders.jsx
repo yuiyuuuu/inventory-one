@@ -4,6 +4,7 @@ import "./pio.scss";
 import $ from "jquery";
 
 import OrderChild from "./OrderChild";
+import SelectDate from "./SelectDate";
 
 const PiOrders = ({ orders, selectedDate, showOrders, setSelectedDate }) => {
   const [showSelectDate, setShowSelectDate] = useState(false);
@@ -28,22 +29,11 @@ const PiOrders = ({ orders, selectedDate, showOrders, setSelectedDate }) => {
           />
         </div>
         {showSelectDate && (
-          <div className="pio-selch" id="pelch">
-            {Object.keys(orders).map((v, i) => (
-              <div
-                className="pio-ch"
-                style={{
-                  borderBottom: i === Object.keys(orders).length - 1 && "none",
-                }}
-                onClick={() => {
-                  setShowSelectDate(false);
-                  setSelectedDate(v);
-                }}
-              >
-                {v}
-              </div>
-            ))}
-          </div>
+          <SelectDate
+            orders={orders}
+            setSelectedDate={setSelectedDate}
+            setShowSelectDate={setShowSelectDate}
+          />
         )}
       </div>
       {orders[selectedDate]?.map((order) => (

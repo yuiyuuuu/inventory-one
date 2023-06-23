@@ -55,6 +55,8 @@ const SingleStore = () => {
   const clickoutMonth = useCallback(() => {
     const $target = $(event.target);
 
+    console.log("rannn");
+
     if (
       !$target.closest("#showmonth").length &&
       !$target.closest("#ss-month").length &&

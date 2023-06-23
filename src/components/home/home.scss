@@ -103,8 +103,13 @@
 .home-add {
   border-radius: 10px;
   padding: 8px 16px;
-  background-color: lightgreen;
+  border: 1px solid red;
   color: white;
+  transition: 0.3s ease all;
+
+  &:hover {
+    border: 1px solid rgba(0, 255, 255);
+  }
 }
 
 .home-t {
@@ -266,7 +271,12 @@
 }
 
 .home-export {
-  background-color: orange;
+  border: 1px solid orange;
+  transition: 0.3s ease all;
+
+  &:hover {
+    border: 1px solid rgb(0, 255, 255);
+  }
 }
 
 .submit-loading {
