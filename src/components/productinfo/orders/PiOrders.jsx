@@ -18,6 +18,7 @@ const PiOrders = ({ orders, selectedDate, showOrders, setSelectedDate }) => {
         <div
           className="pio-select"
           onClick={() => setShowSelectDate((prev) => !prev)}
+          id="pio-select"
         >
           {selectedDate || "Select a date"}
           <div className="grow" />
@@ -27,7 +28,7 @@ const PiOrders = ({ orders, selectedDate, showOrders, setSelectedDate }) => {
           />
         </div>
         {showSelectDate && (
-          <div className="pio-selch">
+          <div className="pio-selch" id="pelch">
             {Object.keys(orders).map((v, i) => (
               <div
                 className="pio-ch"

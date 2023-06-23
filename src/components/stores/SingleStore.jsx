@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { makeGetRequest } from "../requests/requestFunctions";
 
@@ -39,6 +39,33 @@ const SingleStore = () => {
   const [sortedOrders, setSortedOrders] = useState([]);
 
   const [noStore, setNoStore] = useState({ loading: true, notfound: false });
+
+  const clickoutYear = useCallback(() => {
+    const $target = $(event.target);
+
+    if (
+      !$target.closest("#showyear").length &&
+      !$target.closest("#ss-year").length &&
+      $("#showyear").is(":visible")
+    ) {
+      setShowYear(false);
+    }
+  }, []);
+
+  const clickoutMonth = useCallback(() => {
+    const $target = $(event.target);
+
+    if (
+      !$target.closest("#showmonth").length &&
+      !$target.closest("#ss-month").length &&
+      $("#showmonth").is(":visible")
+    ) {
+      setShowMonth(false);
+    }
+  }, []);
+
+  $(document).off("click", document, clickoutYear).click(clickoutYear);
+  $(document).off("click", document, clickoutMonth).click(clickoutMonth);
 
   useEffect(() => {
     const id = params.id;
@@ -168,6 +195,7 @@ const SingleStore = () => {
               <div
                 className="pio-selch store-pelch"
                 style={{ top: $("#ss-year").outerHeight() - 1 }}
+                id="showyear"
               >
                 {Object.keys(storeOrdersSorted).map((v) => (
                   <div
@@ -206,6 +234,7 @@ const SingleStore = () => {
               <div
                 className="pio-selch store-pelch"
                 style={{ top: $("#ss-month").outerHeight() - 1 }}
+                id="showmonth"
               >
                 {Object.keys(storeOrdersSorted[selectedYear]).map((v) => (
                   <div
