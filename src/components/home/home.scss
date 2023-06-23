@@ -246,9 +246,14 @@
 }
 
 .homec-submit {
-  background-color: rgb(33, 228, 33);
+  border: 1px solid rgb(33, 228, 33);
   color: white;
   margin-top: 15px;
+  transition: 0.3s ease all;
+
+  &:hover {
+    border: 1px solid rgba(0, 255, 255);
+  }
 }
 
 .homec-del {

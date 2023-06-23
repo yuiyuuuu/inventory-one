@@ -18,6 +18,8 @@ const MassAddOverlay = ({
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
+    if (!result.length) return;
+
     const obj = result;
     setLoading(true);
 

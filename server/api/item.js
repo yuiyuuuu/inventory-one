@@ -149,6 +149,15 @@ router.put("/editqty", async (req, res, next) => {
             completedAt: new Date(),
           },
         });
+
+        await prisma.item.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            historyQTY: find.historyQTY + (negativeStock || req.body.quantity),
+          },
+        });
       }
     }
 
