@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const SingleStoreMap = ({ sortedOrders, date }) => {
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setShow(false);
+  }, [sortedOrders[date]]);
 
   return (
     <div className="ss-out">
