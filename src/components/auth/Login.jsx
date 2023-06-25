@@ -24,9 +24,9 @@ const Login = () => {
           <div className='square'></div>
           <div className='square'></div>
           <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
+          <div className='square2'></div>
+          <div className='square2'></div>
+          <div className='square2'></div>
         </div>
         <div class='atropos my-atropos'>
           <div class='atropos-scale'>
