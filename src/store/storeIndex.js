@@ -3,9 +3,11 @@ import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import sidebarState from "./sidebar";
+import screenWidth from "./global/screenWidth";
 
 const reducer = combineReducers({
   sidebarState,
+  screenWidth,
 });
 
 let middleware = "";

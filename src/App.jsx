@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./index.scss";
 import "atropos/css";
+
+import $ from "jquery";
 
 import Home from "./components/home/Home";
 import Stores from "./components/stores/Stores";
@@ -13,11 +15,18 @@ import BurgerIcon from "./components/sidebar/BurgerIcon";
 import Login from "./components/auth/Login";
 
 import { dispatchSetSidebarState } from "./store/sidebar";
+import { dispatchSetScreenWidth } from "./store/global/screenWidth";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const sidebarState = useSelector((state) => state.sidebarState);
+
+  useEffect(() => {
+    $(window).on("resize", () => {
+      dispatch(dispatchSetScreenWidth(window.innerWidth));
+    });
+  }, []);
 
   return (
     <div>

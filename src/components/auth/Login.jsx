@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import $ from "jquery";
 
@@ -7,15 +8,22 @@ import Atropos from "atropos";
 import "./auth.scss";
 
 const Login = () => {
+  const atroRef = useRef(null);
+
+  const screenWidth = useSelector((state) => state.screenWidth);
+
   useEffect(() => {
-    $(document).ready(() => {
-      // Initialize
-      const myAtropos = Atropos({
-        el: ".my-atropos",
-        shadow: false,
-      });
+    if (screenWidth < 500) {
+      return;
+    }
+
+    const myAtropos = Atropos({
+      el: ".my-atropos",
+      shadow: false,
     });
-  }, []);
+
+    atroRef.current = myAtropos;
+  }, [screenWidth]);
 
   return (
     <div className='auth-parent'>
@@ -28,6 +36,7 @@ const Login = () => {
           <div className='square2'></div>
           <div className='square2'></div>
         </div>
+
         <div class='atropos my-atropos'>
           <div class='atropos-scale'>
             <div class='atropos-rotate'>
