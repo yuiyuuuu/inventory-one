@@ -1,10 +1,7 @@
 .item-parent {
   margin: 0 10px 10px;
   box-sizing: border-box;
-  display: flex;
-  justify-content: center;
   padding: 10px 0;
-  width: calc(100% - 20px);
 }
 
 .item-row {
@@ -94,5 +91,5 @@
 
 .item-i {
   flex: 1 1 0;
-  max-width: 28%;
+  width: 25%;
 }
