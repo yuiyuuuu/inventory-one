@@ -88,10 +88,10 @@
 .home-itemmap {
   margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(auto-fill, minmax(33.33%, 1fr));
 
   @media only screen and (max-width: 1300px) {
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
   }
 
   @media only screen and (max-width: 850px) {
