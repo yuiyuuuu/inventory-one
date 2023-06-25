@@ -35,7 +35,7 @@ const Login = () => {
                 <div className='auth-box'>
                   <div className='container'>
                     <div className='form'>
-                      <div className='auth-title'>Welcome to Invetory One</div>
+                      <div className='auth-title'>Welcome to Inventory One</div>
                       <form action='' className='auth-form'>
                         <div className='auth-inputBx'>
                           <input type='text' required='required' />
@@ -58,7 +58,7 @@ const Login = () => {
                         </div>
                       </form>
 
-                      <div>
+                      <div className='auth-dha'>
                         Don't have an account{" "}
                         <a href='/signup' className='auth-redir'>
                           Sign up
