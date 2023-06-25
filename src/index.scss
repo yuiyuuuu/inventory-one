@@ -12,6 +12,10 @@ body {
   overflow: hidden;
 }
 
+html {
+  overflow: scroll;
+}
+
 input {
   outline: none;
   border: none;

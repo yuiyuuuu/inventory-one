@@ -7,15 +7,16 @@ import "atropos/css";
 
 import $ from "jquery";
 
+import { dispatchSetScreenWidth } from "./store/global/screenWidth";
+import { dispatchSetSidebarState } from "./store/sidebar";
+
 import Home from "./components/home/Home";
 import Stores from "./components/stores/Stores";
 import SingleStore from "./components/stores/SingleStore";
 import Sidebar from "./components/sidebar/Sidebar";
 import BurgerIcon from "./components/sidebar/BurgerIcon";
 import Login from "./components/auth/Login";
-
-import { dispatchSetSidebarState } from "./store/sidebar";
-import { dispatchSetScreenWidth } from "./store/global/screenWidth";
+import Signup from "./components/auth/Signup";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,9 +31,11 @@ const App = () => {
 
   return (
     <div>
-      {!window.location.href.includes("login" || "signup") && <BurgerIcon />}
+      {!window.location.href.includes("login") &&
+        !window.location.href.includes("signup") && <BurgerIcon />}
 
-      {!window.location.href.includes("login" || "signup") && <Sidebar />}
+      {!window.location.href.includes("login") &&
+        !window.location.href.includes("signup") && <Sidebar />}
 
       <BrowserRouter>
         <div
@@ -47,6 +50,7 @@ const App = () => {
           <Route exact path='/stores' element={<Stores />} />
           <Route exact path='/stores/:id' element={<SingleStore />} />
           <Route exact path='/login' element={<Login />} />
+          <Route exact path='/signup' element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </div>

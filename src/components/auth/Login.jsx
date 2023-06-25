@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-
-import $ from "jquery";
 
 import Atropos from "atropos";
 
@@ -11,6 +9,9 @@ const Login = () => {
   const atroRef = useRef(null);
 
   const screenWidth = useSelector((state) => state.screenWidth);
+
+  const [emailInput, setEmailInput] = useState("");
+  const [passInput, setPassInput] = useState("");
 
   useEffect(() => {
     if (screenWidth < 500) {
@@ -47,8 +48,13 @@ const Login = () => {
                       <div className='auth-title'>Welcome to Inventory One</div>
                       <form action='' className='auth-form'>
                         <div className='auth-inputBx'>
-                          <input type='text' required='required' />
-                          <span>Login</span>
+                          <input
+                            type='text'
+                            required='required'
+                            value={emailInput}
+                            onChange={(e) => setEmailInput(e.target.value)}
+                          />
+                          <span>Email</span>
                           <i className='fas fa-user-circle'></i>
                         </div>
                         <div className='auth-inputBx password'>
@@ -57,6 +63,8 @@ const Login = () => {
                             type='password'
                             name='password'
                             required='required'
+                            value={passInput}
+                            onChange={(e) => setPassInput(e.target.value)}
                           />
                           <span>Password</span>
 
