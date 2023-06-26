@@ -46,6 +46,17 @@ const Login = () => {
                   <div className='container'>
                     <div className='form'>
                       <div className='auth-title'>Welcome to Inventory One</div>
+                      <div className='auth-subt'>
+                        By{" "}
+                        <a
+                          href='https://chicagocitysports.com/'
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='auth-subt auth-a'
+                        >
+                          City Sports Chicago
+                        </a>
+                      </div>
                       <form action='' className='auth-form'>
                         <div className='auth-inputBx'>
                           <input
