@@ -219,9 +219,8 @@
 
   .auth-title {
     letter-spacing: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     font-size: 23px;
-    font-weight: 500;
     user-select: none;
     width: 130%;
     text-align: center;
@@ -230,7 +229,6 @@
 
   .auth-subt {
     font-size: 18px;
-    font-family: "Kaushan Script", cursive;
     margin-bottom: 25px;
     text-align: center;
     align-self: center;
@@ -354,4 +352,10 @@
   &:hover::before {
     opacity: 1;
   }
+}
+
+.auth-logo {
+  width: 150px;
+  margin-bottom: 17px;
+  cursor: pointer;
 }
