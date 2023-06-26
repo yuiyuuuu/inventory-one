@@ -76,7 +76,7 @@ const Login = () => {
                       </form>
 
                       <div className='auth-dha'>
-                        Don't have an account{" "}
+                        Don't have an account?{" "}
                         <a href='/signup' className='auth-redir'>
                           Sign up
                         </a>
