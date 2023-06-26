@@ -17,6 +17,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import BurgerIcon from "./components/sidebar/BurgerIcon";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
+import CustomDateSelector from "./components/customdateselector/CustomDateSelector";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,8 @@ const App = () => {
   return (
     <div>
       {!window.location.href.includes("login") &&
-        !window.location.href.includes("signup") && <BurgerIcon />}
+        !window.location.href.includes("signup") &&
+        !window.location.href.includes("test") && <BurgerIcon />}
 
       {!window.location.href.includes("login") &&
         !window.location.href.includes("signup") && <Sidebar />}
@@ -51,6 +53,9 @@ const App = () => {
           <Route exact path='/stores/:id' element={<SingleStore />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Signup />} />
+
+          {/* testing only route*/}
+          <Route exact path='/test' element={<CustomDateSelector />} />
         </Routes>
       </BrowserRouter>
     </div>

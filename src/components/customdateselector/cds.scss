@@ -1,0 +1,38 @@
+.cds-parent {
+  margin: 50px; //remove later, this element should positioned absolutely
+  background-color: black;
+  box-shadow: ""; //fix box shadow later
+  padding: 10px;
+  width: 300;
+  display: inline-block;
+}
+
+.cds-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 2rem);
+  gap: 0.5rem;
+  margin-top: 10px;
+}
+
+.cds-prev {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.cds-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cds-arrow {
+  cursor: pointer;
+}
+
+.cds-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

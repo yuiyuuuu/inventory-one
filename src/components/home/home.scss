@@ -5,12 +5,10 @@
   background-color: hsla(120, 0%, 0%, 1);
   min-height: 100vh;
   box-sizing: border-box;
-  // background-image: radial-gradient(
-  //     at 92% 91%,
-  //     hsla(357, 100%, 50%, 1) 0px,
-  //     transparent 50%
-  //   ),
-  // radial-gradient(at 81% 21%, hsla(359, 100%, 50%, 0.75) 0px, transparent 50%);
+
+  @media only screen and (max-width: 500px) {
+    padding: 15px;
+  }
 }
 
 .home-krink {
@@ -61,7 +59,7 @@
   transition: 0.3s ease all;
   box-sizing: border-box;
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 650px) {
     width: 83%;
   }
 }
@@ -94,7 +92,7 @@
     grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
   }
 
-  @media only screen and (max-width: 850px) {
+  @media only screen and (max-width: 950px) {
     display: flex;
     flex-direction: column;
   }
@@ -106,6 +104,10 @@
   border: 1px solid red;
   color: white;
   transition: 0.3s ease all;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 12px;
+  }
 
   &:hover {
     border: 1px solid rgba(0, 255, 255);
