@@ -23,6 +23,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const sidebarState = useSelector((state) => state.sidebarState);
+  const datePickerState = useSelector((state) => state.datePicker);
 
   useEffect(() => {
     $(window).on("resize", () => {
@@ -41,21 +42,23 @@ const App = () => {
 
       <BrowserRouter>
         <div
-          className='side-blur'
+          className="side-blur"
           style={{
             zIndex: !sidebarState.display && -1000,
           }}
           onClick={() => dispatch(dispatchSetSidebarState({ display: false }))}
         />
+
+        {datePickerState?.display && <CustomDateSelector />}
         <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/stores' element={<Stores />} />
-          <Route exact path='/stores/:id' element={<SingleStore />} />
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/signup' element={<Signup />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/stores" element={<Stores />} />
+          <Route exact path="/stores/:id" element={<SingleStore />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
 
           {/* testing only route*/}
-          <Route exact path='/test' element={<CustomDateSelector />} />
+          <Route exact path="/test" element={<CustomDateSelector />} />
         </Routes>
       </BrowserRouter>
     </div>

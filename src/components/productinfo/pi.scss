@@ -13,6 +13,19 @@
 
 .pi-sec {
   width: 60%;
+  display: flex;
+  flex-direction: column;
+
+  @media only screen and (max-width: 750px) {
+    width: 100%;
+  }
+}
+
+.pi-mar30l {
+  margin-left: 30px;
+  @media only screen and (max-width: 750px) {
+    margin-left: 0;
+  }
 }
 
 .pi-canvascontainer {
@@ -48,14 +61,23 @@
   margin-top: 45px;
   display: flex;
   flex-direction: row;
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .pi-ti {
   font-size: 29px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   @media only screen and (max-width: 650px) {
     font-size: 18px;
+    margin-bottom: 10px;
   }
 }
 
@@ -74,6 +96,10 @@
   height: 100%;
   align-items: center;
   width: 40% !important;
+
+  @media only screen and (max-width: 750px) {
+    margin-bottom: 30px;
+  }
 }
 
 .pi-img {

@@ -52,6 +52,7 @@ router.post("/create/mass", async (req, res, next) => {
               store: true,
             },
           },
+          category: true,
         },
       });
 
@@ -81,6 +82,7 @@ router.post("/create", async (req, res, next) => {
             store: true,
           },
         },
+        category: true,
       },
     });
 
@@ -171,6 +173,7 @@ router.put("/editqty", async (req, res, next) => {
             store: true,
           },
         },
+        category: true,
       },
     });
 
@@ -199,6 +202,7 @@ router.put("/edit/info", async (req, res, next) => {
             store: true,
           },
         },
+        category: true,
       },
     });
 

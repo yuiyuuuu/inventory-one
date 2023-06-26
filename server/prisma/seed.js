@@ -2,6 +2,11 @@ const prisma = require("./prismaClient");
 
 const { c } = require("../jsonobj");
 
+//IMPORTANT
+//for later on when you recount inventory, before deleting everything, store the previous qty here and then we can reseed with the previous qty.
+// that way we get the new updates and dont have to recount inventory
+//will applythis when i recount inventory since I havent updated in so long
+
 const stores = {
   1: "MAIN H/Q",
   2: "COM-1",

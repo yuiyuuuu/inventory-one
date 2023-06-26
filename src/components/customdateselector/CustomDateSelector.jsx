@@ -23,7 +23,16 @@ const CustomDateSelector = () => {
   //current date will be todays date for now, but later on will be the selected date
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  console.log(currentDate);
+  function addDate() {
+    const a = add(currentDate, { months: 1 });
+    setCurrentDate(a);
+  }
+
+  function subtractDate() {
+    const a = add(currentDate, { months: -1 });
+
+    setCurrentDate(a);
+  }
 
   //format month and set the text
   useEffect(() => {
@@ -41,66 +50,69 @@ const CustomDateSelector = () => {
       end: endOfWeek(endOfMonth(currentDate)),
     });
 
-    console.log(days);
-
     for (let i = 0; i < days.length; i++) {
+      if (!cdsDays[i]) continue;
       cdsDays[i].innerHTML = format(days[i], "d");
     }
-  }, []);
+  }, [currentDate]);
 
   return (
-    <div className='cds-parent'>
-      <div className='cds-prev'>
-        <div className='cds-arrow'>←</div>
-        <div className='cds-currentmonth'></div>
-        <div className='cds-arrow'>→</div>
+    <div className="cds-parent">
+      <div className="cds-prev">
+        <div className="cds-arrow" onClick={() => subtractDate()}>
+          ←
+        </div>
+        <div className="cds-currentmonth"></div>
+        <div className="cds-arrow" onClick={() => addDate()}>
+          →
+        </div>
       </div>
-      <div className='cds-grid'>
-        <div className='cds-day'>Sun</div>
-        <div className='cds-day'>Mon</div>
-        <div className='cds-day'>Tue</div>
-        <div className='cds-day'>Wed</div>
-        <div className='cds-day'>Thu</div>
-        <div className='cds-day'>Fri</div>
-        <div className='cds-day'>Sat</div>
+      <div className="cds-grid">
+        <div className="cds-day">Sun</div>
+        <div className="cds-day">Mon</div>
+        <div className="cds-day">Tue</div>
+        <div className="cds-day">Wed</div>
+        <div className="cds-day">Thu</div>
+        <div className="cds-day">Fri</div>
+        <div className="cds-day">Sat</div>
       </div>
 
-      <div className='cds-grid'>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
-        <div className='cds-date'></div>
+      <div className="cds-grid">
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
+        <div className="cds-date"></div>
       </div>
     </div>
   );
