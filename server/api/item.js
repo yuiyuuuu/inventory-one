@@ -16,6 +16,7 @@ router.get("/fetchall", async (req, res, next) => {
             store: true,
           },
         },
+        category: true,
       },
     });
 

@@ -22,7 +22,11 @@ router.get("/fetch/:id", async (req, res, next) => {
       include: {
         orders: {
           include: {
-            item: true,
+            item: {
+              include: {
+                category: true,
+              },
+            },
             user: true,
           },
         },

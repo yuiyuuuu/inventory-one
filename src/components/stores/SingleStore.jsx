@@ -55,8 +55,6 @@ const SingleStore = () => {
   const clickoutMonth = useCallback(() => {
     const $target = $(event.target);
 
-    console.log("rannn");
-
     if (
       !$target.closest("#showmonth").length &&
       !$target.closest("#ss-month").length &&
@@ -119,8 +117,9 @@ const SingleStore = () => {
     const result = {};
 
     orders.forEach((order) => {
-      result[order.item.name] ||= 0;
-      result[order.item.name] = result[order.item.name] + order.quantity;
+      result[order.item.category.name] ||= 0;
+      result[order.item.category.name] =
+        result[order.item.category.name] + order.quantity;
     });
 
     const c = new Chart(document.getElementById("ss-chart"), {

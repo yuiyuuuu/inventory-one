@@ -79,6 +79,16 @@ const findqty = async () => {
   for (let i = 0; i < c.length; i++) {
     const cur = c[i];
 
+    const category = await prisma.category.upsert({
+      where: {
+        name: cur.M_ITEM_T,
+      },
+      create: {
+        name: cur.M_ITEM_T,
+      },
+      update: {},
+    });
+
     // //find pr create the item
     const item = await prisma.item.upsert({
       where: {
@@ -86,11 +96,10 @@ const findqty = async () => {
       },
       create: {
         name: cur.C_TITLE,
+        categoryId: category.id,
       },
       update: {},
     });
-
-    console.log(stores[cur.W_STORE_CODE], cur.W_STORE_CODE);
 
     //find or create store
     const store = await prisma.store.upsert({
@@ -121,17 +130,19 @@ const findqty = async () => {
         storeId: store.id,
 
         userId: user.id,
-        quantity: cur.QTY,
+        quantity: Number(cur.QTY),
         completedAt: new Date(cur.COMPLETE_DATE),
       },
     });
+
+    console.log(Number(item.historyQTY) + Number(cur.QTY));
 
     await prisma.item.update({
       where: {
         name: cur.C_TITLE,
       },
       data: {
-        historyQTY: item.historyQTY + cur.QTY,
+        historyQTY: Number(item.historyQTY) + Number(cur.QTY),
       },
     });
   }

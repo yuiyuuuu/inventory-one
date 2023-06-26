@@ -23,6 +23,9 @@ model Item{
   units String?
   createdAt DateTime @default(now()) @db.Timestamp
 
+  category Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+
   yesterdayStock Yesterday? @relation(fields: [yesterdayId], references: [id])
   yesterdayId String? @unique
 
@@ -60,4 +63,10 @@ model User{
   id String @id @default(uuid())
   name String @unique
   orders Order []
+}
+
+model Category{
+  id String @id @default(uuid())
+  name String @unique
+  items Item []
 }
