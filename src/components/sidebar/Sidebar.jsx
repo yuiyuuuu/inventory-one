@@ -26,6 +26,10 @@ const Sidebar = () => {
         <a className="side-a" href="/stores">
           Inventory Stores
         </a>
+
+        <a className="side-a" href="/keys">
+          Inventory Keys
+        </a>
       </div>
     </div>
   );

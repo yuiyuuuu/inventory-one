@@ -7,8 +7,11 @@ import "atropos/css";
 
 import $ from "jquery";
 
+import { makeGetRequest } from "./components/requests/requestFunctions";
+
 import { dispatchSetScreenWidth } from "./store/global/screenWidth";
 import { dispatchSetSidebarState } from "./store/sidebar";
+import { dispatchSetAllStores } from "./store/allStores";
 
 import Home from "./components/home/Home";
 import Stores from "./components/stores/Stores";
@@ -18,12 +21,24 @@ import BurgerIcon from "./components/sidebar/BurgerIcon";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import CustomDateSelector from "./components/customdateselector/CustomDateSelector";
+import KeysHome from "./components/keys/KeysHome";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const sidebarState = useSelector((state) => state.sidebarState);
   const datePickerState = useSelector((state) => state.datePicker);
+
+  useEffect(() => {
+    async function fetchall() {
+      makeGetRequest("/stores/fetchall").then((res) => {
+        console.log(res);
+        dispatch(dispatchSetAllStores(res));
+      });
+    }
+
+    fetchall();
+  }, []);
 
   useEffect(() => {
     $(window).on("resize", () => {
@@ -59,6 +74,7 @@ const App = () => {
 
           {/* testing only route*/}
           <Route exact path="/test" element={<CustomDateSelector />} />
+          <Route exact path="/keys" element={<KeysHome />} />
         </Routes>
       </BrowserRouter>
     </div>

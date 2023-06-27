@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./pi.scss";
 
 import Chart from "chart.js/auto";
-import PiOrders from "./orders/PiOrders";
 
 import $ from "jquery";
+
 import Filtericon from "./svg/Filtericon";
 import FilterElement from "./FilterElement";
+import PiOrders from "./orders/PiOrders";
 
 const ProductInfo = ({ data, setShowSingleProduct }) => {
+  //reference to chart so we can destroy
+  const chartRef = useRef(null);
+
   const [resultsSortedByDate, setResultsSortedByDate] = useState({});
 
   const [noHistory, setNoHistory] = useState(false);
@@ -19,11 +23,21 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
   const [showOrders, setShowOrders] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
+  //prediction info states
   const [average180, setAverage180] = useState(null);
-
   const [oosDays, setOosDays] = useState(null);
 
+  //filter states
+  const [filterActive, setFilterActive] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [dateRangeFilter, setDateRangeFilter] = useState({
+    start: null,
+    end: null,
+  });
+  const [storeFilter, setStoreFilter] = useState(null);
+
+  const [showFilterDropDown, setShowFilterDropDown] = useState(false);
+  const [filterResults, setFilterResults] = useState({});
 
   function find180Average() {
     let total = 0;
@@ -62,6 +76,43 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
     });
   }
 
+  function handleApplyFilter() {
+    if (!dateRangeFilter.start && !storeFilter) return; //no start date and no store = no filter
+
+    if (!showFilterDropDown) {
+      setShowFilterDropDown(true);
+    }
+    //make filteractive a truthy value, but change it everytime so the useeffect below will run
+    //if we just set it to true, it will only run once and if the user sets a new filter without clearing, the useeffect wont run again
+    setFilterActive((prev) => (!prev ? 1 : prev + 1));
+  }
+
+  function clearFilter() {
+    setFilterActive(false);
+    setDateRangeFilter({ start: null, end: null });
+    setStoreFilter(null);
+  }
+
+  function sortOrdersByDate() {
+    const sort = {};
+    data.orders.forEach((v) => {
+      const d = new Date(v.completedAt);
+      const str = `${
+        d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
+      }/${d.getDate()}/${d.getFullYear()}`;
+
+      sort[str] ||= [];
+      sort[str].push(v);
+    });
+
+    setResultsSortedByDate(sort);
+  }
+
+  useEffect(() => {
+    if (!data.orders.length) return;
+    sortOrdersByDate();
+  }, [data]);
+
   useEffect(() => {
     find180Average();
   }, []);
@@ -78,10 +129,97 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
       return;
     }
 
+    if (!Object.keys(resultsSortedByDate).length) return;
+
+    //not first time running, destroy previous chart
+    if (chartRef.current) {
+      chartRef.current.destroy();
+    }
+
     const result = {};
 
     function combineDates() {
-      const orders = data.orders;
+      let orders = [];
+      let filterResultInformation = {};
+
+      if (filterActive) {
+        //make copy of orders
+        const slice = data.orders.slice();
+
+        slice.forEach((order) => {
+          let bad = false; //bad = true means this one doesnt fit the filters
+
+          //check if store matches filter, if store filter exists
+          if (storeFilter) {
+            if (order.store.name !== storeFilter.name) bad = true;
+          }
+
+          //checks if date range fits, if the filter exists
+          if (dateRangeFilter.start) {
+            const filterTimestampStart = new Date(
+              dateRangeFilter.start
+            ).getTime();
+            const filterTimestampEnd = dateRangeFilter.end
+              ? new Date(dateRangeFilter.end).getTime()
+              : null;
+
+            const d = new Date(order.completedAt);
+            const str = `${
+              d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
+            }/${d.getDate()}/${d.getFullYear()}`;
+
+            const orderTimeStamp = new Date(str).getTime();
+
+            if (dateRangeFilter.start && dateRangeFilter.end) {
+              //set the date range
+              filterResultInformation["dateRange"] ||= `${
+                dateRangeFilter.start
+                  ? dateRangeFilter.start
+                  : Object.keys(resultsSortedByDate)[0]
+              } - ${
+                dateRangeFilter.end
+                  ? dateRangeFilter.end
+                  : Object.keys(resultsSortedByDate)[
+                      Object.keys(resultsSortedByDate).length - 1
+                    ]
+              }`;
+
+              if (orderTimeStamp < filterTimestampStart) {
+                bad = true;
+              }
+
+              if (orderTimeStamp > filterTimestampEnd) {
+                bad = true;
+              }
+            } else if (dateRangeFilter.start) {
+              //set the date range
+              filterResultInformation["dateRange"] ||= `${
+                dateRangeFilter.start
+                  ? dateRangeFilter.start
+                  : Object.keys(resultsSortedByDate)[0]
+              } - ${
+                dateRangeFilter.end
+                  ? dateRangeFilter.end
+                  : Object.keys(resultsSortedByDate)[
+                      Object.keys(resultsSortedByDate).length - 1
+                    ]
+              }`;
+
+              if (orderTimeStamp < filterTimestampStart) {
+                bad = true;
+              }
+            }
+          }
+
+          //if the bad var flag was never changed to true, then this fits our criterias and we can push it to results
+          if (!bad) {
+            orders.push(order);
+          }
+        });
+      } else {
+        //if this function call is not for filtering, set orders as all orders
+        orders = data.orders;
+      }
 
       orders.forEach((v) => {
         const d = new Date(v.completedAt);
@@ -95,42 +233,60 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
           user: [...new Set([...result[str].user, v.user.name])],
           quantity: result[str].quantity + v.quantity,
         };
-      });
-    }
 
-    function sortOrdersByDate() {
-      const sort = {};
-      data.orders.forEach((v) => {
-        const d = new Date(v.completedAt);
-        const str = `${
-          d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
-        }/${d.getDate()}/${d.getFullYear()}`;
-
-        sort[str] ||= [];
-        sort[str].push(v);
+        //change this part if we need individual qty of every store
+        filterResultInformation["stores"] ||= [];
+        filterResultInformation["stores"] = [
+          ...new Set([...filterResultInformation["stores"], v.store.name]),
+        ];
+        filterResultInformation["quantity"] ||= 0;
+        filterResultInformation["quantity"] += v.quantity;
       });
 
-      return sort;
+      //set the results to display, only will be used if filter is active
+      setFilterResults(filterResultInformation);
+      console.log(filterResultInformation, "filter result information");
     }
 
     combineDates();
-    setResultsSortedByDate(sortOrdersByDate());
 
-    //fix chart here, add results
+    //sort result object by date
+    const re = {};
 
-    new Chart(document.getElementById("pi-parent"), {
+    //get all keys of result, then sort the keys based on date
+    Object.keys(result)
+      .sort(function (a, b) {
+        const adate = new Date(a);
+        const bdate = new Date(b);
+
+        if (adate < bdate) return -1;
+        if (adate > bdate) return 1;
+        return 0;
+      })
+      .map((obj) => {
+        //reinstate object but in sorted order
+        re[obj] = result[obj];
+      });
+
+    //add this later, will show a message
+    // if (!Object.keys(re).length) {
+    //   setNoHistory(true);
+    //   return;
+    // }
+
+    const chart = new Chart(document.getElementById("pi-parent"), {
       type: "bar",
       options: {
         plugins: {
           tooltip: {
             callbacks: {
               footer: (v) => {
-                return `Completed By ${Object.values(result)[
+                return `Completed By ${Object.values(re)[
                   v[0].dataIndex
                 ].user.join(", ")}
 Stores: ${
-                  Object.values(result)[v[0].dataIndex].store?.length
-                    ? Object.values(result)[v[0].dataIndex].store.join(", ")
+                  Object.values(re)[v[0].dataIndex].store?.length
+                    ? Object.values(re)[v[0].dataIndex].store.join(", ")
                     : "Unknown"
                 }
 Click to see all orders on this date
@@ -161,7 +317,7 @@ Click to see all orders on this date
 
         onClick: (e, a) => {
           setSelectedDate((prev) =>
-            a[0]?.index >= 0 ? Object.keys(result)[a[0]?.index] : prev
+            a[0]?.index >= 0 ? Object.keys(re)[a[0]?.index] : prev
           );
 
           setShowOrders(true);
@@ -170,18 +326,20 @@ Click to see all orders on this date
         responsive: true,
       },
       data: {
-        labels: Object.keys(result),
+        labels: Object.keys(re),
         datasets: [
           {
             label: " # Completed by Date",
-            data: Object.values(result).map((v) => v.quantity),
+            data: Object.values(re).map((v) => v.quantity),
             backgroundColor: "#B41717",
             hoverBackgroundColor: "rgba(0, 255, 255)",
           },
         ],
       },
     });
-  }, [data]);
+
+    chartRef.current = chart;
+  }, [data, filterActive, resultsSortedByDate]);
 
   useEffect(() => {
     if (showOrders) {
@@ -190,6 +348,8 @@ Click to see all orders on this date
       $("#pi-orders").css("max-height", 0);
     }
   }, [showOrders, selectedDate]);
+
+  console.log(Object.keys(resultsSortedByDate), "resultsss");
 
   return (
     <div
@@ -221,6 +381,11 @@ Click to see all orders on this date
           <div className="pi-sec pi-mar30l">
             <div className="pi-ti">
               {data.name} <div className="grow" />
+              {showFilter && (
+                <div className="pi-cf" onClick={() => clearFilter()}>
+                  Clear Filter
+                </div>
+              )}
               <Filtericon
                 size={26}
                 oc={function () {
@@ -229,7 +394,46 @@ Click to see all orders on this date
               />
             </div>
 
-            {showFilter && <FilterElement />}
+            <FilterElement
+              dateRangeFilter={dateRangeFilter}
+              setDateRangeFilter={setDateRangeFilter}
+              setStoreFilter={setStoreFilter}
+              storeFilter={storeFilter}
+              results={resultsSortedByDate}
+              showFilter={showFilter}
+              handleApplyFilter={handleApplyFilter}
+            />
+
+            {filterActive && (
+              <div
+                className="pi-octoggle"
+                onClick={() => setShowFilterDropDown((prev) => !prev)}
+              >
+                Filter Results <div className="grow" />
+                <div
+                  className="mitem-caret"
+                  style={{ transform: !showFilterDropDown && "rotate(-90deg)" }}
+                />
+              </div>
+            )}
+
+            {filterActive && (
+              <div
+                style={{ maxHeight: showFilterDropDown ? "300px" : 0 }}
+                className="pi-w"
+              >
+                {/* <div className="pi-sub">
+                  Date Range: {filterResultInformation.dateRange}
+                </div>
+
+                <div className="pi-sub">
+                  Quantity: {filterResultInformation.quantity}
+                </div>
+                <div className="pi-sub">
+                  Stores: {filterResultInformation.stores.split(", ")}
+                </div> */}
+              </div>
+            )}
 
             <div
               className="pi-octoggle"

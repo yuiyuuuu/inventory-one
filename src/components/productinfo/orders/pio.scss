@@ -66,6 +66,8 @@
   border: 1px solid white;
   box-sizing: border-box;
   margin: 0 8px;
+  overflow-y: scroll;
+  max-height: 375px;
 }
 
 .pio-rel {

@@ -24,7 +24,7 @@
     transform: scale(1.03);
   }
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 530px) {
     width: calc(100% - 40px);
     padding: 8px 10px;
   }
@@ -35,7 +35,7 @@
   height: 100px;
   margin-right: 10px;
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 530px) {
     max-width: 80px;
     max-height: 80px;
   }

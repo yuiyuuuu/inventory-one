@@ -24,7 +24,13 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #d98324, #ff7878);
+  background: linear-gradient(
+    -45deg,
+    #bb0000,
+    #d98324,
+    rgba(255, 0, 0, 0.5),
+    #ee7752
+  );
   background-size: 400% 400%;
   animation: gradient 10s ease infinite;
   color: black;

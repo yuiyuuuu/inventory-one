@@ -88,7 +88,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(33.33%, 1fr));
 
-  @media only screen and (max-width: 1300px) {
+  @media only screen and (max-width: 1430px) {
     grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
   }
 
@@ -99,7 +99,7 @@
 }
 
 .home-add {
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 8px 16px;
   border: 1px solid red;
   color: white;

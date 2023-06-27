@@ -5,7 +5,20 @@ module.exports = router;
 
 router.get("/fetchall", async (req, res, next) => {
   try {
-    const stores = await prisma.store.findMany();
+    const stores = await prisma.store.findMany({
+      include: {
+        orders: {
+          include: {
+            item: {
+              include: {
+                category: true,
+              },
+            },
+            user: true,
+          },
+        },
+      },
+    });
 
     res.send(stores);
   } catch (error) {
