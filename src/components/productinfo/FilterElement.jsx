@@ -85,6 +85,7 @@ const FilterElement = ({
       style={{
         maxHeight: showFilter ? "210px" : 0,
         overflow: !showFilter && "hidden",
+        margin: !showFilter && 0,
       }}
     >
       {filterActive && Object.keys(filterResults.orders).length < 1 && (
