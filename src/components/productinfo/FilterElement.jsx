@@ -83,7 +83,7 @@ const FilterElement = ({
     <div
       className="pio-rel fe-parent"
       style={{
-        maxHeight: showFilter ? "210px" : 0,
+        maxHeight: showFilter ? "250px" : 0,
         overflow: !showFilter && "hidden",
         margin: !showFilter && 0,
       }}
