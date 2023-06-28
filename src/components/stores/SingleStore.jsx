@@ -166,6 +166,15 @@ const SingleStore = () => {
     setSortedOrders(sort);
   }, [selectedMonth, selectedYear]);
 
+  if (noStore.loading) {
+    return (
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">Loading</div>
+      </div>
+    );
+  }
+
   if (!noStore.loading && noStore.notfound) {
     return (
       <div className="home-parent">
@@ -179,7 +188,7 @@ const SingleStore = () => {
     <div className="home-parent">
       <img className="home-logo" src="/assets/logo.jpeg" />
 
-      <div className="home-krink">{selectedStore?.name}</div>
+      <div className="home-krink ss-n">{selectedStore?.name} - Store</div>
 
       <div className="store-selectcontainer">
         <div className="pio-rel store-rel">

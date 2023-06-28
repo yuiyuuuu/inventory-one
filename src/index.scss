@@ -21,6 +21,10 @@ input {
   border: none;
 }
 
+input::placeholder {
+  color: #d3d3d3;
+}
+
 textarea:focus,
 input:focus {
   outline: none;

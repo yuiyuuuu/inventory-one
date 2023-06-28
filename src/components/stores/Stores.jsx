@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { makeGetRequest } from "../requests/requestFunctions";
+import { useSelector } from "react-redux";
 
 import "./store.scss";
 
 const Stores = () => {
   const nav = useNavigate();
 
-  const [stores, setStores] = useState([]);
-
-  useEffect(() => {
-    makeGetRequest("stores/fetchall").then((res) => {
-      setStores(res);
-    });
-  }, []);
+  const stores = useSelector((state) => state.allStores);
 
   return (
     <div className="home-parent">

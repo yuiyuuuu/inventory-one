@@ -26,23 +26,24 @@ model Item{
   category Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
 
-  yesterdayStock Yesterday? @relation(fields: [yesterdayId], references: [id])
-  yesterdayId String? @unique
-
   orders Order[]
 }
 
-model Yesterday{
+model Keylog{
   id String @id @default(uuid())
-  stock Int @default(0)
-  item Item?
+  name String //name of person taking key
+  memo String?
+  takeTime DateTime
+  returnTime DateTime?
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  storeId String
 }
 
 model Store{
   id String @id @default(uuid())
   name String @unique
-
-  orders Order []
+  orders Order   []
+  keyLog Keylog []
 }
 
 model Order {
@@ -70,3 +71,4 @@ model Category{
   name String @unique
   items Item []
 }
+

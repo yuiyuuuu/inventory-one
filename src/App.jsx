@@ -22,6 +22,7 @@ import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import CustomDateSelector from "./components/customdateselector/CustomDateSelector";
 import KeysHome from "./components/keys/KeysHome";
+import SingleStoreKey from "./components/keys/singlekeys/SingleStoreKey";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const App = () => {
 
   useEffect(() => {
     async function fetchall() {
-      makeGetRequest("/stores/fetchall").then((res) => {
+      makeGetRequest("stores/fetchall").then((res) => {
         dispatch(dispatchSetAllStores(res));
       });
     }
@@ -74,6 +75,7 @@ const App = () => {
           {/* testing only route*/}
           <Route exact path="/test" element={<CustomDateSelector />} />
           <Route exact path="/keys" element={<KeysHome />} />
+          <Route exact path="/keys/:id" element={<SingleStoreKey />} />
         </Routes>
       </BrowserRouter>
     </div>

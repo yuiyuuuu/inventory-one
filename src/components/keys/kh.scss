@@ -1,0 +1,72 @@
+.kh-error {
+  color: red;
+  font-weight: 500;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 12px;
+  }
+}
+
+.kh-keylogmap {
+  padding: 0 0 30px 30px;
+  overflow: hidden;
+  transition: 0.3s ease all;
+}
+
+.kh-bord {
+  border-bottom: 3px solid white;
+  padding-bottom: 10px;
+  cursor: pointer;
+  font-size: 18px;
+
+  @media only screen and (max-width: 650px) {
+    font-size: 12px;
+  }
+}
+
+.kh-bord2 {
+  border-bottom: 3px solid white;
+  padding-bottom: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+
+  @media only screen and (max-width: 650px) {
+    font-size: 12px;
+  }
+}
+
+.kh-mapch {
+  margin: 30px 0;
+  width: 50%;
+
+  @media only screen and (max-width: 500px) {
+    width: 90%;
+  }
+}
+
+.kh-take {
+  padding: 12px 20px;
+  font-size: 20px;
+  border-color: rgb(33, 228, 33);
+
+  @media only screen and (max-width: 750px) {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+.kh-return {
+  padding: 8px 16px;
+  border-color: red;
+}
+
+.kh-t {
+  margin: 10px 0;
+}
