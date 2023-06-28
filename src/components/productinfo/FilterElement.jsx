@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import $ from "jquery";
 import { useSelector } from "react-redux";
@@ -11,6 +11,8 @@ const FilterElement = ({
   results,
   showFilter,
   handleApplyFilter,
+  filterActive,
+  filterResults,
 }) => {
   const allStores = useSelector((state) => state.allStores);
 
@@ -32,6 +34,39 @@ const FilterElement = ({
     setAfterStartDate(re);
   }, [dateRangeFilter]);
 
+  const startClickout = useCallback(() => {
+    const $target = $(event.target);
+
+    if (
+      !$target.closest("#fe-start").length &&
+      !$target.closest("#fe-startc").length &&
+      $("#fe-startc").is(":visible")
+    ) {
+      setShowStart(false);
+    }
+
+    if (
+      !$target.closest("#fe-end").length &&
+      !$target.closest("#fe-endc").length &&
+      $("#fe-endc").is(":visible")
+    ) {
+      setShowEnd(false);
+    }
+
+    if (
+      !$target.closest("#fe-store").length &&
+      !$target.closest("#fe-storec").length &&
+      $("#fe-storec").is(":visible")
+    ) {
+      setShowStore(false);
+    }
+  }, []);
+
+  //clickout event listener
+  $(".pi-container")
+    .off("click", ".pi-container", startClickout)
+    .click(startClickout);
+
   useEffect(() => {
     $("#fe-startc").css("top", $("#fe-start").outerHeight() - 1);
   }, [showStart]);
@@ -44,8 +79,6 @@ const FilterElement = ({
     $("#fe-storec").css("top", $("#fe-store").outerHeight() - 1);
   }, [showStore]);
 
-  console.log(afterStartDate);
-
   return (
     <div
       className="pio-rel fe-parent"
@@ -54,6 +87,9 @@ const FilterElement = ({
         overflow: !showFilter && "hidden",
       }}
     >
+      {filterActive && Object.keys(filterResults.orders).length < 1 && (
+        <div className="fe-nore">No Results from Query</div>
+      )}
       <div className="pi-flexr">
         <div className="pi-b">
           <div className="pio-rel">
@@ -70,6 +106,17 @@ const FilterElement = ({
 
             {showStart && (
               <div className="pio-selch pi-qpa" id="fe-startc">
+                <div
+                  className="pio-ch"
+                  onClick={() =>
+                    setDateRangeFilter((prev) => {
+                      setShowStart(false);
+                      return { start: null, end: null };
+                    })
+                  }
+                >
+                  Unselect Date
+                </div>
                 {Object.keys(results).map((date, i, a) => (
                   <div
                     className="pio-ch"
@@ -106,6 +153,17 @@ const FilterElement = ({
 
             {dateRangeFilter?.start && showEnd && (
               <div className="pio-selch pi-qpa" id="fe-endc">
+                <div
+                  className="pio-ch"
+                  onClick={() =>
+                    setDateRangeFilter((prev) => {
+                      setShowEnd(false);
+                      return { ...prev, end: null };
+                    })
+                  }
+                >
+                  Unselect Date
+                </div>
                 {afterStartDate.map((date, i, a) => (
                   <div
                     className="pio-ch"
@@ -143,6 +201,15 @@ const FilterElement = ({
 
             {showStore && (
               <div className="pio-selch pi-qpa" id="fe-storec">
+                <div
+                  className="pio-ch"
+                  onClick={() => {
+                    setStoreFilter(null);
+                    setShowStore(false);
+                  }}
+                >
+                  Unselect Store
+                </div>
                 {allStores.map((store, i, a) => (
                   <div
                     className="pio-ch"

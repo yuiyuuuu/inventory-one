@@ -9,6 +9,7 @@ import $ from "jquery";
 import Filtericon from "./svg/Filtericon";
 import FilterElement from "./FilterElement";
 import PiOrders from "./orders/PiOrders";
+import OrderChildStore from "./orderChildStore/OrderChildStore";
 
 const ProductInfo = ({ data, setShowSingleProduct }) => {
   //reference to chart so we can destroy
@@ -221,6 +222,9 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
         orders = data.orders;
       }
 
+      filterResultInformation["orders"] ||= {};
+      filterResultInformation["quantity"] ||= 0;
+
       orders.forEach((v) => {
         const d = new Date(v.completedAt);
         const str = `${
@@ -235,17 +239,24 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
         };
 
         //change this part if we need individual qty of every store
-        filterResultInformation["stores"] ||= [];
-        filterResultInformation["stores"] = [
-          ...new Set([...filterResultInformation["stores"], v.store.name]),
-        ];
-        filterResultInformation["quantity"] ||= 0;
+        filterResultInformation["orders"][str] ||= [];
+        filterResultInformation["orders"][str].push(v);
+
         filterResultInformation["quantity"] += v.quantity;
       });
 
       //set the results to display, only will be used if filter is active
-      setFilterResults(filterResultInformation);
-      console.log(filterResultInformation, "filter result information");
+      setFilterResults({
+        ...filterResultInformation,
+        storeFilter: storeFilter,
+      });
+      console.log(
+        {
+          ...filterResultInformation,
+          storeFilter: storeFilter,
+        },
+        "filter result ifnormation"
+      );
     }
 
     combineDates();
@@ -349,8 +360,6 @@ Click to see all orders on this date
     }
   }, [showOrders, selectedDate]);
 
-  console.log(Object.keys(resultsSortedByDate), "resultsss");
-
   return (
     <div
       className="pi-container"
@@ -402,38 +411,64 @@ Click to see all orders on this date
               results={resultsSortedByDate}
               showFilter={showFilter}
               handleApplyFilter={handleApplyFilter}
+              filterActive={filterActive}
+              filterResults={filterResults}
             />
 
-            {filterActive && (
-              <div
-                className="pi-octoggle"
-                onClick={() => setShowFilterDropDown((prev) => !prev)}
-              >
-                Filter Results <div className="grow" />
+            {filterResults?.orders &&
+              Object.keys(filterResults.orders)?.length > 0 &&
+              filterActive && (
                 <div
-                  className="mitem-caret"
-                  style={{ transform: !showFilterDropDown && "rotate(-90deg)" }}
-                />
-              </div>
-            )}
-
-            {filterActive && (
-              <div
-                style={{ maxHeight: showFilterDropDown ? "300px" : 0 }}
-                className="pi-w"
-              >
-                {/* <div className="pi-sub">
-                  Date Range: {filterResultInformation.dateRange}
+                  className="pi-octoggle"
+                  onClick={() => setShowFilterDropDown((prev) => !prev)}
+                >
+                  Filter Results <div className="grow" />
+                  <div
+                    className="mitem-caret"
+                    style={{
+                      transform: !showFilterDropDown && "rotate(-90deg)",
+                    }}
+                  />
                 </div>
+              )}
 
-                <div className="pi-sub">
-                  Quantity: {filterResultInformation.quantity}
+            {filterResults?.orders &&
+              Object.keys(filterResults.orders)?.length > 0 &&
+              filterActive && (
+                <div
+                  style={{
+                    maxHeight: showFilterDropDown ? "450px" : 0,
+                    marginBottom: showFilterDropDown && "30px",
+                    overflowY: showFilterDropDown && "scroll",
+                  }}
+                  className="pi-w"
+                >
+                  <div className="pi-sub">
+                    Date Range:{" "}
+                    {filterResults.dateRange
+                      ? filterResults.dateRange
+                      : "No Dates Selected"}
+                  </div>
+
+                  <div className="pi-sub">
+                    Stores:{" "}
+                    {filterResults.storeFilter
+                      ? filterResults.storeFilter?.name
+                      : "Any"}
+                  </div>
+
+                  <div className="pi-sub">
+                    Total Quantity: {filterResults.quantity}
+                  </div>
+
+                  {Object.values(filterResults.orders)?.map((order, i) => (
+                    <OrderChildStore
+                      date={Object.keys(filterResults.orders)[i]}
+                      order={order}
+                    />
+                  ))}
                 </div>
-                <div className="pi-sub">
-                  Stores: {filterResultInformation.stores.split(", ")}
-                </div> */}
-              </div>
-            )}
+              )}
 
             <div
               className="pi-octoggle"

@@ -32,7 +32,6 @@ const App = () => {
   useEffect(() => {
     async function fetchall() {
       makeGetRequest("/stores/fetchall").then((res) => {
-        console.log(res);
         dispatch(dispatchSetAllStores(res));
       });
     }

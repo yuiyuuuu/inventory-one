@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-import $ from "jquery";
-
 const OrderChild = ({ order }) => {
   const [show, setShow] = useState(false);
 
-  //i will come back to this, for now, i will turn overflow hidden off so we have double horizontal scroll
-  //   useEffect(() => {
-  //     if (show) {
-  //       $("#pi-orders").css("max-height", $(".pio-parent").outerHeight());
-  //     } else {
-  //       $("#pi-orders").css("max-height", $(".pio-parent").outerHeight());
-  //     }
-  //   }, [show]);
+  // i will come back to this, for now, i will turn overflow hidden off so we have double horizontal scroll
+  // useEffect(() => {
+  //   if (show) {
+  //     $("#pi-orders").css("max-height", $(".pio-parent").outerHeight());
+  //   } else {
+  //     $("#pi-orders").css("max-height", $(".pio-parent").outerHeight());
+  //   }
+  // }, [show]);
 
   useEffect(() => {
     setShow(false);
