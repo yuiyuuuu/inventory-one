@@ -10,7 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model List{
+  id String @id @default(uuid())
+  name String
+  item Item []
+  owner User @relation(fields: [ownerId], references: [id])
+  ownerId String
+  sharedUsers User[] @relation("shared")
+
+}
+
 //order can have one store, one item, but item can have many orders and store can have many orders
+
+model Category{
+  id String @id @default(uuid())
+  name String @unique
+  items Item []
+}
 
 model Item{
   id String @id @default(uuid())
@@ -23,21 +39,16 @@ model Item{
   units String?
   createdAt DateTime @default(now()) @db.Timestamp
 
+  list List? @relation(fields: [listId], references: [id])
+  listId String?
+
   category Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
 
   orders Order[]
+  
 }
 
-model Keylog{
-  id String @id @default(uuid())
-  name String //name of person taking key
-  memo String?
-  takeTime DateTime
-  returnTime DateTime?
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  storeId String
-}
 
 model Store{
   id String @id @default(uuid())
@@ -64,11 +75,21 @@ model User{
   id String @id @default(uuid())
   name String @unique
   orders Order []
+  email String? @unique //optional for now, so when i migrate it wont return error
+  password String? //optional for now
+  lists List[]
+  sharedLists List[] @relation("shared")
 }
 
-model Category{
+//keys stuff below
+model Keylog{
   id String @id @default(uuid())
-  name String @unique
-  items Item []
+  name String //name of person taking key
+  memo String?
+  takeTime DateTime
+  returnTime DateTime?
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  storeId String
 }
+
 
