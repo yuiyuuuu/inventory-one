@@ -30,7 +30,7 @@ export function getLocalData() {
 }
 
 export function authenticate(obj) {
-  return async (dispatchh) => {
+  return async (dispatch) => {
     try {
       const data = await makePostRequest("/auth/login", obj);
 

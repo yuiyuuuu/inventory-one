@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Atropos from "atropos";
 
 import "./auth.scss";
+import { authenticate } from "../../store/auth/auth";
 
 const Login = () => {
   const atroRef = useRef(null);
+
+  const dispatch = useDispatch();
 
   const screenWidth = useSelector((state) => state.screenWidth);
 
@@ -16,8 +19,15 @@ const Login = () => {
   //error states
   const [noUsername, setNoUsername] = useState(false);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit() {
+    const obj = {
+      email: emailInput,
+      password: passInput,
+    };
+
+    dispatch(authenticate(obj)).then((res) => {
+      console.log(res);
+    });
   }
 
   useEffect(() => {
@@ -69,7 +79,7 @@ const Login = () => {
                           Inventory One
                         </span>
                       </div>
-                      <form action="" className="auth-form">
+                      <div className="auth-form">
                         <div className="auth-inputBx">
                           <input
                             type="text"
@@ -94,9 +104,16 @@ const Login = () => {
                           <i className="fas fa-key"></i>
                         </div>
                         <div className="auth-inputBx">
-                          <input type="submit" value="Log in" disabled />
+                          <button
+                            onClick={() => {
+                              handleSubmit();
+                            }}
+                            className="auth-sub"
+                          >
+                            Sign Up
+                          </button>
                         </div>
-                      </form>
+                      </div>
 
                       <div className="auth-dha">
                         Don't have an account?{" "}

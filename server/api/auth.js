@@ -9,7 +9,43 @@ module.exports = router;
 router.post("/login", async (req, res, next) => {
   try {
     const obj = req.body;
-    //finish later, need to be able to signup first
+
+    const findUser = await prisma.user.findUnique({
+      where: {
+        email: req.body.email,
+      },
+
+      include: {
+        lists: true,
+        sharedLists: true,
+        orders: true,
+      },
+    });
+
+    if (!findUser?.id) {
+      res.send("not found").status(401);
+      return;
+    }
+
+    try {
+      const compare = await bcrypt.compare(
+        req.body.password,
+        findUser.password
+      );
+
+      if (compare) {
+        res
+          .send({
+            user: findUser,
+            jwt: jwt.sign({ id: findUser.id }, process.env.JWT),
+          })
+          .status(200);
+      } else {
+        res.send("wrongpassword").status(401);
+      }
+    } catch (error) {
+      next(error);
+    }
   } catch (error) {
     next(error);
   }
