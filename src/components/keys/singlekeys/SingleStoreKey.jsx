@@ -19,6 +19,8 @@ const SingleKey = () => {
   const [showActiveKeylogs, setShowActiveKeylogs] = useState(true);
   const [showArchivedKeylogs, setShowArchivedKeylogs] = useState(false);
 
+  console.log(selectedStore?.keyLog?.filter((v) => v.returnTime).length);
+
   useEffect(() => {
     const id = params.id;
 
@@ -92,7 +94,8 @@ const SingleKey = () => {
           className="kh-keylogmap"
           style={{
             maxHeight: showActiveKeylogs
-              ? selectedStore?.keyLog.filter((v) => v.returnTime).length * 150 +
+              ? selectedStore?.keyLog.filter((v) => !v.returnTime).length *
+                  150 +
                 40 +
                 "px"
               : 0,

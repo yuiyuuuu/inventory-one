@@ -13,6 +13,13 @@ const Login = () => {
   const [emailInput, setEmailInput] = useState("");
   const [passInput, setPassInput] = useState("");
 
+  //error states
+  const [noUsername, setNoUsername] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+  }
+
   useEffect(() => {
     if (screenWidth < 500) {
       return;
