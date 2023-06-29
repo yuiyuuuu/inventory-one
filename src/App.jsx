@@ -12,6 +12,7 @@ import { makeGetRequest } from "./components/requests/requestFunctions";
 import { dispatchSetScreenWidth } from "./store/global/screenWidth";
 import { dispatchSetSidebarState } from "./store/sidebar";
 import { dispatchSetAllStores } from "./store/allStores";
+import { getLocalData } from "./store/auth/auth";
 
 import Home from "./components/home/Home";
 import Stores from "./components/stores/Stores";
@@ -29,6 +30,7 @@ const App = () => {
 
   const sidebarState = useSelector((state) => state.sidebarState);
   const datePickerState = useSelector((state) => state.datePicker);
+  const loading = useSelector((state) => state.loading);
 
   useEffect(() => {
     async function fetchall() {
@@ -44,6 +46,10 @@ const App = () => {
     $(window).on("resize", () => {
       dispatch(dispatchSetScreenWidth(window.innerWidth));
     });
+  }, []);
+
+  useEffect(() => {
+    dispatch(getLocalData());
   }, []);
 
   return (
@@ -65,6 +71,17 @@ const App = () => {
         />
 
         {datePickerState?.display && <CustomDateSelector />}
+
+        {loading && (
+          <div className="abs-loading">
+            <div className="lds-ring" id="spinner-form">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        )}
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/stores" element={<Stores />} />

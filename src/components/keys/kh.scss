@@ -25,9 +25,6 @@
 }
 
 .kh-bord2 {
-  border-bottom: 3px solid white;
-  padding-bottom: 10px;
-  cursor: pointer;
   font-size: 18px;
   display: flex;
   align-items: center;
@@ -69,4 +66,10 @@
 
 .kh-t {
   margin: 10px 0;
+}
+
+.kh-b {
+  border-bottom: 3px solid white;
+  padding-bottom: 10px;
+  cursor: pointer;
 }

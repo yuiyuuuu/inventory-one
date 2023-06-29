@@ -6,3 +6,4 @@ module.exports = router;
 router.use("/item", require("./item.js"));
 router.use("/stores", require("./stores.js"));
 router.use("/keys", require("./keyLog.js"));
+router.use("/auth", require("./auth.js"));

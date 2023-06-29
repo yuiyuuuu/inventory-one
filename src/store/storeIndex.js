@@ -6,12 +6,16 @@ import sidebarState from "./sidebar";
 import screenWidth from "./global/screenWidth";
 import datePicker from "./datePicker";
 import allStores from "./allStores";
+import loading from "./global/loading";
+import auth from "./auth/auth";
 
 const reducer = combineReducers({
   sidebarState,
   screenWidth,
   datePicker,
   allStores,
+  loading,
+  auth,
 });
 
 let middleware = "";

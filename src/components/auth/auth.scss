@@ -266,7 +266,7 @@
 
     .fas {
       position: absolute;
-      top: 13px;
+      top: 11px;
       left: 13px;
     }
 
@@ -364,4 +364,19 @@
   width: 150px;
   margin-bottom: 17px;
   cursor: pointer;
+}
+
+.auth-error {
+  color: rgb(121, 0, 0);
+  margin-bottom: 20px;
+  margin-left: 5px;
+  font-weight: 700;
+}
+
+.auth-sub {
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  align-self: center;
 }

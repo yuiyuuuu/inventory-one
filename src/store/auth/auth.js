@@ -16,14 +16,12 @@ export function getLocalData() {
   return async (dispatch) => {
     try {
       if (token && token !== "undefined") {
-        const user = await makeGetRequest("auth/getlocaldata", {
-          headers: {
-            authorization: token,
-          },
-        });
+        const user = await makeGetRequest(`auth/getlocaldata/${token}`);
 
         dispatch(dispatchSetAuth(user));
         return user;
+      } else {
+        dispatch(dispatchSetAuth({ loading: "false" })); //string form false
       }
     } catch (error) {
       console.log(error);
@@ -54,13 +52,14 @@ export function signup(obj) {
     try {
       const data = await makePostRequest("auth/signup", obj);
 
-      if (data === "duplicate") {
+      if (data === "email-exists") {
         return data;
       }
 
       window.localStorage.setItem("token", data.jwt);
       dispatch(dispatchSetAuth(data.user));
-      return "successful";
+
+      return data.user;
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +73,7 @@ export function logout() {
   };
 }
 
-export default function (state = {}, action) {
+export default function (state = { loading: true }, action) {
   switch (action.type) {
     case SET_AUTH:
       return action.auth;

@@ -1,17 +1,93 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Atropos from "atropos";
 
 import "./auth.scss";
 
+import { signup } from "../../store/auth/auth";
+import { dispatchSetLoading } from "../../store/global/loading";
+
+import NameSvg from "./svg/NameSvg";
+
 const Signup = () => {
   const atroRef = useRef(null);
 
+  const dispatch = useDispatch();
+
   const screenWidth = useSelector((state) => state.screenWidth);
 
+  const authState = useSelector((state) => state.auth);
+
+  console.log(authState);
+
+  const [name, setName] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passInput, setPassInput] = useState("");
+
+  //error states
+  const [emailExistsError, setEmailExistsError] = useState(false);
+  const [noPass, setNoPass] = useState(false);
+  const [noName, setNoName] = useState(false);
+  const [noEmail, setNoEmail] = useState(false);
+
+  function squareAnimation() {} // add last/ later
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    let missing = false;
+
+    //set error states to false
+    setEmailExistsError(false);
+    setNoName(false);
+    setNoPass(false);
+    setNoEmail(false);
+
+    //set loading to true
+    dispatch(dispatchSetLoading(true));
+
+    if (!name || !name.length) {
+      setNoName(true);
+      missing = true;
+    }
+
+    if (!passInput || !passInput.length) {
+      setNoPass(true);
+      missing = true;
+    }
+
+    if (!emailInput || !emailInput.length) {
+      setNoEmail(true);
+      missing = true;
+    }
+
+    if (missing) return;
+
+    const obj = {
+      email: emailInput,
+      password: passInput,
+      name: name,
+    };
+
+    dispatch(signup(obj)).then((resp) => {
+      if (resp === "email-exists") {
+        setEmailExistsError(true);
+        return;
+      }
+
+      //has user, has id in result = successful
+      if (resp?.id) {
+        squareAnimation(); // add this later
+        window.location.href = "/";
+      }
+    });
+
+    dispatch(dispatchSetLoading(false));
+  }
+
+  console.log(emailExistsError);
 
   useEffect(() => {
     if (screenWidth < 500) {
@@ -25,6 +101,23 @@ const Signup = () => {
 
     atroRef.current = myAtropos;
   }, [screenWidth]);
+
+  if (authState.loading && authState.loading !== "false") {
+    return (
+      <div className="abs-loading">
+        <div className="lds-ring" id="spinner-form">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (authState.id) {
+    return (window.location.href = "/");
+  }
 
   return (
     <div className="auth-parent">
@@ -57,7 +150,26 @@ const Signup = () => {
                         />
                       </a>
                       <div className="auth-title">Sign Up</div>
-                      <form action="" className="auth-form">
+                      <div className="auth-form">
+                        {noName && (
+                          <div className="auth-error">Name is required</div>
+                        )}
+
+                        <div className="auth-inputBx">
+                          <input
+                            type="text"
+                            required="required"
+                            onChange={(e) => setName(e.target.value)}
+                            value={name}
+                          />
+                          <span>Name</span>
+                          <NameSvg />{" "}
+                        </div>
+
+                        {emailExistsError && (
+                          <div className="auth-error">Email already exists</div>
+                        )}
+
                         <div className="auth-inputBx">
                           <input
                             type="text"
@@ -82,9 +194,16 @@ const Signup = () => {
                           <i className="fas fa-key"></i>
                         </div>
                         <div className="auth-inputBx">
-                          <input type="submit" value="Sign Up" disabled />
+                          <button
+                            onClick={(e) => {
+                              handleSubmit(e);
+                            }}
+                            className="auth-sub"
+                          >
+                            Sign Up
+                          </button>
                         </div>
-                      </form>
+                      </div>
 
                       <div className="auth-dha">
                         Already have an account?{" "}

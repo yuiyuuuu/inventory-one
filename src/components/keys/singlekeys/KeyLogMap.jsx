@@ -32,13 +32,19 @@ const KeyLogMap = ({ keylog, setSelectedStore }) => {
     }
   }
 
+  console.log(keylog);
+
   return (
     <div className="kh-mapch">
-      <div className="kh-bord2">
-        {keylog.name.toUpperCase()} - {str} <div className="grow" />{" "}
-        <button className="home-add kh-return" onClick={() => returnKey()}>
-          Return
-        </button>
+      <div className="kh-b">
+        <div className="kh-bord2">
+          {keylog.name.toUpperCase()} - {str} <div className="grow" />{" "}
+          <button className="home-add kh-return" onClick={() => returnKey()}>
+            Return
+          </button>
+        </div>
+
+        {keylog.memo && <div className="">Memo: {keylog.memo}</div>}
       </div>
     </div>
   );

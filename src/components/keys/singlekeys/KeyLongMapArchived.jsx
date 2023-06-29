@@ -13,6 +13,7 @@ const KeyLogMapArchived = ({ keylog }) => {
     <div className="kh-mapch">
       <div className="kh-bord">
         {keylog.name.toUpperCase()}
+        {keylog.memo && <div className="kh-t">Memo: {keylog.memo}</div>}{" "}
         <div className="kh-t">Checked Out: {time}</div>
         <div className="kh-t">Returned: {time2}</div>
       </div>
