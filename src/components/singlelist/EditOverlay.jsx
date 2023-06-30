@@ -18,6 +18,7 @@ const EditOverlay = ({
   setQueryResults,
   allProducts,
   queryResults,
+  currentList,
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -59,6 +60,7 @@ const EditOverlay = ({
       quantity: Number(selectedProduct.quantity),
       image: selectedProduct.image || null,
       units: selectedProduct?.units,
+      listid: currentList.id,
     };
 
     setLoading(true);

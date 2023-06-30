@@ -28,12 +28,14 @@ router.get("/fetchall", async (req, res, next) => {
 
 router.post("/create/mass", async (req, res, next) => {
   try {
-    const arr = req.body;
+    const arr = req.body.result;
+    const listid = req.body.listid;
 
     const v = new Promise((resolve, reject) => {
       arr.forEach(async (item, index, array) => {
+        if (!item.name) return;
         await prisma.item.create({
-          data: item,
+          data: { ...item, listId: listid },
         });
 
         if (index === array.length - 1) resolve();
@@ -41,22 +43,26 @@ router.post("/create/mass", async (req, res, next) => {
     });
 
     v.then(async () => {
-      const fetchall = await prisma.item.findMany({
-        orderBy: {
-          name: "asc",
+      const list = await prisma.list.findUnique({
+        where: {
+          id: listid,
         },
         include: {
-          orders: {
+          item: {
             include: {
-              user: true,
-              store: true,
+              orders: {
+                include: {
+                  user: true,
+                  store: true,
+                },
+              },
+              category: true,
             },
           },
-          category: true,
         },
       });
 
-      res.send(fetchall).status(200);
+      res.send(list).status(200);
     });
   } catch (error) {
     next(error);
@@ -73,6 +79,9 @@ router.post("/create", async (req, res, next) => {
         quantity: body.quantity || 0,
         image: body.image || null,
         units: req.body.units || null,
+        listId: req.body.listid,
+        //this below should be categoryid and connect it to category
+        // category: req.body.category || "General Supply",
       },
 
       include: {
@@ -86,7 +95,26 @@ router.post("/create", async (req, res, next) => {
       },
     });
 
-    res.send(item);
+    const list = await prisma.list.findUnique({
+      where: {
+        id: req.body.listid,
+      },
+      include: {
+        item: {
+          include: {
+            orders: {
+              include: {
+                user: true,
+                store: true,
+              },
+            },
+            category: true,
+          },
+        },
+      },
+    });
+
+    res.send(list);
   } catch (error) {
     next(error);
   }

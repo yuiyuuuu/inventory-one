@@ -14,7 +14,7 @@ import { dispatchSetSidebarState } from "./store/sidebar";
 import { dispatchSetAllStores } from "./store/allStores";
 import { getLocalData } from "./store/auth/auth";
 
-import Home from "./components/home/Home";
+import SingleList from "./components/singlelist/SingleList";
 import Stores from "./components/stores/Stores";
 import SingleStore from "./components/stores/SingleStore";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -24,6 +24,7 @@ import Signup from "./components/auth/Signup";
 import CustomDateSelector from "./components/customdateselector/CustomDateSelector";
 import KeysHome from "./components/keys/KeysHome";
 import SingleStoreKey from "./components/keys/singlekeys/SingleStoreKey";
+import Home from "./components/home/Home";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -93,6 +94,8 @@ const App = () => {
           <Route exact path="/test" element={<CustomDateSelector />} />
           <Route exact path="/keys" element={<KeysHome />} />
           <Route exact path="/keys/:id" element={<SingleStoreKey />} />
+
+          <Route exact path="/lists/:id" element={<SingleList />} />
         </Routes>
       </BrowserRouter>
     </div>

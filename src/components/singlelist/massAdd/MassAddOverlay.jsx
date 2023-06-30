@@ -11,7 +11,7 @@ const MassAddOverlay = ({
   setShowMassOverlay,
   showMassOverlay,
   setAllProducts,
-  fetchProducts,
+  currentList,
 }) => {
   const [result, setResult] = useState([]);
 
@@ -20,7 +20,11 @@ const MassAddOverlay = ({
   async function handleSubmit() {
     if (!result.length) return;
 
-    const obj = result;
+    const obj = {
+      listid: currentList.id,
+      result: result,
+    };
+
     setLoading(true);
 
     await makePostRequest("/item/create/mass", obj)
@@ -28,7 +32,7 @@ const MassAddOverlay = ({
         alert("Products Added");
 
         setShowMassOverlay(false);
-        setAllProducts(res);
+        setAllProducts(res.item);
         setLoading(false);
         document.querySelector("html").style.overflow = "";
       })
