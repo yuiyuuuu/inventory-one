@@ -20,8 +20,6 @@ const Signup = () => {
 
   const authState = useSelector((state) => state.auth);
 
-  console.log(authState);
-
   const [name, setName] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passInput, setPassInput] = useState("");
@@ -86,8 +84,6 @@ const Signup = () => {
 
     dispatch(dispatchSetLoading(false));
   }
-
-  console.log(emailExistsError);
 
   useEffect(() => {
     if (screenWidth < 500) {

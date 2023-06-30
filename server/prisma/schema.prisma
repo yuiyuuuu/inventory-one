@@ -14,7 +14,7 @@ model List{
   id String @id @default(uuid())
   name String
   item Item []
-  owner User @relation(fields: [ownerId], references: [id])
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String
   sharedUsers User[] @relation("shared")
 
@@ -30,6 +30,7 @@ model Category{
 
 model Item{
   id String @id @default(uuid())
+  seedid String? //if seeded from script id
   name String @unique
   quantity Int @default(0) //current quantity
   historyQTY Int @default(0)//how many sold in the past
@@ -42,7 +43,7 @@ model Item{
   list List? @relation(fields: [listId], references: [id])
   listId String?
 
-  category Category? @relation(fields: [categoryId], references: [id])
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String?
 
   orders Order[]
@@ -68,7 +69,7 @@ model Order {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  completedAt DateTime //decided to put it into a string because its easier convert for now. maybe timestamp later
+  completedAt DateTime
 }
 
 model User{

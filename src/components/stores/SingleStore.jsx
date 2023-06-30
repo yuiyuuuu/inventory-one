@@ -126,6 +126,13 @@ const SingleStore = () => {
       type: "doughnut",
       options: {
         responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: "white",
+            },
+          },
+        },
       },
       data: {
         labels: Object.keys(result).map((v) => v),

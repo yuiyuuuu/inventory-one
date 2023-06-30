@@ -34,7 +34,8 @@ export function authenticate(obj) {
     try {
       const data = await makePostRequest("/auth/login", obj);
 
-      if (data === "wrongpassword" || data === "notfound") {
+      //no user = wrong pass or email not found
+      if (!data.user) {
         return data;
       }
 

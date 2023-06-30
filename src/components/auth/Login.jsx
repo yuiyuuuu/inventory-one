@@ -12,6 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const screenWidth = useSelector((state) => state.screenWidth);
+  const authState = useSelector((state) => state.auth);
 
   const [emailInput, setEmailInput] = useState("");
   const [passInput, setPassInput] = useState("");
@@ -19,14 +20,30 @@ const Login = () => {
   //error states
   const [noUsername, setNoUsername] = useState(false);
 
+  const [userNotFound, setUserNotFound] = useState(false);
+  const [wrongpassword, setWrongpassword] = useState(false);
+
   async function handleSubmit() {
+    setUserNotFound(false);
+    setWrongpassword(false);
+
     const obj = {
       email: emailInput,
       password: passInput,
     };
 
     dispatch(authenticate(obj)).then((res) => {
-      console.log(res);
+      if (res === "notfound") {
+        setUserNotFound(true);
+        return;
+      }
+
+      if (res === "wrongpassword") {
+        setWrongpassword(true);
+        return;
+      }
+
+      window.location.href = "/";
     });
   }
 
@@ -42,6 +59,23 @@ const Login = () => {
 
     atroRef.current = myAtropos;
   }, [screenWidth]);
+
+  if (authState.loading && authState.loading !== "false") {
+    return (
+      <div className="abs-loading">
+        <div className="lds-ring" id="spinner-form">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (authState.id) {
+    return (window.location.href = "/");
+  }
 
   return (
     <div className="auth-parent">
@@ -80,6 +114,11 @@ const Login = () => {
                         </span>
                       </div>
                       <div className="auth-form">
+                        {(userNotFound || wrongpassword) && (
+                          <div className="auth-error">
+                            Wrong Email or Password
+                          </div>
+                        )}
                         <div className="auth-inputBx">
                           <input
                             type="text"
@@ -90,6 +129,7 @@ const Login = () => {
                           <span>Email</span>
                           <i className="fas fa-user-circle"></i>
                         </div>
+
                         <div className="auth-inputBx password">
                           <input
                             id="password-input"

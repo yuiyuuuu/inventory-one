@@ -250,13 +250,6 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
         ...filterResultInformation,
         storeFilter: storeFilter,
       });
-      console.log(
-        {
-          ...filterResultInformation,
-          storeFilter: storeFilter,
-        },
-        "filter result ifnormation"
-      );
     }
 
     combineDates();

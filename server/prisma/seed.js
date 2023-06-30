@@ -2,6 +2,8 @@ const prisma = require("./prismaClient");
 
 const { c } = require("../jsonobj");
 
+const bcrypt = require("bcrypt");
+
 //IMPORTANT
 //for later on when you recount inventory, before deleting everything, store the previous qty here and then we can reseed with the previous qty.
 // that way we get the new updates and dont have to recount inventory
@@ -80,6 +82,43 @@ const findqty = async () => {
   // });
 
   // return group;
+  const findOldQty = await prisma.user.findUnique({
+    where: {
+      email: "yingsonyu@gmail.com",
+    },
+    include: {
+      lists: {
+        include: {
+          item: true,
+        },
+      },
+    },
+  });
+
+  console.log(findOldQty, "finddddddddddddd");
+
+  await prisma.item.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.store.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.keylog.deleteMany();
+  await prisma.category.deleteMany();
+  await prisma.list.deleteMany();
+
+  const jack = await prisma.user.create({
+    data: {
+      name: "Jack",
+      email: "yingsonyu@gmail.com",
+      password: await bcrypt.hash("1234567890", 10),
+    },
+  });
+
+  const firstList = await prisma.list.create({
+    data: {
+      name: "HR Inventory List",
+      ownerId: jack.id,
+    },
+  });
 
   for (let i = 0; i < c.length; i++) {
     const cur = c[i];
@@ -102,6 +141,11 @@ const findqty = async () => {
       create: {
         name: cur.C_TITLE,
         categoryId: category.id,
+        seedid: cur.SUPPLY_NUM,
+        listId: firstList.id,
+        quantity:
+          findOldQty.lists[0].item.find((v) => v.seedid === cur.SUPPLY_NUM)
+            ?.quantity || 0,
       },
       update: {},
     });
@@ -154,34 +198,7 @@ const findqty = async () => {
 };
 
 const seed = async () => {
-  await prisma.item.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.store.deleteMany();
-  await prisma.order.deleteMany();
-  await prisma.yesterday.deleteMany();
-
   findqty();
-
-  // const re = Object.values(findqty());
-
-  // for (let i = 0; i < re.length; i++) {
-  //   const cur = re[i];
-
-  //   // const store = await prisma.store.findUnique({
-  //   //   where:{
-  //   //     name:stores[]
-  //   //   }
-  //   // })
-
-  //   // await prisma.item.create({
-  //   //   data: {
-  //   //     name: cur.name,
-  //   //     quantity: 0,
-  //   //     historyQTY: cur.quantity,
-  //   //     completedTimes: cur.completedDates,
-  //   //   },
-  //   // });
-  // }
 };
 
 try {

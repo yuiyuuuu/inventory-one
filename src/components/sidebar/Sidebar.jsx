@@ -1,11 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import sidebar, { dispatchSetSidebarState } from "../../store/sidebar";
+import LogoutIcon from "./svg/LogoutIcon";
+import { logout } from "../../store/auth/auth";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
 
   const sidebarState = useSelector((state) => state.sidebarState);
+
+  const authState = useSelector((state) => state.auth);
 
   return (
     <div
@@ -31,6 +34,25 @@ const Sidebar = () => {
           Inventory Keys
         </a>
       </div>
+
+      {authState?.id && !authState.loading && (
+        <div className="side-user">
+          <div className="side-userin">
+            <div className="side-img"></div>
+            <div className="side-infocol">
+              <div className="side-username side-ell">{authState?.name}</div>
+              <div className="side-email side-ell">{authState?.email}</div>
+            </div>
+
+            <LogoutIcon
+              oc={() => {
+                dispatch(logout());
+                window.location.href = "/login";
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

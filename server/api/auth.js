@@ -23,7 +23,7 @@ router.post("/login", async (req, res, next) => {
     });
 
     if (!findUser?.id) {
-      res.send("not found").status(401);
+      res.send("notfound").status(401);
       return;
     }
 
@@ -94,7 +94,7 @@ router.get("/getlocaldata/:token", async (req, res, next) => {
 
     const user = await prisma.user.findUnique({
       where: {
-        id: id,
+        id: id.id,
       },
 
       include: {
