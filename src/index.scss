@@ -119,3 +119,9 @@ a {
   z-index: 2;
   background: rgba(0, 0, 0, 0.5);
 }
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

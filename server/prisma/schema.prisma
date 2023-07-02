@@ -17,7 +17,7 @@ model List{
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String
   sharedUsers User[] @relation("shared")
-
+  category Category[]
 }
 
 //order can have one store, one item, but item can have many orders and store can have many orders
@@ -26,6 +26,8 @@ model Category{
   id String @id @default(uuid())
   name String @unique
   items Item []
+  list List? @relation(fields: [listId], references: [id])
+  listId String?
 }
 
 model Item{

@@ -3,6 +3,8 @@ const prisma = new PrismaClient();
 
 async function deleteAll() {
   await prisma.item.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.order.deleteMany();
 }
 
 deleteAll()

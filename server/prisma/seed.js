@@ -129,6 +129,7 @@ const findqty = async () => {
       },
       create: {
         name: cur.M_ITEM_T,
+        listId: firstList.id,
       },
       update: {},
     });
@@ -144,7 +145,7 @@ const findqty = async () => {
         seedid: cur.SUPPLY_NUM,
         listId: firstList.id,
         quantity:
-          findOldQty.lists[0].item.find((v) => v.seedid === cur.SUPPLY_NUM)
+          findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
             ?.quantity || 0,
       },
       update: {},

@@ -80,6 +80,7 @@ router.post("/create", async (req, res, next) => {
         image: body.image || null,
         units: req.body.units || null,
         listId: req.body.listid,
+        categoryId: req.body.categoryId,
         //this below should be categoryid and connect it to category
         // category: req.body.category || "General Supply",
       },

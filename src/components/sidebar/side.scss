@@ -72,6 +72,10 @@
     box-shadow: inset 65vw 20vh black;
     transition: all 1.5s ease;
   }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 29px;
+  }
 }
 
 .side-inner {
@@ -129,4 +133,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.side-log {
+  text-align: center;
+  width: 100%;
+}
+
+.side-sp {
+  cursor: pointer;
+  font-family: Kaushan Script, cursive;
+  font-size: 28px;
 }

@@ -44,9 +44,10 @@
 }
 
 .kh-take {
-  padding: 12px 20px;
+  padding: 12px 20px !important;
   font-size: 20px;
-  border-color: rgb(33, 228, 33);
+  border-color: rgb(33, 228, 33) !important;
+  margin-bottom: 15px;
 
   @media only screen and (max-width: 750px) {
     font-size: 16px;

@@ -101,16 +101,28 @@
 .home-add {
   border-radius: 4px;
   padding: 8px 16px;
-  border: 1px solid red;
   color: white;
   transition: 0.3s ease all;
+  background: #03c1ae;
+  position: relative;
 
   @media only screen and (max-width: 500px) {
     font-size: 12px;
   }
 
-  &:hover {
-    border: 1px solid rgba(0, 255, 255);
+  &::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+  }
+
+  &:hover::before {
+    opacity: 0.08;
   }
 }
 
@@ -279,12 +291,8 @@
 }
 
 .home-export {
-  border: 1px solid orange;
   transition: 0.3s ease all;
-
-  &:hover {
-    border: 1px solid rgb(0, 255, 255);
-  }
+  background: orange;
 }
 
 .submit-loading {
@@ -298,4 +306,80 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.home-f {
+  font-family: "Kaushan Script", cursive;
+  font-size: 35px;
+  color: white;
+  padding-bottom: 10px;
+  border-bottom: 4px solid red;
+
+  @media only screen and (max-width: 700px) {
+    font-size: 26px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 22px;
+  }
+}
+
+.home-mapcontainer {
+  margin: 30px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+
+  @media only screen and (max-width: 650px) {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+}
+
+.home-mapch {
+  padding: 30px 20px;
+  cursor: pointer;
+  box-shadow: 0px 0px 12px 0px red;
+  transition: 0.3s ease all;
+  margin: 30px 20px;
+  width: calc(100% - 40px);
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:hover {
+    box-shadow: 0px 0px 18px 2px rgba(0, 255, 255);
+    transform: scale(1.03);
+  }
+
+  @media only screen and (max-width: 650px) {
+    padding: 20px;
+  }
+}
+
+.home-lp {
+  display: flex;
+  align-items: center;
+}
+
+.home-create {
+  cursor: pointer;
+  font-size: 14px;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 12px;
+  }
+}
+
+.home-uf {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-error {
+  font-size: 14px;
+  color: red;
+  margin: 8px 0 5px 0;
 }
