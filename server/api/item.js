@@ -167,7 +167,7 @@ router.put("/editqty", async (req, res, next) => {
 
       const user = await prisma.user.findUnique({
         where: {
-          name: req.body.user,
+          id: req.body.userid,
         },
       });
 

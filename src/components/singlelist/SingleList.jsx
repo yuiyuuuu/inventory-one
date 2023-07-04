@@ -242,7 +242,7 @@ const SingleList = () => {
             document.querySelector("html").style.overflow = "hidden";
           }}
         >
-          Add Product
+          Add
         </button>
 
         <button
@@ -314,6 +314,7 @@ const SingleList = () => {
           setCreateLoading={setCreateLoading}
           currentList={currentList}
           fetchProducts={fetchProducts}
+          setCurrentList={setCurrentList}
         />
       )}
 

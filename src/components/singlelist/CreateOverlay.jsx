@@ -17,6 +17,7 @@ const CreateOverlay = ({
   setCreateLoading,
   currentList,
   fetchProducts,
+  setCurrentList,
 }) => {
   const params = useParams();
 
@@ -94,9 +95,11 @@ const CreateOverlay = ({
       listid: currentList.id,
       name: categoryName,
     }).then((res) => {
-      if (res === "added") {
+      if (res.id) {
         setCreateLoading(false);
         setShowCreateOverlay(false);
+        console.log(res);
+        setCurrentList(res);
         alert("Category Added");
       }
     });

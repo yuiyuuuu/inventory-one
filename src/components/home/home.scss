@@ -309,7 +309,6 @@
 }
 
 .home-f {
-  font-family: "Kaushan Script", cursive;
   font-size: 35px;
   color: white;
   padding-bottom: 10px;
@@ -382,4 +381,14 @@
   font-size: 14px;
   color: red;
   margin: 8px 0 5px 0;
+}
+
+.home-none {
+  margin: 20px 0;
+}
+
+.home-siredir {
+  text-decoration: underline;
+  cursor: pointer;
+  font-style: italic;
 }

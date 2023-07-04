@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import $ from "jquery";
 import { makePutRequest } from "../../requests/requestFunctions";
+import { useSelector } from "react-redux";
 
 const SubtractOverlay = ({
   setShowSubtractOverlay,
@@ -10,6 +11,8 @@ const SubtractOverlay = ({
   overlayData,
   setAllProducts,
 }) => {
+  const authState = useSelector((state) => state.auth);
+
   const [showSelectStores, setShowSelectStores] = useState(false);
   const [selectedStore, setSelectedStore] = useState(null);
 
@@ -44,7 +47,7 @@ const SubtractOverlay = ({
       quantity: parseInt(quantity),
       id: overlayData.id,
       storeId: selectedStore.id,
-      user: "Yingson.Yu", //im pretty much the only one doing supply for now, change if we add other users
+      userid: authState?.id, //im pretty much the only one doing supply for now, change if we add other users
     };
 
     await makePutRequest("item/editqty", obj)
