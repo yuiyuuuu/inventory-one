@@ -12,7 +12,7 @@
     "migrate": "npx prisma generate --schema=./server/prisma/schema.prisma && prisma migrate deploy --schema=./server/prisma/schema.prisma",
     "proc": "npx prisma generate --schema=./server/prisma/schema.prisma && node server/server.js",
     "heroseed": "npx prisma generate --schema=./server/prisma/schema.prisma && node server/prisma/seed.js",
-    "delete": "npx prisma generate --schema=./server/prisma/schema.prisma && node server/prisma/deleteAll.ts"
+    "delete": "npx prisma generate --schema=./server/prisma/schema.prisma && node scripts.delete.js"
   },
   "dependencies": {
     "@prisma/client": "^4.14.0",
