@@ -55,7 +55,8 @@ model Item{
 
 model Store{
   id String @id @default(uuid())
-  name String @unique
+  name String 
+  number Int?
   orders Order   []
   keyLog Keylog []
 }
