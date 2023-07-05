@@ -27,7 +27,7 @@ model Category{
   id String @id @default(uuid())
   name String @unique
   items Item []
-  list List? @relation(fields: [listId], references: [id])
+  list List? @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String?
 }
 
@@ -43,14 +43,13 @@ model Item{
   units String?
   createdAt DateTime @default(now()) @db.Timestamp
 
-  list List? @relation(fields: [listId], references: [id])
+  list List? @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String?
 
   category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String?
 
   orders Order[]
-  
 }
 
 
@@ -73,7 +72,7 @@ model Order {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  list List @relation(fields: [listId], references: [id])
+  list List @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String
 
   completedAt DateTime
