@@ -94,7 +94,7 @@ router.get("/getlocaldata/:token", async (req, res, next) => {
 
     const user = await prisma.user.findUnique({
       where: {
-        id: id.id,
+        id: id?.iat ? id.id : id,
       },
 
       include: {

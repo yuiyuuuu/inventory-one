@@ -44,6 +44,8 @@ const Sidebar = () => {
               <div className='side-email side-ell'>{authState?.email}</div>
             </div>
 
+            <div className='grow' />
+
             <LogoutIcon
               oc={() => {
                 dispatch(logout());

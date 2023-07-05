@@ -165,10 +165,11 @@ const findqty = async () => {
     // find or create user
     const user = await prisma.user.upsert({
       where: {
-        name: cur.COMPLETE_ID,
+        email: cur.COMPLETE_ID.toLowerCase() + "@gmail.com",
       },
       create: {
         name: cur.COMPLETE_ID,
+        email: cur.COMPLETE_ID.toLowerCase() + "@gmail.com",
       },
       update: {},
     });
@@ -180,6 +181,7 @@ const findqty = async () => {
         storeId: store.id,
 
         userId: user.id,
+        listId: firstList.id,
         quantity: Number(cur.QTY),
         completedAt: new Date(cur.COMPLETE_DATE),
       },

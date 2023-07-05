@@ -55,3 +55,19 @@ router.get("/fetch/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/fetchbylistandstore/:listid/:storeid", async (req, res, next) => {
+  const listid = req.params.listid;
+  const storeid = req.params.storeid;
+
+  const findList = await prisma.list.findUnique({
+    where: {
+      id: listid,
+    },
+    include: {
+      item: {
+        where: {},
+      },
+    },
+  });
+});

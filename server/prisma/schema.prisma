@@ -18,6 +18,7 @@ model List{
   ownerId String
   sharedUsers User[] @relation("shared")
   category Category[]
+  orders Order[]
 }
 
 //order can have one store, one item, but item can have many orders and store can have many orders
@@ -71,12 +72,16 @@ model Order {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
+
+  list List @relation(fields: [listId], references: [id])
+  listId String
+
   completedAt DateTime
 }
 
 model User{
   id String @id @default(uuid())
-  name String @unique
+  name String
   orders Order []
   email String? @unique //optional for now, so when i migrate it wont return error
   password String? //optional for now
