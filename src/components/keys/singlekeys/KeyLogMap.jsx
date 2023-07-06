@@ -32,8 +32,6 @@ const KeyLogMap = ({ keylog, setSelectedStore }) => {
     }
   }
 
-  log(keylog);
-
   return (
     <div className="kh-mapch">
       <div className="kh-b">

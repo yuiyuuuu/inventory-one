@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Atropos from "atropos";
 
+import $ from "jquery";
+
 import "./auth.scss";
+
 import { authenticate } from "../../store/auth/auth";
 
 const Login = () => {
@@ -28,8 +31,8 @@ const Login = () => {
     setWrongpassword(false);
 
     const obj = {
-      email: emailInput,
-      password: passInput,
+      email: $("#email-input").val(),
+      password: $("#password-input").val(),
     };
 
     dispatch(authenticate(obj)).then((res) => {
@@ -47,6 +50,23 @@ const Login = () => {
     });
   }
 
+  const enterListener = useCallback(
+    (e) => {
+      if (e.keyCode === 13) {
+        handleSubmit($());
+      }
+    },
+    [emailInput, passInput]
+  );
+
+  useEffect(() => {
+    $(document).keydown(enterListener);
+
+    return () => {
+      $(document).off();
+    };
+  }, []);
+
   useEffect(() => {
     if (screenWidth < 500) {
       return;
@@ -62,8 +82,8 @@ const Login = () => {
 
   if (authState.loading && authState.loading !== "false") {
     return (
-      <div className='abs-loading'>
-        <div className='lds-ring' id='spinner-form'>
+      <div className="abs-loading">
+        <div className="lds-ring" id="spinner-form">
           <div></div>
           <div></div>
           <div></div>
@@ -78,86 +98,87 @@ const Login = () => {
   }
 
   return (
-    <div className='auth-parent'>
-      <div className='auth-inner'>
-        <div className='auth-sqcontainer'>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square2'></div>
-          <div className='square2'></div>
-          <div className='square2'></div>
+    <div className="auth-parent">
+      <div className="auth-inner">
+        <div className="auth-sqcontainer">
+          <div className="square"></div>
+          <div className="square"></div>
+          <div className="square"></div>
+          <div className="square2"></div>
+          <div className="square2"></div>
+          <div className="square2"></div>
         </div>
 
-        <div class='atropos my-atropos'>
-          <div class='atropos-scale'>
-            <div class='atropos-rotate'>
-              <div class='atropos-inner'>
-                <div className='auth-box'>
-                  <div className='container'>
-                    <div className='form'>
+        <div class="atropos my-atropos">
+          <div class="atropos-scale">
+            <div class="atropos-rotate">
+              <div class="atropos-inner">
+                <div className="auth-box">
+                  <div className="container">
+                    <div className="form">
                       <a
-                        href='https://chicagocitysports.com/'
-                        rel='noopener noreferrer'
-                        target='_blank'
+                        href="https://chicagocitysports.com/"
+                        rel="noopener noreferrer"
+                        target="_blank"
                         style={{ alignSelf: "center" }}
                       >
                         <img
-                          src='/assets/loginlogo.jpeg'
-                          className='auth-logo'
+                          src="/assets/loginlogo.jpeg"
+                          className="auth-logo"
                         />
                       </a>
-                      <div className='auth-title'>
+                      <div className="auth-title">
                         Welcome to{" "}
                         <span style={{ fontWeight: "bold" }}>
                           Inventory One
                         </span>
                       </div>
-                      <div className='auth-form'>
+                      <div className="auth-form">
                         {(userNotFound || wrongpassword) && (
-                          <div className='auth-error'>
+                          <div className="auth-error">
                             Wrong Email or Password
                           </div>
                         )}
-                        <div className='auth-inputBx'>
+                        <div className="auth-inputBx">
                           <input
-                            type='text'
-                            required='required'
+                            type="text"
+                            id="email-input"
+                            required="required"
                             value={emailInput}
                             onChange={(e) => setEmailInput(e.target.value)}
                           />
                           <span>Email</span>
-                          <i className='fas fa-user-circle'></i>
+                          <i className="fas fa-user-circle"></i>
                         </div>
 
-                        <div className='auth-inputBx password'>
+                        <div className="auth-inputBx password">
                           <input
-                            id='password-input'
-                            type='password'
-                            name='password'
-                            required='required'
+                            id="password-input"
+                            type="password"
+                            name="password"
+                            required="required"
                             value={passInput}
                             onChange={(e) => setPassInput(e.target.value)}
                           />
                           <span>Password</span>
 
-                          <i className='fas fa-key'></i>
+                          <i className="fas fa-key"></i>
                         </div>
-                        <div className='auth-inputBx'>
+                        <div className="auth-inputBx">
                           <button
                             onClick={() => {
                               handleSubmit();
                             }}
-                            className='auth-sub'
+                            className="auth-sub"
                           >
                             Login
                           </button>
                         </div>
                       </div>
 
-                      <div className='auth-dha'>
+                      <div className="auth-dha">
                         Don't have an account?{" "}
-                        <a href='/signup' className='auth-redir'>
+                        <a href="/signup" className="auth-redir">
                           Sign up
                         </a>
                       </div>
