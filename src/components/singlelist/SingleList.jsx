@@ -278,6 +278,7 @@ const SingleList = () => {
               setShowAddOverlay={setShowAddOverlay}
               setShowSubtractOverlay={setShowSubtractOverlay}
               setOverlayData={setOverlayData}
+              currentList={currentList}
             />
           ))}
         </div>
@@ -293,6 +294,7 @@ const SingleList = () => {
               setShowAddOverlay={setShowAddOverlay}
               setShowSubtractOverlay={setShowSubtractOverlay}
               setOverlayData={setOverlayData}
+              currentList={currentList}
             />
           ))}
         </div>
@@ -364,6 +366,7 @@ const SingleList = () => {
           overlayData={overlayData}
           allStores={allStores}
           setAllProducts={setAllProducts}
+          currentList={currentList}
         />
       )}
     </div>

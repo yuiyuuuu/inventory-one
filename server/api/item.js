@@ -179,6 +179,7 @@ router.put("/editqty", async (req, res, next) => {
             userId: user.id,
             quantity: negativeStock || req.body.quantity,
             completedAt: new Date(),
+            listId: req.body.listid,
           },
         });
 

@@ -97,19 +97,24 @@ const SingleStore = () => {
 
   useEffect(() => {
     if (!selectedStore?.id) return;
+    if (!selectedList?.id) return;
 
     const result = {};
 
-    selectedStore.orders.forEach((order) => {
-      const completedAt = new Date(order.completedAt);
+    selectedStore.orders
+      .filter((v) => v.listId === selectedList?.id)
+      .forEach((order) => {
+        const completedAt = new Date(order.completedAt);
 
-      result[completedAt.getFullYear()] ||= {};
-      result[completedAt.getFullYear()][completedAt.getMonth() + 1] ||= [];
-      result[completedAt.getFullYear()][completedAt.getMonth() + 1].push(order);
-    });
+        result[completedAt.getFullYear()] ||= {};
+        result[completedAt.getFullYear()][completedAt.getMonth() + 1] ||= [];
+        result[completedAt.getFullYear()][completedAt.getMonth() + 1].push(
+          order
+        );
+      });
 
     setStoreOrdersSorted(result);
-  }, [selectedStore]);
+  }, [selectedStore, selectedList]);
 
   useEffect(() => {
     if (chartReference.current) {
@@ -234,6 +239,10 @@ const SingleStore = () => {
                         e.stopPropagation();
                         setSelectedList(v);
                         setShowSelectList(false);
+                        setSelectedYear(null);
+                        setSelectedMonth(null);
+                        if (chartReference?.current)
+                          chartReference.current.destroy();
                       }}
                     >
                       {v?.name}
@@ -257,7 +266,8 @@ const SingleStore = () => {
             <div
               className="store-select"
               onClick={() => {
-                if (!showSelectList) return;
+                if (!selectedList?.id) return;
+
                 setShowYear((prev) => !prev);
               }}
               id="ss-year"
