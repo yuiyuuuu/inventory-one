@@ -134,7 +134,7 @@ const findqty = async () => {
       update: {},
     });
 
-    // //find pr create the item
+    //find or create the item
     const item = await prisma.item.upsert({
       where: {
         name: cur.C_TITLE,
