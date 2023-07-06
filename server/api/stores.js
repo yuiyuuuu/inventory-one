@@ -1,25 +1,14 @@
 const router = require("express").Router();
 const prisma = require("../prisma/prismaClient.js");
 
+const { store } = require("./includes.js");
+
 module.exports = router;
 
 router.get("/fetchall", async (req, res, next) => {
   try {
     const stores = await prisma.store.findMany({
-      include: {
-        orders: {
-          include: {
-            item: {
-              include: {
-                category: true,
-              },
-            },
-            user: true,
-          },
-        },
-
-        keyLog: true,
-      },
+      include: JSON.parse(store),
     });
 
     res.send(stores);
@@ -30,27 +19,14 @@ router.get("/fetchall", async (req, res, next) => {
 
 router.get("/fetch/:id", async (req, res, next) => {
   try {
-    const store = await prisma.store.findUnique({
+    const findstore = await prisma.store.findUnique({
       where: {
         id: req.params.id,
       },
-      include: {
-        orders: {
-          include: {
-            item: {
-              include: {
-                category: true,
-              },
-            },
-            user: true,
-          },
-        },
-
-        keyLog: true,
-      },
+      include: JSON.parse(store),
     });
 
-    res.send(store);
+    res.send(findstore);
   } catch (error) {
     next(error);
   }

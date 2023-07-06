@@ -23,4 +23,20 @@ const list = JSON.stringify({
   },
 });
 
-module.exports = { list };
+const store = JSON.stringify({
+  orders: {
+    include: {
+      item: {
+        include: {
+          category: true,
+          list: true,
+        },
+      },
+      user: true,
+    },
+  },
+
+  keyLog: true,
+});
+
+module.exports = { list, store };

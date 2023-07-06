@@ -95,6 +95,8 @@ const SingleStore = () => {
     fetch();
   }, []);
 
+  console.log(selectedStore);
+
   useEffect(() => {
     if (!selectedStore?.id) return;
     if (!selectedList?.id) return;
