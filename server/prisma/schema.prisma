@@ -57,7 +57,7 @@ model Store{
   id String @id @default(uuid())
   name String @unique
   number Int?
-  orders Order   []
+  orders Order []
   keyLog Keylog []
 }
 

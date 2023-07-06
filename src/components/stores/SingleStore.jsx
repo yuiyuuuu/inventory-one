@@ -180,58 +180,56 @@ const SingleStore = () => {
     setSortedOrders(sort);
   }, [selectedMonth, selectedYear]);
 
-  console.log(authState);
-
   if (noStore.loading) {
     return (
-      <div className='home-parent'>
-        <img className='home-logo' src='/assets/logo.jpeg' />
-        <div className='home-krink'>Loading</div>
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">Loading</div>
       </div>
     );
   }
 
   if (!noStore.loading && noStore.notfound) {
     return (
-      <div className='home-parent'>
-        <img className='home-logo' src='/assets/logo.jpeg' />
-        <div className='home-krink'>No Store Found</div>
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">No Store Found</div>
       </div>
     );
   }
 
   return (
-    <div className='home-parent'>
+    <div className="home-parent">
       <img
-        className='home-logo'
-        src='/assets/logo.jpeg'
+        className="home-logo"
+        src="/assets/logo.jpeg"
         onClick={() => (window.location.href = "/stores")}
         style={{ cursor: "pointer" }}
       />
 
-      <div className='home-krink ss-n'>{selectedStore?.name} - Store</div>
+      <div className="home-krink ss-n">{selectedStore?.name} - Store</div>
 
-      <div className='store-selectcontainer'>
-        <div className='pio-rel store-rel'>
+      <div className="store-selectcontainer">
+        <div className="pio-rel store-rel">
           <div
-            className='store-select'
+            className="store-select"
             onClick={() => setShowSelectList((prev) => !prev)}
-            id='ss-list'
+            id="ss-list"
           >
             {selectedList?.name || "Select a List"}
-            <div className='grow' />
-            <div className='mitem-caret' />
+            <div className="grow" />
+            <div className="mitem-caret" />
 
             {showSelectList && (
               <div
-                className='pio-selch store-pelch'
+                className="pio-selch store-pelch"
                 style={{ top: $("#ss-list").outerHeight() - 1 }}
-                id='showlist'
+                id="showlist"
               >
                 {authState?.lists?.length > 0 ? (
                   authState?.lists.map((v) => (
                     <div
-                      className='pio-ch store-ch'
+                      className="pio-ch store-ch"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedList(v);
@@ -242,41 +240,41 @@ const SingleStore = () => {
                     </div>
                   ))
                 ) : (
-                  <div className='pio-cha'>You have no lists</div>
+                  <div className="pio-cha">You have no lists</div>
                 )}
               </div>
             )}
           </div>
         </div>
 
-        <div className='store-wi' />
+        <div className="store-wi" />
 
-        <div className='store-right'>
+        <div className="store-right">
           <div
-            className='pio-rel store-rel store-wid100'
+            className="pio-rel store-rel store-wid100"
             style={{ marginBottom: "20px" }}
           >
             <div
-              className='store-select'
+              className="store-select"
               onClick={() => {
                 if (!showSelectList) return;
                 setShowYear((prev) => !prev);
               }}
-              id='ss-year'
+              id="ss-year"
             >
               {selectedYear || "Select a year"}
-              <div className='grow' />
-              <div className='mitem-caret' />
+              <div className="grow" />
+              <div className="mitem-caret" />
 
               {showYear && (
                 <div
-                  className='pio-selch store-pelch'
+                  className="pio-selch store-pelch"
                   style={{ top: $("#ss-year").outerHeight() - 1 }}
-                  id='showyear'
+                  id="showyear"
                 >
                   {Object.keys(storeOrdersSorted).map((v) => (
                     <div
-                      className='pio-ch store-ch'
+                      className="pio-ch store-ch"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedYear(v);
@@ -292,29 +290,29 @@ const SingleStore = () => {
             </div>
           </div>
 
-          <div className='pio-rel store-rel store-wid100'>
+          <div className="pio-rel store-rel store-wid100">
             <div
-              className='store-select'
+              className="store-select"
               onClick={() => {
                 if (selectedYear) {
                   setShowMonth((prev) => !prev);
                 }
               }}
-              id='ss-month'
+              id="ss-month"
             >
               {months[selectedMonth] || "Select a Month"}
-              <div className='grow' />
-              <div className='mitem-caret' />
+              <div className="grow" />
+              <div className="mitem-caret" />
 
               {selectedYear && showMonth && (
                 <div
-                  className='pio-selch store-pelch'
+                  className="pio-selch store-pelch"
                   style={{ top: $("#ss-month").outerHeight() - 1 }}
-                  id='showmonth'
+                  id="showmonth"
                 >
                   {Object.keys(storeOrdersSorted[selectedYear]).map((v) => (
                     <div
-                      className='pio-ch store-ch'
+                      className="pio-ch store-ch"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedMonth(v);
@@ -333,19 +331,19 @@ const SingleStore = () => {
 
       {selectedList && selectedMonth && selectedYear && (
         <div>
-          <div className='ss-canvascontainer'>
-            <canvas id='ss-chart'></canvas>
+          <div className="ss-canvascontainer">
+            <canvas id="ss-chart"></canvas>
           </div>
 
-          <div className='ss-orders'>
+          <div className="ss-orders">
             <div
-              className='home-krink'
+              className="home-krink"
               style={{ marginTop: "25px", marginBottom: "0" }}
             >
               Orders
             </div>
 
-            <div className='ss-mapcontainer'>
+            <div className="ss-mapcontainer">
               {Object.keys(sortedOrders)?.map((date) => (
                 <SingleStoreMap sortedOrders={sortedOrders} date={date} />
               ))}

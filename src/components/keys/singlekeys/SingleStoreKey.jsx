@@ -19,16 +19,12 @@ const SingleKey = () => {
   const [showActiveKeylogs, setShowActiveKeylogs] = useState(true);
   const [showArchivedKeylogs, setShowArchivedKeylogs] = useState(false);
 
-  console.log(selectedStore?.keyLog?.filter((v) => v.returnTime).length);
-
   useEffect(() => {
     const id = params.id;
 
     async function fetch() {
       const store = await makeGetRequest(`/stores/fetch/${id}`)
         .then((res) => {
-          console.log(res);
-
           if (res.id) {
             setSelectedStore(res);
             setNoStore({ loading: false, notfound: false });
@@ -46,40 +42,40 @@ const SingleKey = () => {
 
   if (noStore.loading) {
     return (
-      <div className='home-parent'>
-        <img className='home-logo' src='/assets/logo.jpeg' />
-        <div className='home-krink'>Loading</div>
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">Loading</div>
       </div>
     );
   }
 
   if (!noStore.loading && noStore.notfound) {
     return (
-      <div className='home-parent'>
+      <div className="home-parent">
         <img
-          className='home-logo'
-          src='/assets/logo.jpeg'
+          className="home-logo"
+          src="/assets/logo.jpeg"
           onClick={() => (window.location.href = "/keys")}
           style={{ cursor: "pointer" }}
         />
-        <div className='home-krink'>No Store Found</div>
+        <div className="home-krink">No Store Found</div>
       </div>
     );
   }
 
   return (
-    <div className='home-parent'>
+    <div className="home-parent">
       <img
-        className='home-logo'
-        src='/assets/logo.jpeg'
+        className="home-logo"
+        src="/assets/logo.jpeg"
         onClick={() => (window.location.href = "/keys")}
         style={{ cursor: "pointer" }}
       />
-      <div className='home-krink'>{selectedStore?.name} - Keys</div>
+      <div className="home-krink">{selectedStore?.name} - Keys</div>
 
-      <div className='home-t home-q'>
+      <div className="home-t home-q">
         <button
-          className='home-add kh-take'
+          className="home-add kh-take"
           onClick={() => setShowTakeOverlay(true)}
         >
           Take Key
@@ -87,21 +83,21 @@ const SingleKey = () => {
       </div>
 
       <div
-        className='pi-octoggle'
+        className="pi-octoggle"
         style={{ marginTop: "30px" }}
         onClick={() => setShowActiveKeylogs((prev) => !prev)}
       >
         Active Key Logs
-        <div className='grow' />
+        <div className="grow" />
         <div
-          className='mitem-caret'
+          className="mitem-caret"
           style={{ transform: !showActiveKeylogs && "rotate(-90deg)" }}
         />
       </div>
 
       {selectedStore?.keyLog.filter((v) => !v.returnTime).length > 0 ? (
         <div
-          className='kh-keylogmap'
+          className="kh-keylogmap"
           style={{
             maxHeight: showActiveKeylogs
               ? selectedStore?.keyLog.filter((v) => !v.returnTime).length *
@@ -123,28 +119,28 @@ const SingleKey = () => {
             maxHeight: showActiveKeylogs ? "35px" : 0,
             padding: 0,
           }}
-          className='kh-keylogmap'
+          className="kh-keylogmap"
         >
           No Active Keylogs for this store
         </div>
       )}
 
       <div
-        className='pi-octoggle'
+        className="pi-octoggle"
         style={{ marginTop: "30px" }}
         onClick={() => setShowArchivedKeylogs((prev) => !prev)}
       >
         Archived Key Logs
-        <div className='grow' />
+        <div className="grow" />
         <div
-          className='mitem-caret'
+          className="mitem-caret"
           style={{ transform: !showArchivedKeylogs && "rotate(-90deg)" }}
         />
       </div>
 
       {selectedStore?.keyLog.filter((v) => v.returnTime).length > 0 ? (
         <div
-          className='kh-keylogmap'
+          className="kh-keylogmap"
           style={{
             maxHeight: showArchivedKeylogs
               ? selectedStore?.keyLog.filter((v) => v.returnTime).length * 150 +
@@ -165,7 +161,7 @@ const SingleKey = () => {
             maxHeight: showArchivedKeylogs ? "35px" : 0,
             padding: 0,
           }}
-          className='kh-keylogmap'
+          className="kh-keylogmap"
         >
           No Archived Keylogs for this store
         </div>

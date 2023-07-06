@@ -4,6 +4,7 @@ import $ from "jquery";
 
 import { makePostRequest } from "../../requests/requestFunctions";
 import { useSelector } from "react-redux";
+import CheckMark from "./svg/CheckMark";
 
 const TakeKeyOverlay = ({
   setShowTakeOverlay,
@@ -16,9 +17,11 @@ const TakeKeyOverlay = ({
   const [memo, setMemo] = useState("");
 
   const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState([
-    selectedStore ? allStores.find((v) => v.id === selectedStore.id) : null,
-  ]);
+  const [selected, setSelected] = useState(
+    selectedStore?.id && allStores.find((v) => v.id === selectedStore.id)
+      ? [allStores.find((v) => v.id === selectedStore.id)]
+      : []
+  );
 
   //error states
   const [noStore, setNoStore] = useState(false);
@@ -36,7 +39,7 @@ const TakeKeyOverlay = ({
       bad = true;
     }
 
-    if (!selected.id) {
+    if (!selected.length) {
       setNoStore(true);
       bad = true;
     }
@@ -47,17 +50,12 @@ const TakeKeyOverlay = ({
       name: name,
       memo: memo && memo,
       takeTime: new Date(),
-      storeId: selected.id,
+      stores: selected,
     };
 
     await makePostRequest("keys/create", obj)
       .then((res) => {
-        if (res.id === selectedStore?.id) {
-          setSelectedStore(res);
-          setShowTakeOverlay(false);
-        }
-
-        if (res.id !== selectedStore?.id) {
+        if (res?.id) {
           window.location.href = `/keys/${res.id}`;
         }
       })
@@ -104,8 +102,6 @@ const TakeKeyOverlay = ({
     });
   }, []);
 
-  console.log(selected);
-
   return (
     <div
       className="home-createoverlay"
@@ -148,7 +144,9 @@ const TakeKeyOverlay = ({
             style={{ width: "calc(100% - 16px)" }}
           >
             {selected?.length > 0
-              ? selected.map((v) => v.name).toString()
+              ? selected
+                  .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
+                  ?.toString()
               : "Select a store"}
             <div className="grow" />
             <div
@@ -161,24 +159,38 @@ const TakeKeyOverlay = ({
               {allStores.map((store, i, a) => (
                 <div
                   className="pio-ch"
-                  style={{ borderBottom: i === a.length - 1 && "none" }}
+                  style={{
+                    borderBottom:
+                      i === a.length - 1
+                        ? "none"
+                        : selected.find((v) => v.id === store.id)?.id
+                        ? "1px solid black"
+                        : "",
+                    backgroundColor: selected.find((v) => v.id === store.id)?.id
+                      ? "white"
+                      : "",
+                    color: selected.find((v) => v.id === store.id)?.id
+                      ? "black"
+                      : "",
+                    display: "flex",
+                  }}
                   onClick={() => {
                     setSelected((prev) => {
-                      const find = allStores.find((v) => v.id === store.id);
-
-                      console.log(find);
+                      const find = selected.find((v) => v.id === store.id);
                       //exists in current array so its selected
-                      if (find !== -1) {
+                      if (find?.id) {
                         return prev.filter((v) => v.id !== find.id);
                       }
 
-                      const c = prev.slice();
-                      c.push(find);
-                      return c;
+                      return [...prev, store];
                     });
                   }}
                 >
                   {store.name}
+
+                  <div className="grow" />
+
+                  {selected.find((v) => v.id === store.id)?.id && <CheckMark />}
                 </div>
               ))}
             </div>
