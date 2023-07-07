@@ -181,6 +181,23 @@ const SingleList = () => {
     }
   }, [$("#home-search")]);
 
+  //reruns query when products gets updated. this will allow us to see updates without refreshing page when search is active
+  useEffect(() => {
+    if (!searchActive) return;
+
+    const result = [];
+
+    allProducts.slice().forEach((v) => {
+      if (
+        v.name.toLowerCase().includes($("#home-search").val().toLowerCase())
+      ) {
+        result.push(v);
+      }
+    });
+
+    setQueryResults(result.sort((a, b) => a.name.localeCompare(b.name)));
+  }, [allProducts]);
+
   const inputBoxShadow = useCallback(() => {
     $(".home-searchq").focus(() => {
       $(".home-inparent").css(

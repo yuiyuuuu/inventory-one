@@ -129,6 +129,8 @@ router.put("/editqty", async (req, res, next) => {
       },
     });
 
+    console.log(find, "body", req.body);
+
     if (req.body.which === "add") {
       await prisma.item.update({
         where: {
@@ -240,6 +242,72 @@ router.put("/edit/info", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+//route only used for supply inventory list since those items are seeded and not manually added
+router.all("/external/editqty", async (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+  const body = req.body;
+
+  const user = await prisma.user.findFirst({
+    where: {
+      name: "Jack",
+    },
+  });
+
+  console.log(user);
+
+  const list = await prisma.list.findFirst({
+    where: {
+      name: "Supply Inventory List",
+    },
+  });
+
+  for (let i = 0; i < req.body.items.length; i++) {
+    const cur = body.items[i];
+
+    const finditem = await prisma.item.findFirst({
+      where: {
+        seedid: cur.id,
+      },
+    });
+
+    if (!finditem?.id) continue;
+
+    console.log(cur.qty);
+
+    const store = await prisma.store.findFirst({
+      where: {
+        number: parseInt(body.store),
+      },
+    });
+
+    await prisma.item.update({
+      where: {
+        seedid: cur.id,
+      },
+
+      data: {
+        quantity:
+          finditem.quantity - cur.qty >= 0 ? finditem.quantity - cur.qty : 0,
+        historyQTY: finditem.historyQTY + Number(cur.qty),
+      },
+    });
+
+    await prisma.order.create({
+      data: {
+        itemId: finditem.id,
+        storeId: store.id,
+        listId: list.id,
+        userId: user.id,
+        quantity: Number(cur.qty),
+      },
+    });
+  }
+
+  res.send("updated").status(200);
 });
 
 router.delete("/delete/:id", async (req, res, next) => {

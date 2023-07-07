@@ -12,7 +12,7 @@ router.post("/login", async (req, res, next) => {
 
     const findUser = await prisma.user.findUnique({
       where: {
-        email: req.body.email,
+        email: req.body.email.toLowerCase(),
       },
 
       include: {
@@ -72,7 +72,7 @@ router.post("/signup", async (req, res, next) => {
       data: {
         name: name,
         password: encrypt,
-        email: email,
+        email: email.toLowerCase(),
       },
 
       include: {

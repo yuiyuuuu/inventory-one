@@ -158,6 +158,7 @@ const findqty = async () => {
       },
       create: {
         name: stores[cur.W_STORE_CODE],
+        number: Number(cur.W_STORE_CODE),
       },
       update: {},
     });

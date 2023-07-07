@@ -6,6 +6,7 @@ const parser = require("body-parser");
 const port = process.env.PORT || 3004;
 
 const cron = require("node-cron");
+const cors = require("cors");
 
 const prisma = require("./prisma/prismaClient");
 
@@ -18,6 +19,12 @@ app.use(express.urlencoded());
 
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
+
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
 
 app.use("/api", require("./api/api"));
 
