@@ -55,3 +55,23 @@ router.put("/addimg", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/editqr", async (req, res, next) => {
+  try {
+    const { name, link } = req.body;
+
+    const update = await prisma.qR.update({
+      where: {
+        id: req.body.id,
+      },
+      data: {
+        name: name,
+        link: link,
+      },
+    });
+
+    res.send(update);
+  } catch (error) {
+    next(error);
+  }
+});

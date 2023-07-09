@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { makeGetRequest } from "../../requests/helperFunctions";
+import EditQROverlay from "./EditQROverlay";
 
 const SingleQR = () => {
   const params = useParams();
@@ -9,10 +10,10 @@ const SingleQR = () => {
 
   const [selectedQr, setSelectedQr] = useState({});
 
+  const [showEdit, setShowEdit] = useState(false);
+
   useEffect(() => {
     const id = params.id;
-
-    console.log(id);
 
     async function fetchQr() {
       await makeGetRequest(`/qr/fetch/${id}`).then((res) => {
@@ -24,8 +25,6 @@ const SingleQR = () => {
 
     fetchQr();
   }, []);
-
-  console.log(selectedQr);
 
   if (loading) {
     return (
@@ -53,8 +52,15 @@ const SingleQR = () => {
         <img src={`${selectedQr?.image}`} id='qrimg' className='qr-img' />
       </div>
 
+      <div className='home-f home-lp'>
+        Link
+        <div className='grow' />
+        <div className='home-add qr-edit' onClick={() => setShowEdit(true)}>
+          Edit
+        </div>
+      </div>
+
       <div className='qr-u'>
-        URL:&nbsp;
         <a
           className='ellipsis qr-hov qr-ur'
           href={selectedQr?.link}
@@ -66,7 +72,13 @@ const SingleQR = () => {
         </a>
       </div>
 
-      <div className='qr-edit'>Edit Link</div>
+      {showEdit && (
+        <EditQROverlay
+          selectedQR={selectedQr}
+          setShowEdit={setShowEdit}
+          setSelectedQr={setSelectedQr}
+        />
+      )}
     </div>
   );
 };

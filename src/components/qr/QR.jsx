@@ -18,8 +18,6 @@ const QR = () => {
   useEffect(() => {
     if (!authState?.id) return;
 
-    console.log(authState);
-
     //add qr codes to state here later
   }, [authState]);
 

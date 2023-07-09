@@ -18,6 +18,7 @@
 
 .qr-u {
   font-size: 22px;
+  margin-top: 25px;
 }
 
 .qr-ur {
@@ -25,4 +26,11 @@
   word-wrap: break-word;
   display: inline-block;
   white-space: unset;
+}
+
+.qr-edit {
+  background-color: yellow;
+  font-size: 16px;
+  color: black;
+  cursor: pointer;
 }
