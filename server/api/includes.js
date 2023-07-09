@@ -39,4 +39,11 @@ const store = JSON.stringify({
   keyLog: true,
 });
 
-module.exports = { list, store };
+const userinclude = JSON.stringify({
+  lists: true,
+  sharedLists: true,
+  orders: true,
+  QR: true,
+});
+
+module.exports = { list, store, userinclude };

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "QR" ALTER COLUMN "image" DROP NOT NULL;

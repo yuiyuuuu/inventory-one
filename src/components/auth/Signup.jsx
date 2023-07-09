@@ -90,13 +90,15 @@ const Signup = () => {
       return;
     }
 
+    if (authState.loading !== "false" && authState?.id) return;
+
     const myAtropos = Atropos({
       el: ".my-atropos",
       shadow: false,
     });
 
     atroRef.current = myAtropos;
-  }, [screenWidth]);
+  }, [screenWidth, authState]);
 
   if (authState.loading && authState.loading !== "false") {
     return (

@@ -3,6 +3,7 @@ const prisma = require("../prisma/prismaClient.js");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { userinclude } = require("./includes.js");
 
 module.exports = router;
 
@@ -15,11 +16,7 @@ router.post("/login", async (req, res, next) => {
         email: req.body.email.toLowerCase(),
       },
 
-      include: {
-        lists: true,
-        sharedLists: true,
-        orders: true,
-      },
+      include: JSON.parse(userinclude),
     });
 
     if (!findUser?.id) {
@@ -75,11 +72,7 @@ router.post("/signup", async (req, res, next) => {
         email: email.toLowerCase(),
       },
 
-      include: {
-        lists: true,
-        sharedLists: true,
-        orders: true,
-      },
+      include: JSON.parse(userinclude),
     });
 
     res.send({ user, jwt: jwt.sign(user.id, process.env.JWT) });
@@ -97,11 +90,7 @@ router.get("/getlocaldata/:token", async (req, res, next) => {
         id: id?.iat ? id.id : id,
       },
 
-      include: {
-        lists: true,
-        sharedLists: true,
-        orders: true,
-      },
+      include: JSON.parse(userinclude),
     });
 
     res.send(user);

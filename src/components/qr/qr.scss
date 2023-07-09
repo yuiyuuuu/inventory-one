@@ -1,0 +1,28 @@
+.qr-hov {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.qr-i {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.qr-img {
+  padding: 20px;
+  background-color: white;
+}
+
+.qr-u {
+  font-size: 22px;
+}
+
+.qr-ur {
+  width: 100%;
+  word-wrap: break-word;
+  display: inline-block;
+  white-space: unset;
+}
