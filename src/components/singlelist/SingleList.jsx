@@ -77,14 +77,18 @@ const SingleList = () => {
   async function fetchProducts(id) {
     if (!id) return;
 
-    const data = await makeGetRequest(`list/${id}`).then((res) => {
-      if (res.id) {
-        setCurrentList(res);
-        setAllProducts(res.item.sort((a, b) => a.name.localeCompare(b.name)));
-      }
-    });
-
-    setLoading(false);
+    const data = await makeGetRequest(`list/${id}`)
+      .then((res) => {
+        if (res.id) {
+          setCurrentList(res);
+          setAllProducts(res.item.sort((a, b) => a.name.localeCompare(b.name)));
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        alert("Something went wrong, please try again");
+        setLoading(false);
+      });
   }
 
   function handleImageUpload(e) {
@@ -217,7 +221,7 @@ const SingleList = () => {
 
   if (loading) {
     return (
-      <div className="lds-ring lds-co" id="spinner-form">
+      <div className='lds-ring lds-co' id='spinner-form'>
         <div></div>
         <div></div>
         <div></div>
@@ -227,32 +231,32 @@ const SingleList = () => {
   }
 
   return (
-    <div className="home-parent">
+    <div className='home-parent'>
       <img
-        className="home-logo"
-        src="/assets/logo.jpeg"
+        className='home-logo'
+        src='/assets/logo.jpeg'
         onClick={() => (window.location.href = "/")}
         style={{ cursor: "pointer" }}
       />
-      <div className="home-krink">{currentList?.name}</div>
-      <div className="home-q">
-        <div className="home-k">
-          <div className="home-inparent">
+      <div className='home-krink'>{currentList?.name}</div>
+      <div className='home-q'>
+        <div className='home-k'>
+          <div className='home-inparent'>
             <SearchSvg />
             <input
-              className="home-searchq"
+              className='home-searchq'
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Search"
-              id="home-search"
+              placeholder='Search'
+              id='home-search'
             />
           </div>
         </div>
       </div>
 
-      <div className="home-q home-t">
+      <div className='home-q home-t'>
         <button
-          className="home-add"
+          className='home-add'
           onClick={() => {
             setShowCreateOverlay(true);
             document.querySelector("html").style.overflow = "hidden";
@@ -262,7 +266,7 @@ const SingleList = () => {
         </button>
 
         <button
-          className="home-add"
+          className='home-add'
           style={{ marginLeft: "20px" }}
           onClick={() => {
             setShowMassOverlay(true);
@@ -273,7 +277,7 @@ const SingleList = () => {
         </button>
 
         <button
-          className="home-add home-export"
+          className='home-add home-export'
           style={{ marginLeft: "20px" }}
           onClick={() => handleExportExcel()}
         >
@@ -282,9 +286,9 @@ const SingleList = () => {
       </div>
 
       {searchActive && !queryResults?.length ? (
-        <div className="home-no">No products found</div>
+        <div className='home-no'>No products found</div>
       ) : queryResults.length ? (
-        <div className="home-itemmap">
+        <div className='home-itemmap'>
           {queryResults?.map((item) => (
             <Item
               item={item}
@@ -300,7 +304,7 @@ const SingleList = () => {
           ))}
         </div>
       ) : allProducts.length ? (
-        <div className="home-itemmap">
+        <div className='home-itemmap'>
           {allProducts?.map((item) => (
             <Item
               item={item}
@@ -316,7 +320,7 @@ const SingleList = () => {
           ))}
         </div>
       ) : (
-        !loading && <div className="home-n">No Products</div>
+        !loading && <div className='home-n'>No Products</div>
       )}
 
       {showCreateOverlay && (

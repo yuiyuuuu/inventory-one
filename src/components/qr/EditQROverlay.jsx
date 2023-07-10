@@ -9,7 +9,10 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
   const [noName, setNoName] = useState(false);
   const [invalidURL, setInvalidURL] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   async function handleSubmit() {
+    setLoading(true);
     setNoName(false);
     setInvalidURL(false);
 
@@ -37,7 +40,10 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
       setInvalidURL(true);
     }
 
-    if (bad) return;
+    if (bad) {
+      setLoading(false);
+      return;
+    }
 
     await makePutRequest("/qr/editqr", editedQr)
       .then((res) => {
@@ -49,10 +55,12 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
             after(res);
           }
           alert("Updated");
+          setLoading(false);
         }
       })
       .catch(() => {
         alert("Something went wrong, please try again");
+        setLoading(false);
       });
   }
 
@@ -102,6 +110,17 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
           Submit
         </div>
       </div>
+
+      {loading && (
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

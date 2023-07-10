@@ -52,7 +52,7 @@ const QR = () => {
 
   if (authState.loading && authState.loading !== "false") {
     return (
-      <div className='abs-loading'>
+      <div className='abs-loading2'>
         <div className='lds-ring' id='spinner-form'>
           <div></div>
           <div></div>

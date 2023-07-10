@@ -120,6 +120,20 @@ a {
   background: rgba(0, 0, 0, 0.5);
 }
 
+//this one used for non overlay loading
+.abs-loading2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  background: black;
+}
+
 .ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -9,21 +9,34 @@ const Stores = () => {
 
   const stores = useSelector((state) => state.allStores);
 
-  return (
-    <div className="home-parent">
-      <img className="home-logo" src="/assets/logo.jpeg" />
-      <div className="home-krink">Inventory Stores</div>
+  if (stores.length < 1) {
+    return (
+      <div className='abs-loading2'>
+        <div className='lds-ring' id='spinner-form'>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    );
+  }
 
-      <div className="store-mapc">
+  return (
+    <div className='home-parent'>
+      <img className='home-logo' src='/assets/logo.jpeg' />
+      <div className='home-krink'>Inventory Stores</div>
+
+      <div className='store-mapc'>
         {stores?.map((store) => (
           <div
-            className="store-map"
+            className='store-map'
             onClick={() => nav(`/stores/${store?.id}`)}
           >
-            <div className="store-name">{store?.name}</div>
-            <div className="grow" />
+            <div className='store-name'>{store?.name}</div>
+            <div className='grow' />
             <div
-              className="mitem-caret"
+              className='mitem-caret'
               style={{ transform: "rotate(-90deg)" }}
             />
           </div>

@@ -14,7 +14,10 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
   const [noName, setNoName] = useState(false);
   const [invalidURL, setInvalidURL] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   async function handleSubmit() {
+    setLoading(true);
     setNoName(false);
     setInvalidURL(false);
 
@@ -42,7 +45,10 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
       setInvalidURL(true);
     }
 
-    if (bad) return;
+    if (bad) {
+      setLoading(false);
+      return;
+    }
 
     const obj = {
       name: qrName,
@@ -68,11 +74,13 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
         await makePutRequest("/qr/addimg", o).then((res) => {
           if (res?.id) {
             window.location.href = `${window.location.protocol}//${window.location.host}/qr/${res.id}`;
+            setLoading(false); //just in case, prob not gonna do anything tho lol
           }
         });
       })
       .catch(() => {
         alert("Something went wrong, try again");
+        setLoading(false);
       });
   }
 
@@ -113,7 +121,16 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
         </div>
       </div>
 
-      {/* <div id='qrcontainer' style={{ display: "none" }} ref={qrRef}></div> */}
+      {loading && (
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
