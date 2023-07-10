@@ -39,6 +39,11 @@ const QR = () => {
     }
   }
 
+  //edit overlay after edited handling
+  function handleAfter(qr) {
+    setUserQrCodes((prev) => prev.map((v) => (v.id === qr.id ? qr : v)));
+  }
+
   useEffect(() => {
     if (!authState?.id) return;
 
@@ -151,6 +156,7 @@ const QR = () => {
           setShowEdit={setShowEditOverlay}
           selectedQR={selectedQR}
           setSelectedQr={setSelectedQR}
+          after={handleAfter}
         />
       )}
     </div>

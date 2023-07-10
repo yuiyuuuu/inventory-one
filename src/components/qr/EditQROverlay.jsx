@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { makePutRequest } from "../../requests/helperFunctions";
 
-const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr }) => {
+const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
   const [editedQr, setEditedQr] = useState({});
 
   //error states
@@ -44,6 +44,10 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr }) => {
         if (res.id) {
           setSelectedQr(res);
           setShowEdit(false);
+
+          if (after) {
+            after(res);
+          }
           alert("Updated");
         }
       })
