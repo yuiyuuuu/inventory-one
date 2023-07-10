@@ -143,11 +143,13 @@ const TakeKeyOverlay = ({
             id="kh-sel"
             style={{ width: "calc(100% - 16px)" }}
           >
-            {selected?.length > 0
-              ? selected
-                  .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
-                  ?.toString()
-              : "Select a store"}
+            <div className="ellipsis">
+              {selected?.length > 0
+                ? selected
+                    .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
+                    ?.toString()
+                : "Select a store"}
+            </div>
             <div className="grow" />
             <div
               className="mitem-caret"

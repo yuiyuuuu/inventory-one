@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import $ from "jquery";
 import { useSelector } from "react-redux";
+import CheckMark from "../keys/singlekeys/svg/CheckMark";
 
 const FilterElement = ({
   dateRangeFilter,
@@ -194,7 +195,11 @@ const FilterElement = ({
               id="fe-store"
               onClick={() => setShowStore((prev) => !prev)}
             >
-              {storeFilter?.name || "Select Store"}
+              <div className="ellipsis">
+                {storeFilter
+                  .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
+                  ?.toString() || "Select Store"}
+              </div>
 
               <div className="grow" />
               <div className="mitem-caret" />
@@ -202,25 +207,51 @@ const FilterElement = ({
 
             {showStore && (
               <div className="pio-selch pi-qpa" id="fe-storec">
-                <div
+                {/* <div
                   className="pio-ch"
                   onClick={() => {
                     setStoreFilter(null);
                     setShowStore(false);
                   }}
                 >
-                  Unselect Store
-                </div>
+                  Unselect Stores
+                </div> */}
                 {allStores.map((store, i, a) => (
                   <div
                     className="pio-ch"
-                    style={{ borderBottom: i === a.length - 1 && "none" }}
+                    style={{
+                      borderBottom:
+                        i === a.length - 1
+                          ? "none"
+                          : storeFilter.find((v) => v.id === store.id)?.id
+                          ? "1px solid black"
+                          : "",
+                      backgroundColor: storeFilter.find(
+                        (v) => v.id === store.id
+                      )?.id
+                        ? "white"
+                        : "",
+                      color: storeFilter.find((v) => v.id === store.id)?.id
+                        ? "black"
+                        : "",
+                      display: "flex",
+                    }}
                     onClick={() => {
-                      setStoreFilter(store);
-                      setShowStore(false);
+                      setStoreFilter((prev) => {
+                        if (prev.map((v) => v.id).includes(store.id)) {
+                          return prev.filter((v) => v.id !== store.id);
+                        } else {
+                          return [...prev, store];
+                        }
+                      });
                     }}
                   >
                     {store.name}
+
+                    <div className="grow" />
+                    {storeFilter.find((v) => v.id === store.id)?.id && (
+                      <CheckMark />
+                    )}
                   </div>
                 ))}
               </div>

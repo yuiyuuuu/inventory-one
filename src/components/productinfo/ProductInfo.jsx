@@ -35,7 +35,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
     start: null,
     end: null,
   });
-  const [storeFilter, setStoreFilter] = useState(null);
+  const [storeFilter, setStoreFilter] = useState([]);
 
   const [showFilterDropDown, setShowFilterDropDown] = useState(false);
   const [filterResults, setFilterResults] = useState({});
@@ -151,8 +151,12 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
           let bad = false; //bad = true means this one doesnt fit the filters
 
           //check if store matches filter, if store filter exists
-          if (storeFilter) {
-            if (order.store.name !== storeFilter.name) bad = true;
+          if (storeFilter.length > 0) {
+            // if (order.store.name !== storeFilter.name) bad = true;
+
+            const filtermap = storeFilter.map((v) => v.id);
+
+            if (!filtermap.find((v) => v === order.store.id)) bad = true;
           }
 
           //checks if date range fits, if the filter exists
@@ -445,8 +449,10 @@ Click to see all orders on this date
 
                   <div className="pi-sub">
                     Stores:{" "}
-                    {filterResults.storeFilter
-                      ? filterResults.storeFilter?.name
+                    {filterResults.storeFilter.length > 0
+                      ? filterResults.storeFilter
+                          .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
+                          ?.toString()
                       : "Any"}
                   </div>
 

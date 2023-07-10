@@ -22,7 +22,6 @@ model List{
 }
 
 //order can have one store, one item, but item can have many orders and store can have many orders
-
 model Category{
   id String @id @default(uuid())
   name String @unique
