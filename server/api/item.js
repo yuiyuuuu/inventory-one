@@ -129,8 +129,6 @@ router.put("/editqty", async (req, res, next) => {
       },
     });
 
-    console.log(find, "body", req.body);
-
     if (req.body.which === "add") {
       await prisma.item.update({
         where: {
@@ -257,8 +255,6 @@ router.all("/external/editqty", async (req, res, next) => {
     },
   });
 
-  console.log(user);
-
   const list = await prisma.list.findFirst({
     where: {
       name: "Supply Inventory List",
@@ -275,8 +271,6 @@ router.all("/external/editqty", async (req, res, next) => {
     });
 
     if (!finditem?.id) continue;
-
-    console.log(cur.qty);
 
     const store = await prisma.store.findFirst({
       where: {

@@ -75,3 +75,17 @@ router.put("/editqr", async (req, res, next) => {
     next(error);
   }
 });
+
+router.delete("/deleteqr/:id", async (req, res, next) => {
+  try {
+    const del = await prisma.qR.delete({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.send(del);
+  } catch (error) {
+    next(error);
+  }
+});

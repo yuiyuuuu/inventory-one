@@ -71,6 +71,12 @@
   height: 60px;
   margin: 0 30px;
   background-color: white;
+
+  @media only screen and (max-width: 500px) {
+    height: 2px;
+    width: 70px;
+    margin: 20px 0;
+  }
 }
 
 .store-pelch {
@@ -131,6 +137,10 @@
 
 .store-right {
   width: 50%;
+
+  @media only screen and (max-width: 500px) {
+    width: 100%;
+  }
 }
 
 .store-wid100 {

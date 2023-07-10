@@ -125,3 +125,17 @@ a {
   white-space: nowrap;
   overflow: hidden;
 }
+
+.elli-media {
+  @media only screen and (max-width: 650px) {
+    font-size: 13px;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.underline {
+  text-decoration: underline;
+}

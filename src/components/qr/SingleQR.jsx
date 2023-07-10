@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { makeGetRequest } from "../../requests/helperFunctions";
+import { makeDeleteRequest } from "../requests/requestFunctions";
+
 import EditQROverlay from "./EditQROverlay";
 
 const SingleQR = () => {
@@ -12,14 +14,38 @@ const SingleQR = () => {
 
   const [showEdit, setShowEdit] = useState(false);
 
+  const [notFound, setNotFound] = useState(false);
+
+  async function handleDeleteQR(qr) {
+    const c = confirm(`Confirm delete "${qr.name}" QR?`);
+
+    if (c) {
+      await makeDeleteRequest(`/qr/deleteqr/${qr.id}`)
+        .then((res) => {
+          if (res.id) {
+            alert("QR Deleted");
+            window.location.href = "/qr";
+          }
+        })
+        .catch(() => {
+          alert("Something went wrong, please try again");
+        });
+    }
+  }
+
   useEffect(() => {
     const id = params.id;
 
     async function fetchQr() {
       await makeGetRequest(`/qr/fetch/${id}`).then((res) => {
-        setSelectedQr(res);
+        if (res.id) {
+          setSelectedQr(res);
 
-        setLoading(false);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setNotFound(true);
+        }
       });
     }
 
@@ -35,6 +61,21 @@ const SingleQR = () => {
           <div></div>
           <div></div>
         </div>
+      </div>
+    );
+  }
+
+  if (notFound) {
+    return (
+      <div className='home-parent'>
+        <img
+          className='home-logo'
+          src='/assets/logo.jpeg'
+          style={{ cursor: "pointer" }}
+          onClick={() => (window.location.href = `/qr`)}
+        />
+
+        <div className='home-krink'>No QR Found</div>
       </div>
     );
   }
@@ -57,6 +98,13 @@ const SingleQR = () => {
         <div className='grow' />
         <div className='home-add qr-edit' onClick={() => setShowEdit(true)}>
           Edit
+        </div>
+        <div
+          className='home-add qr-edit'
+          onClick={() => handleDeleteQR(selectedQr)}
+          style={{ marginLeft: "15px", backgroundColor: "red" }}
+        >
+          Delete
         </div>
       </div>
 
