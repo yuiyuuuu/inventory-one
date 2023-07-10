@@ -101,7 +101,7 @@ const SingleKey = () => {
           style={{
             maxHeight: showActiveKeylogs
               ? selectedStore?.keyLog.filter((v) => !v.returnTime).length *
-                  150 +
+                  170 +
                 40 +
                 "px"
               : 0,
@@ -143,7 +143,7 @@ const SingleKey = () => {
           className="kh-keylogmap"
           style={{
             maxHeight: showArchivedKeylogs
-              ? selectedStore?.keyLog.filter((v) => v.returnTime).length * 150 +
+              ? selectedStore?.keyLog.filter((v) => v.returnTime).length * 170 +
                 40 +
                 "px"
               : 0,

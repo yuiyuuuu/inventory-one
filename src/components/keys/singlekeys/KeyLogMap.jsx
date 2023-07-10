@@ -4,9 +4,9 @@ import { makePutRequest } from "../../requests/requestFunctions";
 const KeyLogMap = ({ keylog, setSelectedStore }) => {
   const time = new Date(keylog.takeTime);
 
-  const str = `${
-    time.getMonth() < 10 ? "0" + (time.getMonth() + 1) : time.getMonth() + 1
-  }/${time.getDate()}/${time.getFullYear()}`;
+  const c = new Date(time).toLocaleString("en-US", {
+    timeZone: "America/Chicago",
+  });
 
   async function returnKey() {
     const obj = {
@@ -36,13 +36,13 @@ const KeyLogMap = ({ keylog, setSelectedStore }) => {
     <div className="kh-mapch">
       <div className="kh-b">
         <div className="kh-bord2">
-          {keylog.name.toUpperCase()} - {str} <div className="grow" />{" "}
+          {keylog.name.toUpperCase()} - {c} <div className="grow" />{" "}
           <button className="home-add kh-return" onClick={() => returnKey()}>
             Return
           </button>
         </div>
 
-        {keylog.memo && <div className="">Memo: {keylog.memo}</div>}
+        {keylog.memo && <div className="ellipsis">Memo: {keylog.memo}</div>}
       </div>
     </div>
   );

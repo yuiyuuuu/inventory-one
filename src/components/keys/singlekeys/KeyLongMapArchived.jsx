@@ -11,9 +11,11 @@ const KeyLogMapArchived = ({ keylog }) => {
 
   return (
     <div className="kh-mapch">
-      <div className="kh-bord">
+      <div className="kh-bord ellipsis">
         {keylog.name.toUpperCase()}
-        {keylog.memo && <div className="kh-t">Memo: {keylog.memo}</div>}{" "}
+        {keylog.memo && (
+          <div className="kh-t ellipsis">Memo: {keylog.memo}</div>
+        )}{" "}
         <div className="kh-t">Checked Out: {time}</div>
         <div className="kh-t">Returned: {time2}</div>
       </div>
