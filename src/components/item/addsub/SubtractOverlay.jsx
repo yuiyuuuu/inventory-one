@@ -52,7 +52,7 @@ const SubtractOverlay = ({
       listid: currentList.id,
     };
 
-    await makePutRequest("item/editqty", obj)
+    await makePutRequest(`item/editqty/${import.meta.env.VITE_ROUTEPASS}`, obj)
       .then((res) => {
         if (res.id) {
           setOverlayData({});

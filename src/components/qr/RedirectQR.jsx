@@ -10,7 +10,9 @@ const RedirectQR = () => {
     const id = params.id;
 
     async function f() {
-      await makeGetRequest(`/qr/fetch/${id}`).then((res) => {
+      await makeGetRequest(
+        `/qr/fetch/${id}/${import.meta.env.VITE_ROUTEPASS}`
+      ).then((res) => {
         if (res.id) {
           window.location.href = res.link;
         } else {

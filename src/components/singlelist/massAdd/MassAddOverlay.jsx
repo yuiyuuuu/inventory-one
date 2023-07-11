@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import { makePostRequest } from "../../requests/requestFunctions";
 
 import "./mass.scss";
+
+import $ from "jquery";
 
 import MassEditMap from "./MassEditMap";
 import XIcon from "../../global/XIcon";
@@ -17,17 +19,31 @@ const MassAddOverlay = ({
 
   const [loading, setLoading] = useState(false);
 
+  const [showCategories, setShowCategories] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState({});
+  const [noCategory, setNoCategory] = useState(false);
+
   async function handleSubmit() {
+    setNoCategory(false);
     if (!result.length) return;
+
+    if (!selectedCategory?.id) {
+      setNoCategory(true);
+      return;
+    }
 
     const obj = {
       listid: currentList.id,
       result: result,
+      category: selectedCategory,
     };
 
     setLoading(true);
 
-    await makePostRequest("/item/create/mass", obj)
+    await makePostRequest(
+      `/item/create/mass/${import.meta.env.VITE_ROUTEPASS}`,
+      obj
+    )
       .then((res) => {
         alert("Products Added");
 
@@ -43,14 +59,79 @@ const MassAddOverlay = ({
       });
   }
 
+  const clickout = useCallback(() => {
+    const $target = $(event.target);
+
+    if (
+      !$target.closest("#co-select").length &&
+      !$target.closest("#co-selectc").length &&
+      $("#co-selectc").is(":visible")
+    ) {
+      setShowAddWhat(false);
+    }
+
+    if (
+      !$target.closest("#co-selcate").length &&
+      !$target.closest("#co-selcatec").length &&
+      $("#co-selcatec").is(":visible")
+    ) {
+      setShowCategories(false);
+    }
+  }, []);
+
+  $("#massaddoverlay").off("click", "#createoverlay", clickout).click(clickout);
+
+  useEffect(() => {
+    $("#co-selcatec").css("top", $("#co-selcate").outerHeight() + 9); //10 for margin minus 1px for border so we dont see border twice
+  }, [showCategories]);
+
   return (
     <div
       className="home-createoverlay"
+      id="massaddoverlay"
       style={{ display: !showMassOverlay && "none" }}
     >
       <div className="homec-inner">
         <div className="homec-l" style={{ padding: "10px" }}>
           Mass Add
+        </div>
+
+        {noCategory && (
+          <div
+            className="home-error"
+            style={{ alignSelf: "start", marginBottom: "-10px" }}
+          >
+            Select a category!
+          </div>
+        )}
+
+        <div className="pio-rel">
+          <div
+            className="pio-select"
+            onClick={() => setShowCategories((prev) => !prev)}
+            id="co-selcate"
+          >
+            {selectedCategory?.name || "Select a category"}
+            <div className="grow" />
+            <div className="mitem-caret" />
+          </div>
+
+          {showCategories && (
+            <div className="pio-selch" id="co-selcatec">
+              {currentList?.category?.map((category, i, a) => (
+                <div
+                  className="pio-ch"
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setShowCategories(false);
+                  }}
+                  style={{ borderBottom: i === a.length - 1 && "none" }}
+                >
+                  {category.name}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mass-con">

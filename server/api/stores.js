@@ -5,7 +5,12 @@ const { store } = require("./includes.js");
 
 module.exports = router;
 
-router.get("/fetchall", async (req, res, next) => {
+router.get("/fetchall/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const stores = await prisma.store.findMany({
       include: JSON.parse(store),
@@ -17,7 +22,12 @@ router.get("/fetchall", async (req, res, next) => {
   }
 });
 
-router.get("/fetch/:id", async (req, res, next) => {
+router.get("/fetch/:id/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const findstore = await prisma.store.findUnique({
       where: {

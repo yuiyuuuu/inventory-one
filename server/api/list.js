@@ -5,7 +5,12 @@ const { list } = require("./includes");
 
 module.exports = router;
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const send = await prisma.list.findUnique({
       where: {
@@ -22,7 +27,12 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //this post sends back user to set auth state
-router.post("/create", async (req, res, next) => {
+router.post("/create/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     await prisma.list
       .create({
@@ -50,7 +60,12 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-router.post("/category/create", async (req, res, next) => {
+router.post("/category/create/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     await prisma.category
       .create({

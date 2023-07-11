@@ -65,7 +65,10 @@ const EditOverlay = ({
 
     setLoading(true);
 
-    await makePutRequest("/item/edit/info", obj)
+    await makePutRequest(
+      `/item/edit/info/${import.meta.env.VITE_ROUTEPASS}`,
+      obj
+    )
       .then((res) => {
         setSelectedProduct({});
 
@@ -89,7 +92,9 @@ const EditOverlay = ({
   }
 
   async function handleDelete() {
-    await makeDeleteRequest(`/item/delete/${selectedProduct.id}`)
+    await makeDeleteRequest(
+      `/item/delete/${selectedProduct.id}/${import.meta.env.VITE_ROUTEPASS}`
+    )
       .then(() => {
         setShowEditOverlay(false);
         setAllProducts((prev) =>

@@ -3,7 +3,12 @@ const prisma = require("../prisma/prismaClient.js");
 
 module.exports = router;
 
-router.get("/fetch/:id", async (req, res, next) => {
+router.get("/fetch/:id/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const find = await prisma.qR.findUnique({
       where: {
@@ -21,7 +26,12 @@ router.get("/fetch/:id", async (req, res, next) => {
   }
 });
 
-router.post("/create", async (req, res, next) => {
+router.post("/create/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const { name, url, user } = req.body;
 
@@ -39,7 +49,12 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-router.put("/addimg", async (req, res, next) => {
+router.put("/addimg/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const update = await prisma.qR.update({
       where: {

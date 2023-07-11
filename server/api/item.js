@@ -3,7 +3,12 @@ const prisma = require("../prisma/prismaClient.js");
 
 module.exports = router;
 
-router.get("/fetchall", async (req, res, next) => {
+router.get("/fetchall/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const data = await prisma.item.findMany({
       orderBy: {
@@ -26,7 +31,12 @@ router.get("/fetchall", async (req, res, next) => {
   }
 });
 
-router.post("/create/mass", async (req, res, next) => {
+router.post("/create/mass/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const arr = req.body.result;
     const listid = req.body.listid;
@@ -35,7 +45,7 @@ router.post("/create/mass", async (req, res, next) => {
       arr.forEach(async (item, index, array) => {
         if (!item.name) return;
         await prisma.item.create({
-          data: { ...item, listId: listid },
+          data: { ...item, listId: listid, categoryId: req.body.category.id },
         });
 
         if (index === array.length - 1) resolve();
@@ -69,7 +79,12 @@ router.post("/create/mass", async (req, res, next) => {
   }
 });
 
-router.post("/create", async (req, res, next) => {
+router.post("/create/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const body = req.body;
 
@@ -121,7 +136,12 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-router.put("/editqty", async (req, res, next) => {
+router.put("/editqty/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const find = await prisma.item.findUnique({
       where: {
@@ -213,7 +233,12 @@ router.put("/editqty", async (req, res, next) => {
   }
 });
 
-router.put("/edit/info", async (req, res, next) => {
+router.put("/edit/info/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const update = await prisma.item.update({
       where: {
@@ -304,7 +329,12 @@ router.all("/external/editqty", async (req, res, next) => {
   res.send("updated").status(200);
 });
 
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     await prisma.item.delete({
       where: {

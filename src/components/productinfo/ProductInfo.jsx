@@ -38,7 +38,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
   const [storeFilter, setStoreFilter] = useState([]);
 
   const [showFilterDropDown, setShowFilterDropDown] = useState(false);
-  const [filterResults, setFilterResults] = useState({});
+  const [filterResults, setFilterResults] = useState([]);
 
   function find180Average() {
     let total = 0;
@@ -91,7 +91,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
   function clearFilter() {
     setFilterActive(false);
     setDateRangeFilter({ start: null, end: null });
-    setStoreFilter(null);
+    setStoreFilter([]);
   }
 
   function sortOrdersByDate() {
@@ -384,7 +384,10 @@ Click to see all orders on this date
             />
           </div>
 
-          <div className="pi-sec pi-mar30l">
+          <div
+            className="pi-sec pi-mar30l"
+            style={{ width: "calc(60% - 30px)" }}
+          >
             <div className="pi-ti">
               {data.name} <div className="grow" />
               {showFilter && (
@@ -495,6 +498,8 @@ Click to see all orders on this date
                 Predicted OOS day:{" "}
                 {data.quantity === 0
                   ? "Out of Stock"
+                  : data.historyQTY === 0
+                  ? "No History"
                   : `${
                       oosDays?.month < 10
                         ? "0" + oosDays?.month

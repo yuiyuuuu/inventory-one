@@ -23,7 +23,9 @@ const SingleKey = () => {
     const id = params.id;
 
     async function fetch() {
-      const store = await makeGetRequest(`/stores/fetch/${id}`)
+      const store = await makeGetRequest(
+        `/stores/fetch/${id}/${import.meta.env.VITE_ROUTEPASS}`
+      )
         .then((res) => {
           if (res.id) {
             setSelectedStore(res);

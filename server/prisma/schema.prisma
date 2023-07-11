@@ -105,7 +105,7 @@ model QR{
   id String @id @default(uuid())
   name String
   link String
-  image String? //qr image
+  image String? //qr image, optional because we are making two requests
   user User @relation(fields: [userid], references: [id], onDelete: Cascade)
   userid String
 }

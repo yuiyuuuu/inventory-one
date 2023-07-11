@@ -197,7 +197,7 @@ const FilterElement = ({
             >
               <div className="ellipsis">
                 {storeFilter
-                  .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
+                  ?.map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
                   ?.toString() || "Select Store"}
               </div>
 
@@ -223,23 +223,23 @@ const FilterElement = ({
                       borderBottom:
                         i === a.length - 1
                           ? "none"
-                          : storeFilter.find((v) => v.id === store.id)?.id
+                          : storeFilter?.find((v) => v.id === store.id)?.id
                           ? "1px solid black"
                           : "",
-                      backgroundColor: storeFilter.find(
+                      backgroundColor: storeFilter?.find(
                         (v) => v.id === store.id
                       )?.id
                         ? "white"
                         : "",
-                      color: storeFilter.find((v) => v.id === store.id)?.id
+                      color: storeFilter?.find((v) => v.id === store.id)?.id
                         ? "black"
                         : "",
                       display: "flex",
                     }}
                     onClick={() => {
                       setStoreFilter((prev) => {
-                        if (prev.map((v) => v.id).includes(store.id)) {
-                          return prev.filter((v) => v.id !== store.id);
+                        if (prev?.map((v) => v.id)?.includes(store.id)) {
+                          return prev?.filter((v) => v.id !== store.id);
                         } else {
                           return [...prev, store];
                         }
@@ -249,7 +249,7 @@ const FilterElement = ({
                     {store.name}
 
                     <div className="grow" />
-                    {storeFilter.find((v) => v.id === store.id)?.id && (
+                    {storeFilter?.find((v) => v.id === store.id)?.id && (
                       <CheckMark />
                     )}
                   </div>

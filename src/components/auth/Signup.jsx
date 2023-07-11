@@ -102,8 +102,8 @@ const Signup = () => {
 
   if (authState.loading && authState.loading !== "false") {
     return (
-      <div className='abs-loading'>
-        <div className='lds-ring' id='spinner-form'>
+      <div className="abs-loading">
+        <div className="lds-ring" id="spinner-form">
           <div></div>
           <div></div>
           <div></div>
@@ -118,37 +118,52 @@ const Signup = () => {
   }
 
   return (
-    <div className='auth-parent'>
-      <div className='auth-inner'>
-        <div className='auth-sqcontainer'>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square2'></div>
-          <div className='square2'></div>
-          <div className='square2'></div>
+    <div className="auth-parent">
+      <div className="auth-inner">
+        <div className="auth-sqcontainer">
+          <div className="square"></div>
+          <div className="square"></div>
+          <div className="square"></div>
+          <div className="square2"></div>
+          <div className="square2"></div>
+          <div className="square2"></div>
         </div>
 
-        <div class='atropos my-atropos'>
-          <div class='atropos-scale'>
-            <div class='atropos-rotate'>
-              <div class='atropos-inner'>
-                <div className='auth-box'>
-                  <div className='container'>
-                    <div className='form'>
+        <div class="atropos my-atropos">
+          <div class="atropos-scale">
+            <div class="atropos-rotate">
+              <div class="atropos-inner">
+                <div className="auth-box">
+                  <div className="container">
+                    <div className="form">
                       <a
-                        href='https://chicagocitysports.com/'
-                        rel='noopener noreferrer'
-                        target='_blank'
+                        href="https://chicagocitysports.com/"
+                        rel="noopener noreferrer"
+                        target="_blank"
                         style={{ alignSelf: "center" }}
                       >
                         <img
-                          src='/assets/loginlogo.jpeg'
-                          className='auth-logo'
+                          src="/assets/loginlogo.jpeg"
+                          className="auth-logo"
                         />
                       </a>
-                      <div className='auth-title'>Sign Up</div>
-                      <div className='auth-form'>
+                      <div className="auth-title">Sign Up</div>
+
+                      <div style={{ marginBottom: "10px" }}>
+                        Contact{" "}
+                        <a
+                          href="mailto:jack@palmusa.com"
+                          style={{
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          jack@palmusa.com
+                        </a>{" "}
+                        for access
+                      </div>
+                      {/* <div className='auth-form'>
                         {noName && (
                           <div className='auth-error'>Name is required</div>
                         )}
@@ -201,11 +216,11 @@ const Signup = () => {
                             Sign Up
                           </button>
                         </div>
-                      </div>
+                      </div> */}
 
-                      <div className='auth-dha'>
+                      <div className="auth-dha">
                         Already have an account?{" "}
-                        <a href='/login' className='auth-redir'>
+                        <a href="/login" className="auth-redir">
                           Login
                         </a>
                       </div>

@@ -64,7 +64,7 @@ const CreateOverlay = ({
 
     setCreateLoading(true);
 
-    await makePostRequest("item/create", obj)
+    await makePostRequest(`item/create/${import.meta.env.VITE_ROUTEPASS}`, obj)
       .then((res) => {
         setProductInfo({
           name: "",
@@ -90,10 +90,13 @@ const CreateOverlay = ({
 
     setCreateLoading(true);
 
-    await makePostRequest("/list/category/create", {
-      listid: currentList.id,
-      name: categoryName,
-    }).then((res) => {
+    await makePostRequest(
+      `/list/category/create/${import.meta.env.VITE_ROUTEPASS}`,
+      {
+        listid: currentList.id,
+        name: categoryName,
+      }
+    ).then((res) => {
       if (res.id) {
         setCreateLoading(false);
         setShowCreateOverlay(false);

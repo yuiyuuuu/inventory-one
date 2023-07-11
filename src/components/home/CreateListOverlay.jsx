@@ -19,7 +19,7 @@ const CreateListOverlay = ({ setCreateListOverlay }) => {
       userid: authState.id,
       name: listName,
     };
-    await makePostRequest("/list/create", obj)
+    await makePostRequest(`/list/create/${import.meta.env.VITE_ROUTEPASS}`, obj)
       .then((res) => {
         dispatch(dispatchSetAuth(res));
         setCreateListOverlay(false);
@@ -44,24 +44,24 @@ const CreateListOverlay = ({ setCreateListOverlay }) => {
 
   return (
     <div
-      className='home-createoverlay'
+      className="home-createoverlay"
       onClick={() => setCreateListOverlay(false)}
     >
-      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
-        <div className='homec-l'>Create List</div>
+      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
+        <div className="homec-l">Create List</div>
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Name'
-            className='homec-input'
-            id='create-listname'
+            placeholder="Name"
+            className="homec-input"
+            id="create-listname"
             value={listName}
             onChange={(e) => setListname(e.target.value)}
           />
         </div>
 
         <button
-          className='homec-submit homec-but'
+          className="homec-submit homec-but"
           onClick={() => handleSubmit()}
         >
           Submit

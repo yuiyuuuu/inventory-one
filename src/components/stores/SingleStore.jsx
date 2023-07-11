@@ -78,7 +78,9 @@ const SingleStore = () => {
     const id = params.id;
 
     const fetch = async () => {
-      const store = await makeGetRequest(`/stores/fetch/${id}`)
+      const store = await makeGetRequest(
+        `/stores/fetch/${id}/${import.meta.env.VITE_ROUTEPASS}`
+      )
         .then((res) => {
           if (res.id) {
             setSelectedStore(res);
@@ -185,175 +187,186 @@ const SingleStore = () => {
     setSortedOrders(sort);
   }, [selectedMonth, selectedYear]);
 
+  console.log(authState);
+
   if (noStore.loading) {
     return (
-      <div className='home-parent'>
-        <img className='home-logo' src='/assets/logo.jpeg' />
-        <div className='home-krink'>Loading</div>
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">Loading</div>
       </div>
     );
   }
 
   if (!noStore.loading && noStore.notfound) {
     return (
-      <div className='home-parent'>
-        <img className='home-logo' src='/assets/logo.jpeg' />
-        <div className='home-krink'>No Store Found</div>
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">No Store Found</div>
       </div>
     );
   }
 
   return (
-    <div className='home-parent'>
+    <div className="home-parent">
       <img
-        className='home-logo'
-        src='/assets/logo.jpeg'
+        className="home-logo"
+        src="/assets/logo.jpeg"
         onClick={() => (window.location.href = "/stores")}
         style={{ cursor: "pointer" }}
       />
 
-      <div className='home-krink ss-n'>Store - {selectedStore?.name}</div>
+      <div className="home-krink ss-n">Store - {selectedStore?.name}</div>
 
-      <div className='store-selectcontainer'>
-        <div className='pio-rel store-rel'>
-          <div
-            className='store-select'
-            onClick={() => setShowSelectList((prev) => !prev)}
-            id='ss-list'
-          >
-            {selectedList?.name || "Select a List"}
-            <div className='grow' />
-            <div className='mitem-caret' />
+      {authState.loading === "false" && !authState.id ? (
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
+            Log in
+          </a>{" "}
+          to see store statistics
+        </div>
+      ) : (
+        <div className="store-selectcontainer">
+          <div className="pio-rel store-rel">
+            <div
+              className="store-select"
+              onClick={() => setShowSelectList((prev) => !prev)}
+              id="ss-list"
+            >
+              {selectedList?.name || "Select a List"}
+              <div className="grow" />
+              <div className="mitem-caret" />
 
-            {showSelectList && (
+              {showSelectList && (
+                <div
+                  className="pio-selch store-pelch"
+                  style={{ top: $("#ss-list").outerHeight() - 1 }}
+                  id="showlist"
+                >
+                  {authState?.lists?.length > 0 ? (
+                    authState?.lists.map((v) => (
+                      <div
+                        className="pio-ch store-ch"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedList(v);
+                          setShowSelectList(false);
+                          setSelectedYear(null);
+                          setSelectedMonth(null);
+                          if (chartReference?.current)
+                            chartReference.current.destroy();
+                        }}
+                      >
+                        {v?.name}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="pio-cha">You have no lists</div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="store-wi" />
+
+          <div className="store-right">
+            <div
+              className="pio-rel store-rel store-wid100"
+              style={{ marginBottom: "20px" }}
+            >
               <div
-                className='pio-selch store-pelch'
-                style={{ top: $("#ss-list").outerHeight() - 1 }}
-                id='showlist'
+                className="store-select"
+                onClick={() => {
+                  if (!selectedList?.id) return;
+
+                  setShowYear((prev) => !prev);
+                }}
+                id="ss-year"
               >
-                {authState?.lists?.length > 0 ? (
-                  authState?.lists.map((v) => (
-                    <div
-                      className='pio-ch store-ch'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedList(v);
-                        setShowSelectList(false);
-                        setSelectedYear(null);
-                        setSelectedMonth(null);
-                        if (chartReference?.current)
-                          chartReference.current.destroy();
-                      }}
-                    >
-                      {v?.name}
-                    </div>
-                  ))
-                ) : (
-                  <div className='pio-cha'>You have no lists</div>
+                {selectedYear || "Select a year"}
+                <div className="grow" />
+                <div className="mitem-caret" />
+
+                {showYear && (
+                  <div
+                    className="pio-selch store-pelch"
+                    style={{ top: $("#ss-year").outerHeight() - 1 }}
+                    id="showyear"
+                  >
+                    {Object.keys(storeOrdersSorted).map((v) => (
+                      <div
+                        className="pio-ch store-ch"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedYear(v);
+                          setSelectedMonth(null);
+                          setShowYear(false);
+                        }}
+                      >
+                        {v}
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
-        </div>
-
-        <div className='store-wi' />
-
-        <div className='store-right'>
-          <div
-            className='pio-rel store-rel store-wid100'
-            style={{ marginBottom: "20px" }}
-          >
-            <div
-              className='store-select'
-              onClick={() => {
-                if (!selectedList?.id) return;
-
-                setShowYear((prev) => !prev);
-              }}
-              id='ss-year'
-            >
-              {selectedYear || "Select a year"}
-              <div className='grow' />
-              <div className='mitem-caret' />
-
-              {showYear && (
-                <div
-                  className='pio-selch store-pelch'
-                  style={{ top: $("#ss-year").outerHeight() - 1 }}
-                  id='showyear'
-                >
-                  {Object.keys(storeOrdersSorted).map((v) => (
-                    <div
-                      className='pio-ch store-ch'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedYear(v);
-                        setSelectedMonth(null);
-                        setShowYear(false);
-                      }}
-                    >
-                      {v}
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
-          </div>
 
-          <div className='pio-rel store-rel store-wid100'>
-            <div
-              className='store-select'
-              onClick={() => {
-                if (selectedYear) {
-                  setShowMonth((prev) => !prev);
-                }
-              }}
-              id='ss-month'
-            >
-              {months[selectedMonth] || "Select a Month"}
-              <div className='grow' />
-              <div className='mitem-caret' />
+            <div className="pio-rel store-rel store-wid100">
+              <div
+                className="store-select"
+                onClick={() => {
+                  if (selectedYear) {
+                    setShowMonth((prev) => !prev);
+                  }
+                }}
+                id="ss-month"
+              >
+                {months[selectedMonth] || "Select a Month"}
+                <div className="grow" />
+                <div className="mitem-caret" />
 
-              {selectedYear && showMonth && (
-                <div
-                  className='pio-selch store-pelch'
-                  style={{ top: $("#ss-month").outerHeight() - 1 }}
-                  id='showmonth'
-                >
-                  {Object.keys(storeOrdersSorted[selectedYear]).map((v) => (
-                    <div
-                      className='pio-ch store-ch'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedMonth(v);
-                        setShowMonth(false);
-                      }}
-                    >
-                      {months[v]}
-                    </div>
-                  ))}
-                </div>
-              )}
+                {selectedYear && showMonth && (
+                  <div
+                    className="pio-selch store-pelch"
+                    style={{ top: $("#ss-month").outerHeight() - 1 }}
+                    id="showmonth"
+                  >
+                    {Object.keys(storeOrdersSorted[selectedYear]).map((v) => (
+                      <div
+                        className="pio-ch store-ch"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedMonth(v);
+                          setShowMonth(false);
+                        }}
+                      >
+                        {months[v]}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {selectedList && selectedMonth && selectedYear && (
         <div>
-          <div className='ss-canvascontainer'>
-            <canvas id='ss-chart'></canvas>
+          <div className="ss-canvascontainer">
+            <canvas id="ss-chart"></canvas>
           </div>
 
-          <div className='ss-orders'>
+          <div className="ss-orders">
             <div
-              className='home-krink'
+              className="home-krink"
               style={{ marginTop: "25px", marginBottom: "0" }}
             >
               Orders
             </div>
 
-            <div className='ss-mapcontainer'>
+            <div className="ss-mapcontainer">
               {Object.keys(sortedOrders)?.map((date) => (
                 <SingleStoreMap sortedOrders={sortedOrders} date={date} />
               ))}
