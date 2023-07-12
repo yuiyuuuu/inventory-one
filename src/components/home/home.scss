@@ -109,6 +109,7 @@
   transition: 0.3s ease all;
   background: #03c1ae;
   position: relative;
+  max-height: 33px;
 
   @media only screen and (max-width: 500px) {
     font-size: 12px;
@@ -385,6 +386,7 @@
   font-size: 14px;
   color: red;
   margin: 8px 0 5px 0;
+  font-weight: 500;
 }
 
 .home-none {

@@ -41,7 +41,11 @@ const store = JSON.stringify({
 
 const userinclude = JSON.stringify({
   lists: true,
-  sharedLists: true,
+  sharedLists: {
+    include: {
+      owner: true,
+    },
+  },
   orders: true,
   QR: true,
 });

@@ -24,6 +24,7 @@ import MassAddOverlay from "./massAdd/MassAddOverlay";
 import ProductInfo from "../productinfo/ProductInfo";
 import AddOverlay from "../item/addsub/AddOverlay";
 import SubtractOverlay from "../item/addsub/SubtractOverlay";
+import ShareOverlay from "./ShareOverlay";
 
 //css for this will be in home.scss
 
@@ -31,6 +32,7 @@ const SingleList = () => {
   const params = useParams();
 
   const allStores = useSelector((state) => state.allStores);
+  const authState = useSelector((state) => state.auth);
 
   const [allProducts, setAllProducts] = useState([]);
 
@@ -62,6 +64,8 @@ const SingleList = () => {
   const [showAddOverlay, setShowAddOverlay] = useState(false);
   const [showSubtractOverlay, setShowSubtractOverlay] = useState(false);
 
+  const [showShareOverlay, setShowShareOverlay] = useState(false);
+
   //product info
   const [productInfo, setProductInfo] = useState({
     name: "",
@@ -74,6 +78,9 @@ const SingleList = () => {
   //loading
   const [loading, setLoading] = useState(true);
 
+  //access not allowed
+  const [noAccess, setNoAccess] = useState(false);
+
   async function fetchProducts(id) {
     if (!id) return;
 
@@ -84,7 +91,6 @@ const SingleList = () => {
         if (res.id) {
           setCurrentList(res);
           setAllProducts(res.item.sort((a, b) => a.name.localeCompare(b.name)));
-          setLoading(false);
         }
       })
       .catch(() => {
@@ -142,6 +148,20 @@ const SingleList = () => {
 
     writeFileXLSX(newBook, "SheetJSReactAoO.xlsx");
   }
+
+  useEffect(() => {
+    if (!currentList?.id) return;
+    if (!authState?.id) return;
+
+    if (
+      authState?.id !== currentList.owner.id &&
+      !currentList.sharedUsers.map((v) => v.id).includes(authState?.id)
+    ) {
+      setNoAccess(true);
+    }
+
+    setLoading(false);
+  }, [authState, currentList]);
 
   useEffect(() => {
     const id = params.id;
@@ -232,6 +252,23 @@ const SingleList = () => {
     );
   }
 
+  if (noAccess) {
+    return (
+      <div className="home-parent">
+        <img
+          className="home-logo"
+          src="/assets/logo.jpeg"
+          onClick={() => (window.location.href = "/")}
+          style={{ cursor: "pointer" }}
+        />
+
+        <div className="home-krink">{currentList?.name}</div>
+
+        <div>You do not have access to this list</div>
+      </div>
+    );
+  }
+
   return (
     <div className="home-parent">
       <img
@@ -283,8 +320,18 @@ const SingleList = () => {
           style={{ marginLeft: "20px" }}
           onClick={() => handleExportExcel()}
         >
-          Export xlsx
+          Export
         </button>
+
+        {authState?.id === currentList?.owner?.id && (
+          <button
+            className="home-add"
+            style={{ marginLeft: "20px" }}
+            onClick={() => setShowShareOverlay(true)}
+          >
+            Share
+          </button>
+        )}
       </div>
 
       {searchActive && !queryResults?.length ? (
@@ -390,6 +437,13 @@ const SingleList = () => {
           allStores={allStores}
           setAllProducts={setAllProducts}
           currentList={currentList}
+        />
+      )}
+
+      {showShareOverlay && (
+        <ShareOverlay
+          currentList={currentList}
+          setShowShareOverlay={setShowShareOverlay}
         />
       )}
     </div>

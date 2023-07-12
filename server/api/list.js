@@ -88,3 +88,38 @@ router.post("/category/create/:secretkey", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/sharelist/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    const findUser = await prisma.user.findUnique({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (!findUser?.id) {
+      res.send("user not found");
+      return;
+    }
+
+    const update = await prisma.list.update({
+      where: {
+        id: req.body.id,
+      },
+      data: {
+        sharedUsers: {
+          connect: [{ id: findUser.id }],
+        },
+      },
+    });
+
+    res.send({ list: update, user: findUser }).status(200);
+  } catch (error) {
+    next(error);
+  }
+});
