@@ -39,10 +39,10 @@ const http = require("http");
 app.set("port", process.env.PORT || 3004);
 app.set("host", process.env.HOST || "0.0.0.0");
 
-http
-  .createServer(app)
-  .listen(
-    app.get("port"),
-    app.get("host"),
-    console.log("listening on port " + app.get("host") + app.get("port"))
-  );
+// http
+//   .createServer(app)
+app.listen(
+  app.get("port"),
+  // app.get("host"),
+  console.log("listening on port " + app.get("host") + app.get("port"))
+);
