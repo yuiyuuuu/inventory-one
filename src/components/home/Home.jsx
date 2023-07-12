@@ -13,8 +13,6 @@ const Home = () => {
 
   const [createListOverlay, setCreateListOverlay] = useState(false);
 
-  console.log(authState?.sharedLists);
-
   return (
     <div className="home-parent">
       <img className="home-logo" src="/assets/logo.jpeg" />

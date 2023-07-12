@@ -165,9 +165,14 @@ const SingleList = () => {
 
   useEffect(() => {
     const id = params.id;
-
-    fetchProducts(id);
-  }, []);
+    if (authState.loading === "false" || !authState.loading) {
+      if (authState.id) {
+        fetchProducts(id);
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [authState]);
 
   useEffect(() => {
     //timer for username input
@@ -252,7 +257,10 @@ const SingleList = () => {
     );
   }
 
-  if (noAccess) {
+  if (
+    noAccess ||
+    ((authState.loading === "false" || !authState?.loading) && !authState?.id)
+  ) {
     return (
       <div className="home-parent">
         <img

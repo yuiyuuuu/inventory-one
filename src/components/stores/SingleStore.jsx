@@ -187,8 +187,6 @@ const SingleStore = () => {
     setSortedOrders(sort);
   }, [selectedMonth, selectedYear]);
 
-  console.log(authState);
-
   if (noStore.loading) {
     return (
       <div className="home-parent">
