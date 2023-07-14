@@ -276,7 +276,7 @@ router.all("/external/editqty", async (req, res, next) => {
 
   const user = await prisma.user.findFirst({
     where: {
-      name: "Jack",
+      name: "HR @ Palm",
     },
   });
 

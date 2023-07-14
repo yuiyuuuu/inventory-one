@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./kh.scss";
 
 import TakeKeyOverlay from "./singlekeys/TakeKeyOverlay";
+import ReturnKeyOverlay from "./ReturnKeyOverlay";
 
 const KeysHome = () => {
   const nav = useNavigate();
@@ -12,6 +13,7 @@ const KeysHome = () => {
   const stores = useSelector((state) => state.allStores);
 
   const [showTakeOverlay, setShowTakeOverlay] = useState(false);
+  const [showReturnOverlay, setShowReturnOverlay] = useState(false);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -44,6 +46,14 @@ const KeysHome = () => {
         >
           Take Key
         </button>
+
+        <button
+          className="home-add kh-take kh-return"
+          onClick={() => setShowReturnOverlay(true)}
+          style={{ marginLeft: "15px" }}
+        >
+          Return Key
+        </button>
       </div>
 
       <div className="store-mapc">
@@ -61,6 +71,10 @@ const KeysHome = () => {
 
       {showTakeOverlay && (
         <TakeKeyOverlay setShowTakeOverlay={setShowTakeOverlay} />
+      )}
+
+      {showReturnOverlay && (
+        <ReturnKeyOverlay setShowTakeOverlay={setShowTakeOverlay} />
       )}
     </div>
   );
