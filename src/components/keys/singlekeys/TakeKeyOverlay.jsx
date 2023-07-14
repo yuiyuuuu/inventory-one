@@ -53,7 +53,7 @@ const TakeKeyOverlay = ({
       stores: selected,
     };
 
-    await makePostRequest("keys/create", obj)
+    await makePostRequest(`keys/create/${import.meta.env.VITE_ROUTEPASS}`, obj)
       .then((res) => {
         if (res?.id) {
           window.location.href = `/keys/${res.id}`;

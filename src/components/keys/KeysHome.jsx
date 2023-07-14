@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { makeGetRequest } from "../../requests/helperFunctions";
+
 import "./kh.scss";
 
 import TakeKeyOverlay from "./singlekeys/TakeKeyOverlay";
@@ -14,6 +16,8 @@ const KeysHome = () => {
 
   const [showTakeOverlay, setShowTakeOverlay] = useState(false);
   const [showReturnOverlay, setShowReturnOverlay] = useState(false);
+
+  const [allActiveLogs, setAllActiveLogs] = useState([]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -74,7 +78,10 @@ const KeysHome = () => {
       )}
 
       {showReturnOverlay && (
-        <ReturnKeyOverlay setShowTakeOverlay={setShowTakeOverlay} />
+        <ReturnKeyOverlay
+          setShowTakeOverlay={setShowTakeOverlay}
+          setShowReturnOverlay={setShowReturnOverlay}
+        />
       )}
     </div>
   );

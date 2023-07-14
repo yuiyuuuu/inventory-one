@@ -1,3 +1,4 @@
+//used once to reseed inventoryone on heroku because the stores didnt have the seed#
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 

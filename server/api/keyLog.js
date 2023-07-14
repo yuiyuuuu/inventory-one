@@ -3,7 +3,12 @@ const prisma = require("../prisma/prismaClient.js");
 
 module.exports = router;
 
-router.get("/fetchall", async (req, res, next) => {
+router.get("/fetchall/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const data = await prisma.keylog.findMany({
       include: {
@@ -17,7 +22,37 @@ router.get("/fetchall", async (req, res, next) => {
   }
 });
 
-router.post("/create", async (req, res, next) => {
+router.get("/fetch/active/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    const find = await prisma.keylog.findMany({
+      where: {
+        returnTime: {
+          equals: null,
+        },
+      },
+
+      include: {
+        store: true,
+      },
+    });
+
+    res.send(find);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/create/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const listOfKeys = req.body.stores;
 
@@ -60,7 +95,12 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-router.put("/return", async (req, res, next) => {
+router.put("/return/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     await prisma.keylog.update({
       where: {

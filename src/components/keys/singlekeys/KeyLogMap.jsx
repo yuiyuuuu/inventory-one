@@ -20,7 +20,7 @@ const KeyLogMap = ({ keylog, setSelectedStore }) => {
     );
 
     if (result) {
-      await makePutRequest("keys/return", obj)
+      await makePutRequest(`keys/return/${import.meta.env.VITE_ROUTEPASS}`, obj)
         .then((res) => {
           if (res.id) {
             setSelectedStore(res);
