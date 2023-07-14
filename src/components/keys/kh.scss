@@ -48,6 +48,7 @@
   font-size: 20px;
   border-color: rgb(33, 228, 33) !important;
   margin-bottom: 15px;
+  max-height: unset !important;
 
   @media only screen and (max-width: 750px) {
     font-size: 16px;
