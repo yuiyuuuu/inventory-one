@@ -10,7 +10,7 @@ import $ from "jquery";
 
 import SingleStoreMap from "./SingleStoreMap";
 
-import { readFile } from "xlsx";
+import { readFile, utils } from "xlsx";
 
 const months = {
   1: "January",
@@ -100,7 +100,6 @@ const SingleStore = () => {
   //         }
 
   //         result.push(obj);
-
   //       }
 
   //       //return result; //JavaScript object
@@ -108,7 +107,7 @@ const SingleStore = () => {
   //       return JSON.stringify(result); //JSON
   //     }
 
-  //     console.log(readFile(ev.target.result));
+  //     console.log(utils.sheet_to_json(ev.target.result));
   //     csvJSON(ev.target.result);
   //   };
   // }

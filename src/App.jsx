@@ -40,7 +40,16 @@ const App = () => {
     async function fetchall() {
       makeGetRequest(`stores/fetchall/${import.meta.env.VITE_ROUTEPASS}`).then(
         (res) => {
-          dispatch(dispatchSetAllStores(res));
+          function sorting(a, b) {
+            const num1 = Number(a.name.slice(0, 2));
+            const num2 = Number(b.name.slice(0, 2));
+
+            if (num1 > num2) return 1;
+            if (num1 < num2) return -1;
+            return 0;
+          }
+
+          dispatch(dispatchSetAllStores(res.sort(sorting)));
         }
       );
     }
