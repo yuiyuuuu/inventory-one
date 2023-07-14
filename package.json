@@ -12,6 +12,7 @@
     "migrate": "npx prisma generate --schema=./server/prisma/schema.prisma && prisma migrate deploy --schema=./server/prisma/schema.prisma",
     "proc": "npx prisma generate --schema=./server/prisma/schema.prisma && node server/server.js",
     "heroseed": "npx prisma generate --schema=./server/prisma/schema.prisma && node server/prisma/seed.js",
+    "heroseedstores": "npx prisma generate --schema=./server/prisma/schema.prisma && node scripts/seedstores.js",
     "delete": "npx prisma generate --schema=./server/prisma/schema.prisma && node scripts/delete.js"
   },
   "dependencies": {

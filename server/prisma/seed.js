@@ -136,7 +136,9 @@ const findqty = async () => {
         name: stores[cur.W_STORE_CODE],
         number: Number(cur.W_STORE_CODE),
       },
-      update: {},
+      update: {
+        number: Number(cur.W_STORE_CODE),
+      },
     });
 
     // find or create user
