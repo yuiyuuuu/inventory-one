@@ -191,28 +191,29 @@ router.put("/editqty/:secretkey", async (req, res, next) => {
         },
       });
 
-      if (find.quantity > 0) {
-        await prisma.order.create({
-          data: {
-            itemId: req.body.id,
-            storeId: req.body.storeId,
-            userId: user.id,
-            quantity: negativeStock || req.body.quantity,
-            completedAt: new Date(),
-            listId: req.body.listid,
-          },
-        });
+      // if (find.quantity > 0) {
+      //decided to remove this for intranet orders because if someone completed it, it means there was qty
+      await prisma.order.create({
+        data: {
+          itemId: req.body.id,
+          storeId: req.body.storeId,
+          userId: user.id,
+          quantity: negativeStock || req.body.quantity,
+          completedAt: new Date(),
+          listId: req.body.listid,
+        },
+      });
 
-        await prisma.item.update({
-          where: {
-            id: req.body.id,
-          },
-          data: {
-            historyQTY: find.historyQTY + (negativeStock || req.body.quantity),
-          },
-        });
-      }
+      await prisma.item.update({
+        where: {
+          id: req.body.id,
+        },
+        data: {
+          historyQTY: find.historyQTY + (negativeStock || req.body.quantity),
+        },
+      });
     }
+    // }
 
     const final = await prisma.item.findUnique({
       where: { id: req.body.id },
@@ -322,6 +323,7 @@ router.all("/external/editqty", async (req, res, next) => {
         listId: list.id,
         userId: user.id,
         quantity: Number(cur.qty),
+        completedAt: new Date(),
       },
     });
   }
