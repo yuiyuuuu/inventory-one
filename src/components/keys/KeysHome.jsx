@@ -46,14 +46,20 @@ const KeysHome = () => {
       <div className="home-t home-q">
         <button
           className="home-add kh-take"
-          onClick={() => setShowTakeOverlay(true)}
+          onClick={() => {
+            document.querySelector("html").style.overflow = "hidden";
+            setShowTakeOverlay(true);
+          }}
         >
           Take Key
         </button>
 
         <button
           className="home-add kh-take kh-return"
-          onClick={() => setShowReturnOverlay(true)}
+          onClick={() => {
+            document.querySelector("html").style.overflow = "hidden";
+            setShowReturnOverlay(true);
+          }}
           style={{ marginLeft: "15px" }}
         >
           Return Key

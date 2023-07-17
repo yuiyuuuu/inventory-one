@@ -60,7 +60,10 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
   return (
     <div
       className="home-createoverlay"
-      onClick={() => setShowReturnOverlay(false)}
+      onClick={() => {
+        document.querySelector("html").style.overflow = "";
+        setShowReturnOverlay(false);
+      }}
     >
       <div className="homec-inner kh-rko" onClick={(e) => e.stopPropagation()}>
         <div className="homec-l">Return Key</div>

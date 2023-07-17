@@ -106,7 +106,10 @@ const TakeKeyOverlay = ({
   return (
     <div
       className="home-createoverlay"
-      onClick={() => setShowTakeOverlay(false)}
+      onClick={() => {
+        document.querySelector("html").style.overflow = "";
+        setShowTakeOverlay(false);
+      }}
     >
       <div
         className="homec-inner"
