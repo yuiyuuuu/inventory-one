@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import $ from "jquery";
 
 import { makePostRequest } from "../../requests/requestFunctions";
-import { useSelector } from "react-redux";
+
 import CheckMark from "./svg/CheckMark";
 
 const TakeKeyOverlay = ({

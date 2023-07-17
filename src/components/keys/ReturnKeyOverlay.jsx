@@ -1,10 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { makeGetRequest } from "../requests/requestFunctions";
+import { makeGetRequest, makePutRequest } from "../requests/requestFunctions";
 
 const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
   const [activeKeyLogs, setActiveKeyLogs] = useState([]);
 
   const [sortedLogs, setSortedLogs] = useState({});
+
+  async function returnKey(logid, name) {
+    const obj = {
+      keyLogId: logid,
+      returnTime: new Date(),
+    };
+
+    const c = await makePutRequest(
+      `keys/returnfromoverlay/${import.meta.env.VITE_ROUTEPASS}`,
+      obj
+    )
+      .then((res) => {
+        if (res === "access denied") throw new Error("access denied");
+
+        if (res) {
+          setActiveKeyLogs(res);
+          alert("Returned for " + name);
+        }
+      })
+      .catch(() => {
+        alert("Something went wrong, please try again");
+      });
+  }
 
   useEffect(() => {
     async function fetch() {
@@ -34,15 +57,78 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
     setSortedLogs(result);
   }, [activeKeyLogs]);
 
-  console.log(sortedLogs);
-
   return (
     <div
       className="home-createoverlay"
       onClick={() => setShowReturnOverlay(false)}
     >
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
+      <div className="homec-inner kh-rko" onClick={(e) => e.stopPropagation()}>
         <div className="homec-l">Return Key</div>
+
+        {activeKeyLogs?.length > 0 ? (
+          <div className="kh-start">
+            {Object.keys(sortedLogs)
+              .sort(function (a, b) {
+                const num1 = Number(a.slice(0, 2));
+                const num2 = Number(b.slice(0, 2));
+
+                if (num1 > num2) return 1;
+                if (num1 < num2) return -1;
+                return 0;
+              })
+              ?.map((key) => (
+                <div className="pio-inner">
+                  <div
+                    className="pio-bbot pi-fs"
+                    style={{ borderBottomColor: "red" }}
+                  >
+                    {key}
+                  </div>
+
+                  <div className="kh-j">
+                    {sortedLogs[key].map((log) => (
+                      <div
+                        className="kh-mapch"
+                        style={{ width: "100%" }}
+                        onClick={() =>
+                          (window.location.href = `/keys/${log.store.id}`)
+                        }
+                      >
+                        <div className="kh-b">
+                          <div className="kh-bord2 kh-bordfont">
+                            <span className="kh-wp ellipsis">
+                              {log.name.toUpperCase()} -{" "}
+                            </span>{" "}
+                            <span className="kp-wpi">
+                              {" "}
+                              {new Date(new Date(log.takeTime)).toLocaleString(
+                                "en-US",
+                                {
+                                  timeZone: "America/Chicago",
+                                }
+                              )}
+                            </span>
+                            <div className="grow" />{" "}
+                            <button
+                              className="home-add kh-return"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                returnKey(log.id, log.name);
+                              }}
+                            >
+                              Return
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+          </div>
+        ) : (
+          <div className="kh-no">No active key logs</div>
+        )}
       </div>
     </div>
   );

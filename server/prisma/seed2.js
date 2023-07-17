@@ -9,6 +9,8 @@ const bcrypt = require("bcrypt");
 // that way we get the new updates and dont have to recount inventory
 //will applythis when i recount inventory since I havent updated in so long
 
+//this file does not delete whole db
+
 const stores = {
   1: "01-MAIN H/Q",
   2: "02-COM-1",

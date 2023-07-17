@@ -36,13 +36,16 @@ const KeyLogMap = ({ keylog, setSelectedStore }) => {
     <div className="kh-mapch">
       <div className="kh-b">
         <div className="kh-bord2">
-          {keylog.name.toUpperCase()} - {c} <div className="grow" />{" "}
+          <span className="kh-wp ellipsis">{keylog.name.toUpperCase()}</span> -
+          <span className="kh-wpi">{c}</span> <div className="grow" />{" "}
           <button className="home-add kh-return" onClick={() => returnKey()}>
             Return
           </button>
         </div>
 
-        {keylog.memo && <div className="ellipsis">Memo: {keylog.memo}</div>}
+        {keylog.memo && (
+          <div className="ellipsis kh-bord2">Memo: {keylog.memo}</div>
+        )}
       </div>
     </div>
   );

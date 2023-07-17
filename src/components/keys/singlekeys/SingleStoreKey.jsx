@@ -73,7 +73,7 @@ const SingleKey = () => {
         onClick={() => (window.location.href = "/keys")}
         style={{ cursor: "pointer" }}
       />
-      <div className="home-krink">{selectedStore?.name} - Keys</div>
+      <div className="home-krink">Keys - {selectedStore?.name}</div>
 
       <div className="home-t home-q">
         <button

@@ -137,3 +137,38 @@ router.put("/return/:secretkey", async (req, res, next) => {
     next(error);
   }
 });
+
+//this one returns all active ones, the other one returns the store
+router.put("/returnfromoverlay/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    await prisma.keylog.update({
+      where: {
+        id: req.body.keyLogId,
+      },
+      data: {
+        returnTime: req.body.returnTime,
+      },
+    });
+
+    const find = await prisma.keylog.findMany({
+      where: {
+        returnTime: {
+          equals: null,
+        },
+      },
+
+      include: {
+        store: true,
+      },
+    });
+
+    res.send(find);
+  } catch (error) {
+    next(error);
+  }
+});

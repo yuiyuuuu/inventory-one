@@ -51,67 +51,6 @@ const SingleStore = () => {
 
   const [noStore, setNoStore] = useState({ loading: true, notfound: false });
 
-  //testing only!
-  useEffect(() => {
-    // $.ajax("http://it.citysportsusa.com:88/files/180DaysOfSupplyReports.csv", {
-    //   type: "GET",
-    // }).then((res) => {
-    //   console.log(res, "response");
-    // });
-    // const input = document.createElement("input");
-    // input.type = "file";
-    // input.onchange = function (e) {
-    //   console.log(e.target.value);
-    // };
-    // input.click();
-    // async function f() {
-    //   const res = await fetch(
-    //     "http://it.citysportsusa.com:88/files/180DaysOfSupplyReports.csv",
-    //     { headers: "no-cors" }
-    //   ).then((res) => {
-    //     console.log(res);
-    //   });
-    // }
-    // f();
-  }, []);
-
-  // function onchanges(e) {
-  //   const f = new FileReader();
-  //   f.readAsText(e.target.files[0]);
-
-  //   f.onload = (ev) => {
-  //     function csvJSON(csv) {
-  //       var lines = csv.split("\n");
-
-  //       var result = [];
-
-  //       // NOTE: If your columns contain commas in their values, you'll need
-  //       // to deal with those before doing the next step
-  //       // (you might convert them to &&& or something, then covert them back later)
-  //       // jsfiddle showing the issue https://jsfiddle.net/
-  //       var headers = lines[0].split(",");
-
-  //       for (var i = 1; i < lines.length; i++) {
-  //         var obj = {};
-  //         var currentline = lines[i].split(",");
-
-  //         for (var j = 0; j < headers.length; j++) {
-  //           obj[headers[j]] = currentline[j];
-  //         }
-
-  //         result.push(obj);
-  //       }
-
-  //       //return result; //JavaScript object
-  //       console.log(JSON.parse(JSON.stringify(result)));
-  //       return JSON.stringify(result); //JSON
-  //     }
-
-  //     console.log(utils.sheet_to_json(ev.target.result));
-  //     csvJSON(ev.target.result);
-  //   };
-  // }
-
   const clickoutYear = useCallback((e) => {
     const $target = $(event.target);
     if (
@@ -271,7 +210,6 @@ const SingleStore = () => {
 
   return (
     <div className="home-parent">
-      {/* <input type="file" onChange={(e) => onchanges(e)} /> */}
       <img
         className="home-logo"
         src="/assets/logo.jpeg"

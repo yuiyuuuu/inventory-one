@@ -4,6 +4,10 @@ const { c } = require("../jsonobj");
 
 const bcrypt = require("bcrypt");
 
+//notes for seeding -
+//depending on senario- change the code and deletes accordingly. most of the time, a full delete is not necessary if we are changing a unique contraint
+//the current code below simply deletes orders and categories, then reseeds the items in supply inventory with the old quantity before seed. preserves quantity so we dont have to recount.
+
 //IMPORTANT
 //for later on when you recount inventory, before deleting everything, store the previous qty here and then we can reseed with the previous qty.
 // that way we get the new updates and dont have to recount inventory
@@ -46,10 +50,14 @@ function sorting(a, b) {
 const findqty = async () => {
   const findOldQty = await prisma.user.findUnique({
     where: {
-      email: "yingsonyu@gmail.com",
+      email: "hr@palmusa.com",
     },
     include: {
       lists: {
+        where: {
+          name: "Supply Inventory List",
+        },
+
         include: {
           item: true,
         },
@@ -57,44 +65,69 @@ const findqty = async () => {
     },
   });
 
-  await prisma.item.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.store.deleteMany();
-  await prisma.order.deleteMany();
-  await prisma.keylog.deleteMany();
-  await prisma.category.deleteMany();
-  await prisma.list.deleteMany();
+  console.log(findOldQty);
 
-  const jack = await prisma.user.create({
-    data: {
+  await prisma.item.deleteMany();
+  // await prisma.user.deleteMany();
+  // await prisma.store.deleteMany();
+  await prisma.order.deleteMany();
+  // await prisma.keylog.deleteMany();
+  await prisma.category.deleteMany();
+  // await prisma.list.deleteMany();
+
+  const jack = await prisma.user.upsert({
+    where: {
+      email: "hr@palmusa.com",
+    },
+    create: {
       name: "HR @ Palm",
       email: "hr@palmusa.com",
       password: await bcrypt.hash("hrpalm5050", 10),
     },
+
+    update: {},
   });
 
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: {
+      email: "retail@palmusa.com",
+    },
+    create: {
       name: "Retail @ Palm",
       email: "retail@palmusa.com",
       password: await bcrypt.hash("retailpalm5050", 10),
     },
+    update: {},
   });
 
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: {
+      email: "test@palmusa.com",
+    },
+    create: {
       name: "Test @ Palm",
       email: "test@palmusa.com",
       password: await bcrypt.hash("testpalm5050", 10),
     },
+    update: {},
   });
 
-  const firstList = await prisma.list.create({
-    data: {
-      name: "Supply Inventory List",
-      ownerId: jack.id,
-    },
-  });
+  let firstList = "";
+
+  if (!findOldQty.id) {
+    firstList = await prisma.list.create({
+      data: {
+        name: "Supply Inventory List",
+        ownerId: jack.id,
+      },
+    });
+  } else {
+    firstList = await prisma.list.findUnique({
+      where: {
+        id: findOldQty.lists[0].id,
+      },
+    });
+  }
 
   for (let i = 0; i < c.length; i++) {
     const cur = c[i];
@@ -123,9 +156,17 @@ const findqty = async () => {
         quantity:
           findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
             ?.quantity || 0,
+        historyQTY:
+          findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
+            ?.historyQTY || 0,
       },
       update: {},
     });
+
+    console.log(
+      findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
+        ?.quantity
+    );
 
     //find or create store
     const store = await prisma.store.upsert({
@@ -166,7 +207,7 @@ const findqty = async () => {
       },
     });
 
-    console.log(Number(item.historyQTY) + Number(cur.QTY));
+    // console.log(Number(item.historyQTY) + Number(cur.QTY));
 
     await prisma.item.update({
       where: {
