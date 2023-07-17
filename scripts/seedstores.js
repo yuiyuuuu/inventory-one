@@ -33,6 +33,8 @@ const stores = {
 
 const seed = async () => {
   //find or create store
+
+  await prisma.store.deleteMany();
   for (let i = 0; i < c.length; i++) {
     const cur = c[i];
 
@@ -46,6 +48,7 @@ const seed = async () => {
       },
       update: {
         number: Number(cur.W_STORE_CODE),
+        name: stores[cur.W_STORE_CODE],
       },
     });
   }

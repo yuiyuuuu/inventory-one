@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt");
 // that way we get the new updates and dont have to recount inventory
 //will applythis when i recount inventory since I havent updated in so long
 
-//this file does not delete whole db
+//this file does not preserve old qty
 
 const stores = {
   1: "01-MAIN H/Q",
@@ -46,46 +46,46 @@ function sorting(a, b) {
 }
 
 const findqty = async () => {
-  const findOldQty = await prisma.user.findUnique({
-    where: {
-      email: "yingsonyu@gmail.com",
-    },
-    include: {
-      lists: {
-        include: {
-          item: true,
-        },
-      },
-    },
-  });
-
   await prisma.item.deleteMany();
   await prisma.order.deleteMany();
   await prisma.category.deleteMany();
   await prisma.list.deleteMany();
 
-  const jack = await prisma.user.create({
-    data: {
+  const jack = await prisma.user.upsert({
+    where: {
+      email: "hr@palmusa.com",
+    },
+    create: {
       name: "HR @ Palm",
       email: "hr@palmusa.com",
       password: await bcrypt.hash("hrpalm5050", 10),
     },
+
+    update: {},
   });
 
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: {
+      email: "retail@palmusa.com",
+    },
+    create: {
       name: "Retail @ Palm",
       email: "retail@palmusa.com",
       password: await bcrypt.hash("retailpalm5050", 10),
     },
+    update: {},
   });
 
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: {
+      email: "test@palmusa.com",
+    },
+    create: {
       name: "Test @ Palm",
       email: "test@palmusa.com",
       password: await bcrypt.hash("testpalm5050", 10),
     },
+    update: {},
   });
 
   const firstList = await prisma.list.create({
@@ -119,9 +119,7 @@ const findqty = async () => {
         categoryId: category.id,
         seedid: cur.SUPPLY_NUM,
         listId: firstList.id,
-        quantity:
-          findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
-            ?.quantity || 0,
+        quantity: 0,
       },
       update: {},
     });
