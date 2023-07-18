@@ -3,6 +3,11 @@
   box-sizing: border-box;
   padding: 10px 0;
   width: 100%;
+
+  @media only screen and (max-width: 530px) {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .item-row {
@@ -25,8 +30,9 @@
   }
 
   @media only screen and (max-width: 530px) {
-    width: calc(100% - 40px);
+    width: 100%;
     padding: 8px 10px;
+    margin: 0;
   }
 }
 

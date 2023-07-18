@@ -28,10 +28,10 @@ const OrderChildStore = ({ order, date }) => {
       >
         {order.map((v, i) => (
           <div className="ss-ordermapinner">
-            <div className="ss-qp">Order ID: {v?.id}</div>
-            <div className="ss-qp">Store: {v?.store?.name}</div>
-            <div className="ss-qp">Quantity: {v?.quantity}</div>
-            <div className="ss-qp">Completed By: {v?.user?.name}</div>
+            <div className="ss-qp pi-fs">Order ID: {v?.id}</div>
+            <div className="ss-qp pi-fs">Store: {v?.store?.name}</div>
+            <div className="ss-qp pi-fs">Quantity: {v?.quantity}</div>
+            <div className="ss-qp pi-fs">Completed By: {v?.user?.name}</div>
 
             <div
               className="ss-divider"
