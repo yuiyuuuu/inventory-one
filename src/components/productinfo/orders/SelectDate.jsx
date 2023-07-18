@@ -1,9 +1,8 @@
 import React from "react";
 
 const SelectDate = ({ orders, setSelectedDate, setShowSelectDate }) => {
-  console.log(orders);
   return (
-    <div className='pio-selch' id='pio-pelch'>
+    <div className="pio-selch" id="pio-pelch">
       {Object.keys(orders)
         .sort(function (a, b) {
           const adate = new Date(a);
@@ -15,7 +14,7 @@ const SelectDate = ({ orders, setSelectedDate, setShowSelectDate }) => {
         })
         .map((v, i) => (
           <div
-            className='pio-ch'
+            className="pio-ch"
             style={{
               borderBottom: i === Object.keys(orders).length - 1 && "none",
             }}

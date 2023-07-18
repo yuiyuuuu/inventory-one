@@ -7,8 +7,6 @@ const OrderChildStore = ({ order, date }) => {
     setShow(false);
   }, [order]);
 
-  console.log(order);
-
   return (
     <div className="pio-inner">
       <div

@@ -94,6 +94,16 @@
 .ss-canvascontainer {
   position: relative;
   aspect-ratio: 1;
+
+  @media only screen and (min-width: 1001px) {
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  @media only screen and (min-width: 1181px) {
+    margin: 0 auto;
+    width: 70%;
+  }
 }
 
 .ss-out {
