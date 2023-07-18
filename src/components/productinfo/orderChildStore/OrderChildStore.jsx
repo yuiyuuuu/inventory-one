@@ -7,6 +7,8 @@ const OrderChildStore = ({ order, date }) => {
     setShow(false);
   }, [order]);
 
+  console.log(order);
+
   return (
     <div className="pio-inner">
       <div
@@ -26,7 +28,7 @@ const OrderChildStore = ({ order, date }) => {
         style={{ maxHeight: show ? order.length * 170 + "px" : 0 }}
         className="pi-w"
       >
-        {order.map((v, i) => (
+        {order.map((v, i, a) => (
           <div className="ss-ordermapinner">
             <div className="ss-qp pi-fs">Order ID: {v?.id}</div>
             <div className="ss-qp pi-fs">Store: {v?.store?.name}</div>
@@ -35,7 +37,7 @@ const OrderChildStore = ({ order, date }) => {
 
             <div
               className="ss-divider"
-              style={{ display: i === order.length - 1 && "none" }}
+              style={{ display: i === a.length - 1 && "none" }}
             />
           </div>
         ))}
