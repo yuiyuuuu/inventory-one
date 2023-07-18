@@ -119,20 +119,29 @@ const FilterElement = ({
                 >
                   Unselect Date
                 </div>
-                {Object.keys(results).map((date, i, a) => (
-                  <div
-                    className="pio-ch"
-                    style={{ borderBottom: i === a.length - 1 && "none" }}
-                    onClick={() =>
-                      setDateRangeFilter((prev) => {
-                        setShowStart(false);
-                        return { start: date, end: null };
-                      })
-                    }
-                  >
-                    {date}
-                  </div>
-                ))}
+                {Object.keys(results)
+                  .sort(function (a, b) {
+                    const adate = new Date(a);
+                    const bdate = new Date(b);
+
+                    if (adate < bdate) return -1;
+                    if (adate > bdate) return 1;
+                    return 0;
+                  })
+                  .map((date, i, a) => (
+                    <div
+                      className="pio-ch"
+                      style={{ borderBottom: i === a.length - 1 && "none" }}
+                      onClick={() =>
+                        setDateRangeFilter((prev) => {
+                          setShowStart(false);
+                          return { start: date, end: null };
+                        })
+                      }
+                    >
+                      {date}
+                    </div>
+                  ))}
               </div>
             )}
           </div>
@@ -166,20 +175,29 @@ const FilterElement = ({
                 >
                   Unselect Date
                 </div>
-                {afterStartDate.map((date, i, a) => (
-                  <div
-                    className="pio-ch"
-                    style={{ borderBottom: i === a.length - 1 && "none" }}
-                    onClick={() =>
-                      setDateRangeFilter((prev) => {
-                        setShowEnd(false);
-                        return { ...prev, end: date };
-                      })
-                    }
-                  >
-                    {date}
-                  </div>
-                ))}
+                {afterStartDate
+                  .sort(function (a, b) {
+                    const adate = new Date(a);
+                    const bdate = new Date(b);
+
+                    if (adate < bdate) return -1;
+                    if (adate > bdate) return 1;
+                    return 0;
+                  })
+                  .map((date, i, a) => (
+                    <div
+                      className="pio-ch"
+                      style={{ borderBottom: i === a.length - 1 && "none" }}
+                      onClick={() =>
+                        setDateRangeFilter((prev) => {
+                          setShowEnd(false);
+                          return { ...prev, end: date };
+                        })
+                      }
+                    >
+                      {date}
+                    </div>
+                  ))}
               </div>
             )}
           </div>
