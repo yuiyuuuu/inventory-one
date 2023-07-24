@@ -87,6 +87,8 @@ model User{
   sharedLists List[] @relation("shared")
 
   QR QR[]
+
+  print Print[]
 }
 
 //keys stuff below
@@ -108,6 +110,24 @@ model QR{
   image String? //qr image, optional because we are making two requests
   user User @relation(fields: [userid], references: [id], onDelete: Cascade)
   userid String
+}
+
+//print section
+model Print{
+  id String @id @default(uuid())
+  name String @unique
+  user User @relation(fields: [userid], references: [id])
+  userid String
+
+printFiles PrintFile[]
+}
+
+model PrintFile{
+  id String @id @default(uuid())
+  pathName String
+
+  printList Print @relation(fields: [printListId], references: [id])
+  printListId String
 }
 
 

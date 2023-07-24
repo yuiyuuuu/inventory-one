@@ -18,6 +18,7 @@
   "dependencies": {
     "@prisma/client": "^4.14.0",
     "atropos": "^1.0.2",
+    "aws-sdk": "^2.1420.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
