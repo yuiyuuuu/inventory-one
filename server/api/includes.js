@@ -48,6 +48,11 @@ const userinclude = JSON.stringify({
   },
   orders: true,
   QR: true,
+  print: {
+    include: {
+      printFiles: true,
+    },
+  },
 });
 
 module.exports = { list, store, userinclude };

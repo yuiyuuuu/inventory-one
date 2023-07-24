@@ -29,6 +29,7 @@ import QR from "./components/qr/QR.jsx";
 import SingleQR from "./components/qr/SingleQR";
 import RedirectQR from "./components/qr/RedirectQR";
 import Print from "./components/print/Print";
+import SinglePrintList from "./components/print/singleprint/SinglePrintList";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -79,7 +80,7 @@ const App = () => {
 
       <BrowserRouter>
         <div
-          className='side-blur'
+          className="side-blur"
           style={{
             zIndex: !sidebarState.display && -1000,
           }}
@@ -89,8 +90,8 @@ const App = () => {
         {datePickerState?.display && <CustomDateSelector />}
 
         {loading && (
-          <div className='abs-loading'>
-            <div className='lds-ring' id='spinner-form'>
+          <div className="abs-loading">
+            <div className="lds-ring" id="spinner-form">
               <div></div>
               <div></div>
               <div></div>
@@ -99,26 +100,33 @@ const App = () => {
           </div>
         )}
         <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/stores' element={<Stores />} />
-          <Route exact path='/stores/:id' element={<SingleStore />} />
+          <Route exact path="/" element={<Home />} />
 
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/signup' element={<Signup />} />
+          <Route exact path="/lists/:id" element={<SingleList />} />
 
-          {/* testing only route*/}
-          <Route exact path='/test' element={<CustomDateSelector />} />
-          <Route exact path='/keys' element={<KeysHome />} />
-          <Route exact path='/keys/:id' element={<SingleStoreKey />} />
+          {/* stores routes*/}
+          <Route exact path="/stores" element={<Stores />} />
+          <Route exact path="/stores/:id" element={<SingleStore />} />
 
-          <Route exact path='/lists/:id' element={<SingleList />} />
+          {/* auth routes*/}
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
 
-          <Route exact path='/qr' element={<QR />} />
-          <Route exact path='/qr/:id' element={<SingleQR />} />
+          {/* testing only routes*/}
+          <Route exact path="/test" element={<CustomDateSelector />} />
 
-          <Route exact path='/r/:id' element={<RedirectQR />} />
+          {/* keys routes*/}
+          <Route exact path="/keys" element={<KeysHome />} />
+          <Route exact path="/keys/:id" element={<SingleStoreKey />} />
 
-          <Route exact path='/print' element={<Print />} />
+          {/* QR routes*/}
+          <Route exact path="/qr" element={<QR />} />
+          <Route exact path="/qr/:id" element={<SingleQR />} />
+          <Route exact path="/r/:id" element={<RedirectQR />} />
+
+          {/* print routes*/}
+          <Route exact path="/print" element={<Print />} />
+          <Route exact path="/print/:id" element={<SinglePrintList />} />
         </Routes>
       </BrowserRouter>
     </div>

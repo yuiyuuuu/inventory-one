@@ -124,7 +124,7 @@ printFiles PrintFile[]
 
 model PrintFile{
   id String @id @default(uuid())
-  pathName String
+  pathName String @unique
 
   printList Print @relation(fields: [printListId], references: [id])
   printListId String
