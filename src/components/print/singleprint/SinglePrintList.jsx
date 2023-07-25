@@ -55,6 +55,7 @@ const SinglePrintList = () => {
           const id = params.id;
 
           fetchList(id);
+          location.reload();
         }
       })
       .catch(() => {
@@ -81,9 +82,104 @@ const SinglePrintList = () => {
     });
   }
 
-  async function handleDownloadClick() {
+  async function handleDownloadClick(file) {
     //when user clicks a file, it should download
     //debating if i should add this, or just use a pdf renderer and display all the pdfs as previews
+
+    const data = await makeGetRequest(
+      `print/gets3/${currentPrintList.name}/${file?.pathName.slice(
+        currentPrintList?.name?.length + 1
+      )}/${import.meta.env.VITE_ROUTEPASS}`
+    )
+      .then((res) => {
+        if (res === "error") {
+          throw new Error();
+        }
+
+        // console.log(atob(res));
+
+        // let str = "data:application/w+;base64," + res;
+        // let binaryLen = str.length;
+        // let bytes = new Uint8Array(binaryLen);
+        // console.log(str);
+
+        // for (let i = 0; i < binaryLen; i++) {
+        //   let ascii = str.charCodeAt(i);
+        //   bytes[i] = ascii;
+        // }
+
+        // let blob = new Blob([bytes.buffer], { type: "application/pdf" });
+
+        // console.log(blob);
+
+        // let link = document.createElement("a");
+
+        // link.href = str;
+        // link.download = file?.pathName.slice(
+        //   currentPrintList?.name?.length + 1
+        // );
+
+        // document.body.append(link);
+        // link.click();
+        // link.remove();
+        // console.log(bytes);
+
+        // let binaryString = window.atob("data:application/w+;base64," + res);
+        // let binaryLen = binaryString.length;
+        // console.log(binaryString);
+
+        // const base64str = btoa(
+        //   new Uint8Array(res.Body.data).reduce(
+        //     (data, byte) => data + String.fromCharCode(byte),
+        //     ""
+        //   )
+        // );
+
+        // console.log(base64str, "b64");
+        // console.log(res.Body);
+        // console.log(res, "responseeeeeeeee");
+
+        // const blob = new Blob([new Int8Array(res.Body.data).buffer], {
+        //   type: "application/pdf",
+        // });
+
+        // console.log(blob, "blob");
+        // console.log(new Int8Array(res.Body));
+
+        // console.log(URL.createObjectURL(blob));
+
+        fetch("data:application/w+;base64," + atob(res))
+          .then((resp) => resp.blob())
+          .then((res) => {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(res);
+
+            link.download = file?.pathName.slice(
+              currentPrintList?.name?.length + 1
+            );
+
+            document.body.append(link);
+            link.click();
+            link.remove();
+          });
+
+        // const decode = atob(res);
+        // console.log(decode);
+        // const link = document.createElement("a");
+        // link.href = URL.createObjectURL("data:application/w+;base64," + decode);
+
+        // link.download = file?.pathName.slice(
+        //   currentPrintList?.name?.length + 1
+        // );
+
+        // document.body.append(link);
+        // link.click();
+        // link.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Something went wrong, please try again");
+      });
   }
 
   console.log(currentPrintList);
@@ -171,7 +267,7 @@ const SinglePrintList = () => {
               <li className="print-li">
                 <span
                   className="print-lich"
-                  onClick={() => handleDownloadClick()}
+                  onClick={() => handleDownloadClick(file)}
                 >
                   {file?.pathName.slice(currentPrintList?.name?.length + 1)}
                 </span>

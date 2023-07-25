@@ -2,11 +2,85 @@ const router = require("express").Router();
 const prisma = require("../prisma/prismaClient.js");
 
 const aws = require("aws-sdk");
-const s3 = new aws.S3();
+const s3 = new aws.S3({ region: process.env.AWS_DEFAULT_REGION });
 
-const busboy = require("busboy");
+const fs = require("fs");
+
+const pd = require("pdfjs-dist");
 
 module.exports = router;
+
+router.get("/gets3/:printlist/:pathname/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    let result = null;
+
+    const data = await s3
+      .getObject(
+        {
+          Bucket: "inventoryone",
+          Key: req.params.printlist + "/" + req.params.pathname,
+        }
+        // async function (error, data) {
+        //   if (error) {
+        //     result = "error";
+        //   } else {
+        //     // constfs.writeFile(
+        //     //   req.params.pathname,
+        //     //   Buffer.from(data.Body.data),
+        //     //   function (error) {
+        //     //     if (error) {
+        //     //       console.log(error);
+        //     //     }
+        //     //   }
+        //     // );
+
+        //     // console.log(req.params.pathname);
+        //     // const pdf = await pd.getDocument({
+        //     //   data: new Int8Array(data.Body).buffer,
+        //     // });
+
+        //     // console.log(data.Body.toString(), "bufffferrrr");
+
+        //     // const str = btoa(
+        //     //   new Uint8Array(data.Body).reduce(
+        //     //     (data, byte) => data + String.fromCharCode(byte),
+        //     //     ""
+        //     //   )
+        //     // );
+
+        //     // console.log(new Uint8Array(data.Body));
+
+        //     /**.reduce(
+        //         (data, byte) => data + String.fromCharCode(byte),
+        //         ""
+        //       )*/
+        //     // console.log(str);
+        //     // console.log(data);
+
+        //     // result = str;
+
+        //     result = btoa(data.Body.toString("base64"));
+        //   }
+        // }
+      )
+      .promise();
+
+    result = btoa(data.Body.toString("base64"));
+
+    res.setHeader(
+      "Content-disposition",
+      "attachment;filename=" + req.params.pathname
+    );
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.get("/fetch/:id/:secretkey", async (req, res, next) => {
   if (req.params.secretkey !== process.env.ROUTEPASS) {
