@@ -6,6 +6,8 @@ import {
 } from "../../requests/requestFunctions";
 import { useSelector } from "react-redux";
 
+import PrintOverlay from "./PrintOverlay";
+
 const SinglePrintList = () => {
   const params = useParams();
 
@@ -14,6 +16,8 @@ const SinglePrintList = () => {
   const [loading, setLoading] = useState(true);
 
   const [currentPrintList, setCurrentPrintList] = useState({});
+
+  const [showPrintOverlay, setShowPrintOverlay] = useState(false);
 
   //error states
   const [notFound, setNotFound] = useState(false);
@@ -91,7 +95,7 @@ const SinglePrintList = () => {
         currentPrintList?.name?.length + 1
       )}/${import.meta.env.VITE_ROUTEPASS}`
     )
-      .then((res) => {
+      .then(async (res) => {
         if (res === "error") {
           throw new Error();
         }
@@ -148,7 +152,7 @@ const SinglePrintList = () => {
 
         // console.log(URL.createObjectURL(blob));
 
-        fetch("data:application/w+;base64," + atob(res))
+        await fetch("data:application/w+;base64," + atob(res))
           .then((resp) => resp.blob())
           .then((res) => {
             const link = document.createElement("a");
@@ -182,7 +186,9 @@ const SinglePrintList = () => {
       });
   }
 
-  console.log(currentPrintList);
+  //printJs(URL.createObjectURL(res));
+
+  async function handleDelete() {}
 
   useEffect(() => {
     const id = params.id;
@@ -227,7 +233,16 @@ const SinglePrintList = () => {
         onClick={() => (window.location.href = "/print")}
         style={{ cursor: "pointer" }}
       />
-      <div className="home-krink">{currentPrintList?.name}</div>
+      <div className="home-krink">Print - {currentPrintList?.name}</div>
+
+      <div className="home-t home-q">
+        <div
+          className="home-add kh-take pointer"
+          onClick={() => setShowPrintOverlay(true)}
+        >
+          Print
+        </div>
+      </div>
 
       <div className="home-f home-lp">
         <span>Files</span>
@@ -240,6 +255,17 @@ const SinglePrintList = () => {
               onClick={() => handleInputClick()}
             >
               Add
+            </div>
+          )}
+
+        {(!authState.loading || authState.loading === "false") &&
+          authState?.id && (
+            <div
+              className="home-add home-create"
+              onClick={() => handleDelete()}
+              style={{ marginLeft: "15px", backgroundColor: "red" }}
+            >
+              Delete
             </div>
           )}
       </div>
@@ -266,7 +292,7 @@ const SinglePrintList = () => {
             ?.map((file) => (
               <li className="print-li">
                 <span
-                  className="print-lich"
+                  className="print-lich ellipsis"
                   onClick={() => handleDownloadClick(file)}
                 >
                   {file?.pathName.slice(currentPrintList?.name?.length + 1)}
@@ -275,6 +301,12 @@ const SinglePrintList = () => {
             ))}
         </ol>
       </div>
+      {showPrintOverlay && (
+        <PrintOverlay
+          setShowPrintOverlay={setShowPrintOverlay}
+          currentPrintList={currentPrintList}
+        />
+      )}
     </div>
   );
 };

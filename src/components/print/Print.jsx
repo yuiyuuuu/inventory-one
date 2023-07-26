@@ -56,8 +56,6 @@ const Print = () => {
       <img className="home-logo" src="/assets/logo.jpeg" id="test-mainlogo" />
       <div className="home-krink">Inventory Print</div>
 
-      <button onClick={() => handleClick()}>Upload Test</button>
-
       <div className="home-f home-lp">
         <span>Print Lists</span>
         <div className="grow" />

@@ -30,6 +30,7 @@ import SingleQR from "./components/qr/SingleQR";
 import RedirectQR from "./components/qr/RedirectQR";
 import Print from "./components/print/Print";
 import SinglePrintList from "./components/print/singleprint/SinglePrintList";
+import PrintList from "./components/print/singleprint/PrintList";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -127,6 +128,7 @@ const App = () => {
           {/* print routes*/}
           <Route exact path="/print" element={<Print />} />
           <Route exact path="/print/:id" element={<SinglePrintList />} />
+          <Route exact path="/printlist/:id/:qty" element={<PrintList />} />
         </Routes>
       </BrowserRouter>
     </div>

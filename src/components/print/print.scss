@@ -17,6 +17,8 @@
 
 .print-lich {
   cursor: pointer;
+  display: block;
+  width: 100%;
 
   &:hover {
     text-decoration: underline;
