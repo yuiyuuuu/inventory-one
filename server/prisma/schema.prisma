@@ -127,7 +127,7 @@ model PrintFile{
   id String @id @default(uuid())
   pathName String @unique
 
-  printList Print @relation(fields: [printListId], references: [id])
+  printList Print @relation(fields: [printListId], references: [id], onDelete: Cascade)
   printListId String
 }
 

@@ -4,11 +4,21 @@ const PrintOverlay = ({ setShowPrintOverlay, currentPrintList }) => {
   const [qty, setQty] = useState(0);
 
   const [invalidQty, setInvalidQty] = useState(false);
+  const [noFiles, setNoFiles] = useState(false);
 
   function handleSubmit() {
     setInvalidQty(false);
+    setNoFiles(false);
 
     let bad = false;
+
+    const allFiles = currentPrintList?.printFiles;
+
+    if (allFiles.length < 1) {
+      setNoFiles(true);
+      bad = true;
+      return;
+    }
 
     if (qty < 1) {
       setInvalidQty(true);
@@ -24,12 +34,6 @@ const PrintOverlay = ({ setShowPrintOverlay, currentPrintList }) => {
       return;
     }
 
-    const allFiles = currentPrintList?.printFiles;
-
-    // for (let i = 0; i < allFiles.length; i++) {
-
-    // }
-
     const a = document.createElement("a");
     a.target = "_blank";
     a.href = `/printlist/${currentPrintList?.id}/${qty}`;
@@ -40,32 +44,41 @@ const PrintOverlay = ({ setShowPrintOverlay, currentPrintList }) => {
 
   return (
     <div
-      className="home-createoverlay"
+      className='home-createoverlay'
       onClick={() => setShowPrintOverlay(false)}
     >
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Print List</div>
+      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Print List</div>
 
         {invalidQty && (
           <div
-            className="home-error"
+            className='home-error'
             style={{ alignSelf: "start", marginBottom: "-10px" }}
           >
             Invalid Quantity
           </div>
         )}
-        <div className="homec-inputcontainer">
+
+        {noFiles && (
+          <div
+            className='home-error'
+            style={{ alignSelf: "start", marginBottom: "-10px" }}
+          >
+            No Files in this List!
+          </div>
+        )}
+        <div className='homec-inputcontainer'>
           <input
-            placeholder="Name"
-            className="homec-input"
+            placeholder='Name'
+            className='homec-input'
             value={qty}
-            type="number"
+            type='number'
             onChange={(e) => setQty(e.target.value)}
           />
         </div>
 
         <button
-          className="homec-submit homec-but"
+          className='homec-submit homec-but'
           onClick={() => handleSubmit()}
         >
           Submit

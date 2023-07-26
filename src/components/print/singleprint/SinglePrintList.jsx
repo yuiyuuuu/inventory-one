@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {
+  makeDeleteRequest,
   makeGetRequest,
   makePutRequest,
 } from "../../requests/requestFunctions";
@@ -188,7 +189,25 @@ const SinglePrintList = () => {
 
   //printJs(URL.createObjectURL(res));
 
-  async function handleDelete() {}
+  async function handleDelete() {
+    const c = confirm(`Confirm delete for ${currentPrintList.name}`);
+
+    if (!confirm) return;
+
+    await makeDeleteRequest(
+      `print/deletelist/${currentPrintList.id}/${currentPrintList.name}/${
+        import.meta.env.VITE_ROUTEPASS
+      }`
+    )
+      .then((res) => {
+        if (res === "deleted") {
+          window.location.href = "/print";
+        }
+      })
+      .catch(() => {
+        alert("Something went wrong, please try again");
+      });
+  }
 
   useEffect(() => {
     const id = params.id;
@@ -200,8 +219,8 @@ const SinglePrintList = () => {
 
   if (authState.loading && authState.loading !== "false" && loading) {
     return (
-      <div className="abs-loading2">
-        <div className="lds-ring" id="spinner-form">
+      <div className='abs-loading2'>
+        <div className='lds-ring' id='spinner-form'>
           <div></div>
           <div></div>
           <div></div>
@@ -213,45 +232,45 @@ const SinglePrintList = () => {
 
   if (notFound) {
     return (
-      <div className="home-parent">
+      <div className='home-parent'>
         <img
-          className="home-logo"
-          src="/assets/logo.jpeg"
+          className='home-logo'
+          src='/assets/logo.jpeg'
           onClick={() => (window.location.href = "/print")}
           style={{ cursor: "pointer" }}
         />
-        <div className="home-krink">List not found</div>
+        <div className='home-krink'>List not found</div>
       </div>
     );
   }
 
   return (
-    <div className="home-parent">
+    <div className='home-parent'>
       <img
-        className="home-logo"
-        src="/assets/logo.jpeg"
+        className='home-logo'
+        src='/assets/logo.jpeg'
         onClick={() => (window.location.href = "/print")}
         style={{ cursor: "pointer" }}
       />
-      <div className="home-krink">Print - {currentPrintList?.name}</div>
+      <div className='home-krink'>Print - {currentPrintList?.name}</div>
 
-      <div className="home-t home-q">
+      <div className='home-t home-q'>
         <div
-          className="home-add kh-take pointer"
+          className='home-add kh-take pointer'
           onClick={() => setShowPrintOverlay(true)}
         >
           Print
         </div>
       </div>
 
-      <div className="home-f home-lp">
+      <div className='home-f home-lp'>
         <span>Files</span>
 
-        <div className="grow" />
+        <div className='grow' />
         {(!authState.loading || authState.loading === "false") &&
           authState?.id && (
             <div
-              className="home-add home-create"
+              className='home-add home-create'
               onClick={() => handleInputClick()}
             >
               Add
@@ -261,7 +280,7 @@ const SinglePrintList = () => {
         {(!authState.loading || authState.loading === "false") &&
           authState?.id && (
             <div
-              className="home-add home-create"
+              className='home-add home-create'
               onClick={() => handleDelete()}
               style={{ marginLeft: "15px", backgroundColor: "red" }}
             >
@@ -270,7 +289,7 @@ const SinglePrintList = () => {
           )}
       </div>
 
-      <div className="print-filecon">
+      <div className='print-filecon'>
         <ol>
           {currentPrintList?.printFiles
             ?.sort(function (a, b) {
@@ -290,9 +309,9 @@ const SinglePrintList = () => {
               return 0;
             })
             ?.map((file) => (
-              <li className="print-li">
+              <li className='print-li'>
                 <span
-                  className="print-lich ellipsis"
+                  className='print-lich ellipsis'
                   onClick={() => handleDownloadClick(file)}
                 >
                   {file?.pathName.slice(currentPrintList?.name?.length + 1)}
