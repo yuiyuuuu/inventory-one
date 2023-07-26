@@ -26,6 +26,39 @@ router.get("/fetch/:id/:secretkey", async (req, res, next) => {
   }
 });
 
+router.get("/fetchredirect/:id/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    const find = await prisma.qR.findUnique({
+      where: {
+        id: req.params.id,
+      },
+
+      include: {
+        user: true,
+      },
+    });
+
+    await prisma.qR.update({
+      where: {
+        id: req.params.id,
+      },
+
+      data: {
+        count: find.count + 1,
+      },
+    });
+
+    res.send(find);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/create/:secretkey", async (req, res, next) => {
   if (req.params.secretkey !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);

@@ -110,6 +110,13 @@ const QR = () => {
                     {qr?.name}
                   </div>
 
+                  <div
+                    className="ellipsis elli-media"
+                    style={{ marginBottom: "5px" }}
+                  >
+                    Scanned: {qr?.count}
+                  </div>
+
                   <a
                     className="ellipsis qr-hov elli-media"
                     href={qr?.link}
