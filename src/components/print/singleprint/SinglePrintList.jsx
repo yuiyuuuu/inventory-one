@@ -211,6 +211,14 @@ const SinglePrintList = () => {
   }
 
   async function deleteOneFile(file) {
+    const c = confirm(
+      `Confirm delete ${file.pathName.slice(
+        currentPrintList?.name?.length + 1
+      )}`
+    );
+
+    if (!c) return;
+
     await makeDeleteRequest(
       `print/deleteone/${file.id}/${
         currentPrintList.name
