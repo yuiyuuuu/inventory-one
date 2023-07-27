@@ -67,21 +67,28 @@ const Print = () => {
         </div>
       </div>
 
-      <div className="store-mapc">
-        {authState?.print?.map((print) => (
-          <div className="store-map" onClick={() => nav(`/print/${print?.id}`)}>
-            <div className="store-name">
-              {print?.name}
-              <div className="print-f">{print.printFiles?.length} Files</div>
-            </div>
-            <div className="grow" />
+      {authState?.print?.length > 0 ? (
+        <div className="store-mapc">
+          {authState?.print?.map((print) => (
             <div
-              className="mitem-caret"
-              style={{ transform: "rotate(-90deg)" }}
-            />
-          </div>
-        ))}
-      </div>
+              className="store-map"
+              onClick={() => nav(`/print/${print?.id}`)}
+            >
+              <div className="store-name">
+                {print?.name}
+                <div className="print-f">{print.printFiles?.length} Files</div>
+              </div>
+              <div className="grow" />
+              <div
+                className="mitem-caret"
+                style={{ transform: "rotate(-90deg)" }}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="print-no">You have no print lists</div>
+      )}
 
       {showCreatePrint && (
         <CreatePrintOverlay setShowCreatePrint={setShowCreatePrint} />

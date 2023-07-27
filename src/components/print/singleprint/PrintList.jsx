@@ -45,6 +45,7 @@ const PrintList = () => {
                   .then((resp) => resp.blob())
                   .then((response) => {
                     for (let b = 0; b < params.qty; b++) {
+                      //push the link into result array, # of times is the set qty
                       result.push(URL.createObjectURL(response));
                     }
                   });

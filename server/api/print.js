@@ -204,6 +204,7 @@ router.delete(
       res.send("access denied").status(401);
       return;
     }
+
     try {
       await prisma.print.delete({
         where: {
@@ -230,6 +231,35 @@ router.delete(
 
         await s3.deleteObjects(deleteParams).promise();
       }
+
+      res.send("deleted");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete(
+  "/deleteone/:id/:printlist/:pathname/:secretkey",
+  async (req, res, next) => {
+    if (req.params.secretkey !== process.env.ROUTEPASS) {
+      res.send("access denied").status(401);
+      return;
+    }
+
+    try {
+      const deleteFile = await prisma.printFile.delete({
+        where: {
+          id: req.params.id,
+        },
+      });
+
+      await s3
+        .deleteObject({
+          Key: req.params.printlist + "/" + req.params.pathname,
+          Bucket: "inventoryone",
+        })
+        .promise();
 
       res.send("deleted");
     } catch (error) {

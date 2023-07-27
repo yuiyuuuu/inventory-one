@@ -12,15 +12,35 @@
 }
 
 .print-li {
-  margin-top: 5px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .print-lich {
   cursor: pointer;
   display: block;
-  width: 100%;
 
   &:hover {
     text-decoration: underline;
   }
+}
+
+.print-q {
+  @media only screen and (max-width: 500px) {
+    font-size: 13px;
+  }
+}
+
+.print-marker {
+  user-select: none;
+}
+
+.print-filecon {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.print-no {
+  margin-top: 10px;
 }
