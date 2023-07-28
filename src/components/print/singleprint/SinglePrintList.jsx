@@ -242,7 +242,7 @@ const SinglePrintList = () => {
     fetchList(id);
   }, []);
 
-  if (authState.loading && authState.loading !== "false" && loading) {
+  if ((authState.loading && authState.loading !== "false") || loading) {
     return (
       <div className="abs-loading2">
         <div className="lds-ring" id="spinner-form">
