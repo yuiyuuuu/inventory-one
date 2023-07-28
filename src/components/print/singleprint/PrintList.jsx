@@ -71,9 +71,9 @@ const PrintList = () => {
                       alert("Finished Printing");
 
                       window.close();
-                    }, 2500);
+                    }, 2000);
                   }
-                }, 1800);
+                }, 2500);
               }
 
               loop(0);
