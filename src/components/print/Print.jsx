@@ -16,9 +16,7 @@ const Print = () => {
   const [showCreatePrint, setShowCreatePrint] = useState(false);
 
   async function handleClick() {
-    await makePutRequest("print/uploadpdf").then((res) => {
-      console.log(res);
-    });
+    await makePutRequest("print/uploadpdf").then((res) => {});
   }
 
   //   useEffect(() => {

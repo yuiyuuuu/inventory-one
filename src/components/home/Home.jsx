@@ -48,7 +48,7 @@ const Home = () => {
                 onClick={() => nav(`/lists/${list.id}`)}
               >
                 <span
-                  className="ellipsis elli-media qr-name"
+                  className="ellipsis elli-media home-name"
                   style={{ maxWidth: "90%" }}
                 >
                   {list?.name}

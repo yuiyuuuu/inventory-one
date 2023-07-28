@@ -73,8 +73,6 @@ const SinglePrintList = () => {
     await makeGetRequest(
       `print/fetch/${id}/${import.meta.env.VITE_ROUTEPASS}`
     ).then((res) => {
-      console.log(res);
-
       if (!res.id) {
         setNotFound(true);
         setLoading(false);
