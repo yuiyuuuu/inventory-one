@@ -238,3 +238,54 @@
     font-size: 17px;
   }
 }
+
+.pi-print {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: orange;
+  margin: 0 auto;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ppi-parent {
+  user-select: none;
+  pointer-events: none;
+}
+
+.ppi-th {
+  padding: 8px;
+}
+
+.ppi-print {
+  @media print {
+    max-width: 780px;
+    max-height: 390px;
+  }
+}
+
+.ppi-name {
+  color: black;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.ppi-bot {
+  padding: 0 30px;
+}
+
+.ppi-b {
+  color: black;
+}
+
+.ppi-c {
+  margin-top: 20px;
+}
+
+.ppi-can {
+  padding: 0 15px;
+  aspect-ratio: 2;
+}

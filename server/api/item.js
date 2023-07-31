@@ -3,6 +3,34 @@ const prisma = require("../prisma/prismaClient.js");
 
 module.exports = router;
 
+router.get("/fetch/:id/:secretkey", async (req, res, next) => {
+  if (req.params.secretkey !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    const item = await prisma.item.findUnique({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        orders: {
+          include: {
+            user: true,
+            store: true,
+          },
+        },
+        category: true,
+      },
+    });
+
+    res.send(item);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/fetchall/:secretkey", async (req, res, next) => {
   if (req.params.secretkey !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);

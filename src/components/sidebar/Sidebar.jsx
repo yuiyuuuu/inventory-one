@@ -17,6 +17,7 @@ const Sidebar = () => {
         transform: sidebarState.display
           ? "translate(0)"
           : "translate(-300px, 0)",
+        boxShadow: !sidebarState.display && "none",
       }}
       onClick={(e) => {
         e.stopPropagation();

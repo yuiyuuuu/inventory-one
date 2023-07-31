@@ -43,10 +43,23 @@ a {
   color: white;
 }
 
+table,
+th,
+td {
+  border: 1px solid black;
+  color: black;
+  border-collapse: collapse;
+}
+
 .flexcol-aligncenter {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+.flex-justcenter {
+  display: flex;
+  justify-content: center;
 }
 
 .lds-ring {
