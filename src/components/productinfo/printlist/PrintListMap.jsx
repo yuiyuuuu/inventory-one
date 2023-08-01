@@ -102,6 +102,26 @@ const PrintListMap = ({ category }) => {
             },
           },
         },
+
+        scales: {
+          x: {
+            ticks: {
+              color: "black",
+              font: {
+                weight: "bold",
+              },
+            },
+          },
+
+          y: {
+            ticks: {
+              color: "black",
+              font: {
+                weight: "bold",
+              },
+            },
+          },
+        },
       },
       data: {
         labels: Object.keys(result2).map((v) => v),
@@ -135,8 +155,6 @@ const PrintListMap = ({ category }) => {
     //   }
     // );
   }, [result]);
-
-  console.log(result);
 
   return (
     <div className='pagebreak'>
