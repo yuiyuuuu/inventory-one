@@ -27,6 +27,23 @@ const PrintListMap = ({ category }) => {
     const re = {};
     const re2 = {};
 
+    //initialize re2 with sorted months
+
+    const last8months = [];
+    const today = new Date();
+
+    for (var i = 8; i > 0; i -= 1) {
+      const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+
+      last8months.push(
+        `${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`
+      );
+    }
+
+    for (let i = 0; i < last8months.length; i++) {
+      re2[last8months[i]] ||= 0;
+    }
+
     category.items.forEach((item) => {
       item.orders.sort(function (a, b) {
         return (
@@ -44,9 +61,7 @@ const PrintListMap = ({ category }) => {
 
         re[year][months[month]] += order.quantity;
 
-        //re2
-
-        re2[month + "/" + String(year).slice(2)] ||= 0;
+        //result2, just different format of the object
         re2[month + "/" + String(year).slice(2)] += order.quantity;
         setResult2(re2);
       });
