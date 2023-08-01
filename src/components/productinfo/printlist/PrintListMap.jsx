@@ -67,8 +67,6 @@ const PrintListMap = ({ category }) => {
       });
     });
 
-    console.log(re2, "result");
-
     setResult(re);
   }, [category]);
 
@@ -131,6 +129,18 @@ const PrintListMap = ({ category }) => {
           className='pi-parent ppi-print'
           id={`pi-parent-${category?.id}`}
         ></canvas>
+      </div>
+
+      <div className='ppi-bot'>
+        <div className='pi-octoggle ppi-b ppi-c'>Statistics</div>
+        {result &&
+          Object.keys(result).map((year) =>
+            Object.keys(result[year]).map((month) => (
+              <div className='pi-sub ppi-b'>
+                {month} {year}: {result[year][month]}
+              </div>
+            ))
+          )}
       </div>
     </div>
   );
