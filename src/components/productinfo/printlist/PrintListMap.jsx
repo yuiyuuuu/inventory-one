@@ -32,7 +32,7 @@ const monthReversed = {
   December: 12,
 };
 
-const PrintListMap = ({ category }) => {
+const PrintListMap = ({ category, setReady }) => {
   const [result, setResult] = useState(null);
   const [result2, setResult2] = useState(null);
 
@@ -134,40 +134,21 @@ const PrintListMap = ({ category }) => {
       },
     });
 
-    // const chart = new Chart(
-    //   document.getElementById(`pi-parent-${category?.id}`),
-    //   {
-    //     type: "line",
-    //     data: {
-    //       labels: (function () {
-    //         const result = [];
-    //         const year = Object.keys(result);
-
-    //         year.forEach((t) => {
-    //           console.log(t, "t");
-    //           result.push(...Object.keys(t));
-    //         });
-
-    //         console.log(result, "re");
-    //         return result;
-    //       })(),
-    //     },
-    //   }
-    // );
+    setReady((prev) => [...prev, category.id]);
   }, [result]);
 
   return (
-    <div className="pagebreak">
-      <div className="home-krink ppi-martop">{category?.name}</div>
-      <div className="ppi-can">
+    <div className='pagebreak'>
+      <div className='home-krink ppi-martop'>{category?.name}</div>
+      <div className='ppi-can'>
         <canvas
-          className="pi-parent ppi-print"
+          className='pi-parent ppi-print'
           id={`pi-parent-${category?.id}`}
         ></canvas>
       </div>
 
-      <div className="ppi-bot">
-        <div className="pi-octoggle ppi-b ppi-c ppi-titlesmall">Statistics</div>
+      <div className='ppi-bot'>
+        <div className='pi-octoggle ppi-b ppi-c ppi-titlesmall'>Statistics</div>
         {result &&
           Object.keys(result).map((year) =>
             Object.keys(result[year])
@@ -175,7 +156,7 @@ const PrintListMap = ({ category }) => {
                 return monthReversed[a] - monthReversed[b];
               })
               .map((month) => (
-                <div className="pi-sub ppi-b ppi-fontsmall">
+                <div className='pi-sub ppi-b ppi-fontsmall'>
                   {month} {year}: {result[year][month]}
                 </div>
               ))

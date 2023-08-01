@@ -20,7 +20,7 @@ router.get("/:id/:secretkey", async (req, res, next) => {
       include: JSON.parse(list),
     });
 
-    if (!send.id) {
+    if (!send?.id) {
       res.send("not found");
     }
 

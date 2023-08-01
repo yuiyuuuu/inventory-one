@@ -15,6 +15,9 @@ const PrintProductInfo = () => {
   const [item, setItem] = useState(null);
   const [resultsSortedByDate, setResultsSortedByDate] = useState(null);
 
+  //result 2, sorted by month
+  const [result2, setResult2] = useState(null);
+
   //prediction info states
   const [average180, setAverage180] = useState(null);
   const [oosDays, setOosDays] = useState(null);
@@ -156,6 +159,7 @@ const PrintProductInfo = () => {
 
     //sort result object by date
     const re = {};
+    const re2 = {};
 
     //get all keys of result, then sort the keys based on date
     Object.keys(result)
@@ -172,36 +176,36 @@ const PrintProductInfo = () => {
         re[obj] = result[obj];
       });
 
-    //add this later, will show a message
-    // if (!Object.keys(re).length) {
-    //   setNoHistory(true);
-    //   return;
-    // }
+    const last8months = [];
+    const today = new Date();
+
+    for (var i = 8; i > 0; i -= 1) {
+      const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+
+      last8months.push(
+        `${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`
+      );
+    }
+
+    for (let i = 0; i < last8months.length; i++) {
+      re2[last8months[i]] ||= 0;
+    }
+
+    for (let i = 0; i < Object.keys(result).length; i++) {
+      const d = new Date(Object.keys(result)[i]);
+
+      re2[`${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`] +=
+        Object.values(result)[i].quantity;
+    }
+
+    setResult2(re2);
 
     const chart = new Chart(document.getElementById("pi-parent"), {
-      type: "bar",
+      type: "line",
       options: {
         plugins: {
-          tooltip: {
-            callbacks: {
-              footer: (v) => {
-                return `Completed By ${Object.values(re)[
-                  v[0].dataIndex
-                ].user.join(", ")}
-Stores: ${
-                  Object.values(re)[v[0].dataIndex].store?.length
-                    ? Object.values(re)[v[0].dataIndex].store.join(", ")
-                    : "Unknown"
-                }
-Click to see all orders on this date
-                `;
-              },
-            },
-          },
           legend: {
-            labels: {
-              color: "black",
-            },
+            display: false,
           },
         },
         color: "black",
@@ -209,33 +213,31 @@ Click to see all orders on this date
           x: {
             ticks: {
               color: "black",
+              font: {
+                weight: "bold",
+                size: 15,
+              },
             },
           },
 
           y: {
             ticks: {
               color: "black",
+              font: {
+                weight: "bold",
+                size: 15,
+              },
             },
           },
-        },
-
-        onClick: (e, a) => {
-          setSelectedDate((prev) =>
-            a[0]?.index >= 0 ? Object.keys(re)[a[0]?.index] : prev
-          );
-
-          setShowOrders(true);
         },
 
         responsive: true,
       },
       data: {
-        labels: Object.keys(re),
+        labels: Object.keys(re2),
         datasets: [
           {
-            label: " # Completed by Date",
-            data: Object.values(re).map((v) => v.quantity),
-            backgroundColor: "#B41717",
+            data: Object.values(re2).map((v) => v),
             hoverBackgroundColor: "rgba(0, 255, 255)",
           },
         ],
@@ -311,7 +313,6 @@ Click to see all orders on this date
           <div className='pi-sub ppi-b'>
             History Quantity: {item?.historyQTY}
           </div>
-          <div className='pagebreak'></div>
           <div className='pi-sub ppi-b'>
             Average per day (last 180 days): {average180}
           </div>
@@ -327,6 +328,13 @@ Click to see all orders on this date
                   oosDays?.year
                 }`}
           </div>
+
+          {result2 &&
+            Object.keys(result2).map((value, i) => (
+              <div className='pi-sub ppi-b'>
+                {value}: {Object.values(result2)[i]}
+              </div>
+            ))}
         </div>
       </div>
     </div>

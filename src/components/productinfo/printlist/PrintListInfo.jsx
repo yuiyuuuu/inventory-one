@@ -13,6 +13,8 @@ const PrintListInfo = () => {
 
   const [listNotFound, setListNotFound] = useState(false);
 
+  const [ready, setReady] = useState([]);
+
   useEffect(() => {
     if (!authState.id) return;
 
@@ -28,8 +30,6 @@ const PrintListInfo = () => {
             return;
           }
 
-          console.log(res);
-
           setList(res);
         }
       );
@@ -38,18 +38,48 @@ const PrintListInfo = () => {
     f();
   }, [authState]);
 
+  useEffect(() => {
+    if (!list) return;
+    if (ready.length < list?.category?.length) return;
+
+    var beforePrint = function () {};
+    var afterPrint = function () {
+      setTimeout(() => {
+        window.close();
+      }, 500);
+    };
+
+    if (window.matchMedia) {
+      var mediaQueryList = window.matchMedia("print");
+      mediaQueryList.addListener(function (mql) {
+        if (mql.matches) {
+          beforePrint();
+        } else {
+          afterPrint();
+        }
+      });
+    }
+
+    window.onbeforeprint = beforePrint;
+    window.onafterprint = afterPrint;
+
+    setTimeout(() => {
+      window.print();
+    }, 2300);
+  }, [ready, list]);
+
   if (!authState?.id && (!authState.loading || authState.loading === "false")) {
     return <div className='ppi-b'>Login to print</div>;
   }
 
   if (listNotFound) {
-    return <div className='home-krink'>Item not found</div>;
+    return <div className='home-krink'>List not found</div>;
   }
 
   return (
-    <div>
+    <div className='ppi-parent'>
       {list?.category?.map((category) => (
-        <PrintListMap category={category} />
+        <PrintListMap category={category} setReady={setReady} />
       ))}
     </div>
   );
