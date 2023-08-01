@@ -17,6 +17,21 @@ const months = {
   12: "December",
 };
 
+const monthReversed = {
+  January: 1,
+  February: 2,
+  March: 3,
+  April: 4,
+  May: 5,
+  June: 6,
+  July: 7,
+  August: 8,
+  September: 9,
+  October: 10,
+  November: 11,
+  December: 12,
+};
+
 const PrintListMap = ({ category }) => {
   const [result, setResult] = useState(null);
   const [result2, setResult2] = useState(null);
@@ -121,6 +136,8 @@ const PrintListMap = ({ category }) => {
     // );
   }, [result]);
 
+  console.log(result);
+
   return (
     <div className='pagebreak'>
       <div className='home-krink'>{category?.name}</div>
@@ -135,11 +152,15 @@ const PrintListMap = ({ category }) => {
         <div className='pi-octoggle ppi-b ppi-c'>Statistics</div>
         {result &&
           Object.keys(result).map((year) =>
-            Object.keys(result[year]).map((month) => (
-              <div className='pi-sub ppi-b'>
-                {month} {year}: {result[year][month]}
-              </div>
-            ))
+            Object.keys(result[year])
+              .sort(function (a, b) {
+                return monthReversed[a] - monthReversed[b];
+              })
+              .map((month) => (
+                <div className='pi-sub ppi-b'>
+                  {month} {year}: {result[year][month]}
+                </div>
+              ))
           )}
       </div>
     </div>
