@@ -296,7 +296,7 @@ const PrintProductInfo = () => {
         </tr>
       </table> */}
 
-      <div className='home-krink'>Inventory One</div>
+      <div className='home-krink ppi-martop'>Inventory One</div>
       <div className='ppi-can'>
         <canvas className='pi-parent ppi-print' id='pi-parent'></canvas>
       </div>
