@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
 import { makeGetRequest } from "../../requests/helperFunctions";
 
@@ -8,6 +9,8 @@ import Chart from "chart.js/auto";
 const PrintProductInfo = () => {
   const params = useParams();
   const chartRef = useRef(null);
+
+  const authState = useSelector((state) => state.auth);
 
   const [item, setItem] = useState(null);
   const [resultsSortedByDate, setResultsSortedByDate] = useState(null);
@@ -18,6 +21,8 @@ const PrintProductInfo = () => {
 
   const [noHistory, setNoHistory] = useState(false);
 
+  const [itemNotFound, setItemNotFound] = useState(false);
+
   useEffect(() => {
     const id = params.id;
 
@@ -25,7 +30,11 @@ const PrintProductInfo = () => {
       await makeGetRequest(
         `item/fetch/${id}/${import.meta.env.VITE_ROUTEPASS}`
       ).then((res) => {
-        setItem(res);
+        if (res.id) {
+          setItem(res);
+        } else {
+          setItemNotFound(true);
+        }
       });
     }
 
@@ -107,6 +116,8 @@ const PrintProductInfo = () => {
       setNoHistory(true);
       return;
     }
+
+    if (!authState?.id) return;
 
     if (!Object.keys(resultsSortedByDate).length) return;
 
@@ -232,10 +243,11 @@ Click to see all orders on this date
     });
 
     chartRef.current = chart;
-  }, [item, resultsSortedByDate]);
+  }, [item, resultsSortedByDate, authState]);
 
   useEffect(() => {
     if (!oosDays || !average180 || !chartRef.current) return;
+    if (itemNotFound) return;
 
     var beforePrint = function () {};
     var afterPrint = function () {
@@ -261,7 +273,15 @@ Click to see all orders on this date
     setTimeout(() => {
       window.print();
     }, 1700);
-  }, [chartRef, average180, oosDays]);
+  }, [chartRef, average180, oosDays, itemNotFound]);
+
+  if (!authState?.id && (!authState.loading || authState.loading === "false")) {
+    return <div className='ppi-b'>Login to print</div>;
+  }
+
+  if (itemNotFound) {
+    return <div className='home-krink'>Item not found</div>;
+  }
 
   return (
     <div className='ppi-parent'>
@@ -291,6 +311,7 @@ Click to see all orders on this date
           <div className='pi-sub ppi-b'>
             History Quantity: {item?.historyQTY}
           </div>
+          <div className='pagebreak'></div>
           <div className='pi-sub ppi-b'>
             Average per day (last 180 days): {average180}
           </div>

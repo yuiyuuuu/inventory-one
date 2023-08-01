@@ -18,9 +18,15 @@ const list = JSON.stringify({
   sharedUsers: true,
   category: {
     include: {
-      items: true,
+      items: {
+        include: {
+          orders: true,
+        },
+      },
     },
   },
+
+  orders: true,
 });
 
 const store = JSON.stringify({

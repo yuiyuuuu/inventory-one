@@ -32,6 +32,7 @@ import Print from "./components/print/Print";
 import SinglePrintList from "./components/print/singleprint/SinglePrintList";
 import PrintList from "./components/print/singleprint/PrintList";
 import PrintProductInfo from "./components/productinfo/PrintProductInfo";
+import PrintListInfo from "./components/productinfo/printlist/PrintListInfo";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -107,6 +108,11 @@ const App = () => {
           {/*list routes */}
           <Route exact path='/lists/:id' element={<SingleList />} />
           <Route exact path='/lists/print/:id' element={<PrintProductInfo />} />
+          <Route
+            exact
+            path='/lists/printlist/:id'
+            element={<PrintListInfo />}
+          />
 
           {/* stores routes*/}
           <Route exact path='/stores' element={<Stores />} />

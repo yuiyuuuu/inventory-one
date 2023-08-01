@@ -51,6 +51,12 @@ td {
   border-collapse: collapse;
 }
 
+@media print {
+  .pagebreak {
+    page-break-after: always;
+  }
+}
+
 .flexcol-aligncenter {
   display: flex;
   align-items: center;
