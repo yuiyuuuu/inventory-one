@@ -97,13 +97,7 @@ const PrintListMap = ({ category }) => {
         responsive: true,
         plugins: {
           legend: {
-            labels: {
-              color: "black",
-              font: {
-                weight: "bold",
-                size: 15,
-              },
-            },
+            display: false,
           },
         },
 
@@ -163,17 +157,17 @@ const PrintListMap = ({ category }) => {
   }, [result]);
 
   return (
-    <div className='pagebreak'>
-      <div className='home-krink'>{category?.name}</div>
-      <div className='ppi-can'>
+    <div className="pagebreak">
+      <div className="home-krink ppi-martop">{category?.name}</div>
+      <div className="ppi-can">
         <canvas
-          className='pi-parent ppi-print'
+          className="pi-parent ppi-print"
           id={`pi-parent-${category?.id}`}
         ></canvas>
       </div>
 
-      <div className='ppi-bot'>
-        <div className='pi-octoggle ppi-b ppi-c'>Statistics</div>
+      <div className="ppi-bot">
+        <div className="pi-octoggle ppi-b ppi-c ppi-titlesmall">Statistics</div>
         {result &&
           Object.keys(result).map((year) =>
             Object.keys(result[year])
@@ -181,7 +175,7 @@ const PrintListMap = ({ category }) => {
                 return monthReversed[a] - monthReversed[b];
               })
               .map((month) => (
-                <div className='pi-sub ppi-b'>
+                <div className="pi-sub ppi-b ppi-fontsmall">
                   {month} {year}: {result[year][month]}
                 </div>
               ))

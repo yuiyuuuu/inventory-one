@@ -288,4 +288,18 @@
 .ppi-can {
   padding: 0 15px;
   aspect-ratio: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.ppi-fontsmall {
+  font-size: 14px;
+}
+
+.ppi-titlesmall {
+  font-size: 21px;
+}
+
+.ppi-martop {
+  margin-top: 20px;
 }
