@@ -28,6 +28,12 @@ const PrintListMap = ({ category }) => {
     const re2 = {};
 
     category.items.forEach((item) => {
+      item.orders.sort(function (a, b) {
+        return (
+          new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
+        );
+      });
+
       item.orders.forEach((order) => {
         const completedDate = new Date(order.completedAt);
         const year = completedDate.getFullYear();
@@ -73,8 +79,8 @@ const PrintListMap = ({ category }) => {
         labels: Object.keys(result2).map((v) => v),
         datasets: [
           {
-            label: " QTY shipped this month",
-            data: "",
+            label: " Category QTY by month",
+            data: Object.values(result2).map((v) => v),
           },
         ],
       },
