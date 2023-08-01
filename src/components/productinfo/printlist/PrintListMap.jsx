@@ -99,6 +99,9 @@ const PrintListMap = ({ category }) => {
           legend: {
             labels: {
               color: "black",
+              font: {
+                weight: "bold",
+              },
             },
           },
         },
