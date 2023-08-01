@@ -101,6 +101,7 @@ const PrintListMap = ({ category }) => {
               color: "black",
               font: {
                 weight: "bold",
+                size: 15,
               },
             },
           },
@@ -112,6 +113,7 @@ const PrintListMap = ({ category }) => {
               color: "black",
               font: {
                 weight: "bold",
+                size: 15,
               },
             },
           },
@@ -121,6 +123,7 @@ const PrintListMap = ({ category }) => {
               color: "black",
               font: {
                 weight: "bold",
+                size: 15,
               },
             },
           },
