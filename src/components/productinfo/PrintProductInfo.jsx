@@ -287,15 +287,6 @@ const PrintProductInfo = () => {
 
   return (
     <div className='ppi-parent'>
-      {/* <table className='ppi-table'>
-        <tr className='ppi-tr'>
-          <th className='ppi-th'>ID</th>
-          <th className='ppi-th'>Quantity</th>
-          <th className='ppi-th'>History QTY</th>
-          <th className='ppi-th'>Predicted OOS Date</th>
-        </tr>
-      </table> */}
-
       <div className='home-krink ppi-martop'>Inventory One</div>
       <div className='ppi-can'>
         <canvas className='pi-parent ppi-print' id='pi-parent'></canvas>

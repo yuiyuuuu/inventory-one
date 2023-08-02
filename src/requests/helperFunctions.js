@@ -10,6 +10,19 @@ export async function makeGetRequest(url) {
   }
 }
 
+export async function makeGetRequestWithAuth(url, auth) {
+  try {
+    const { data } = await axios.get(`/api/${url}`, {
+      headers: {
+        Authorization: auth,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 //api post
 export async function makePostRequest(url, body) {
   try {

@@ -8,11 +8,14 @@ import "./kh.scss";
 
 import TakeKeyOverlay from "./singlekeys/TakeKeyOverlay";
 import ReturnKeyOverlay from "./ReturnKeyOverlay";
+import TakeOrReturnOverlay from "./TakeOrReturnOverlay";
 
 const KeysHome = () => {
   const nav = useNavigate();
 
   const stores = useSelector((state) => state.allStores);
+
+  const [showTakeOrReturnOverlay, setTakeOrReturnOverlay] = useState(false);
 
   const [showTakeOverlay, setShowTakeOverlay] = useState(false);
   const [showReturnOverlay, setShowReturnOverlay] = useState(false);
@@ -22,11 +25,7 @@ const KeysHome = () => {
   useEffect(() => {
     const url = new URL(window.location.href);
     const search = new URLSearchParams(url.search).get("take");
-    if (search === "true") setShowTakeOverlay(true);
-
-    const searchReturn = new URLSearchParams(url.search).get("return");
-
-    if (searchReturn === "true") setShowReturnOverlay(true);
+    if (search === "true") setTakeOrReturnOverlay(true);
   }, []);
 
   if (stores.length < 1) {
@@ -91,6 +90,14 @@ const KeysHome = () => {
         <ReturnKeyOverlay
           setShowTakeOverlay={setShowTakeOverlay}
           setShowReturnOverlay={setShowReturnOverlay}
+        />
+      )}
+
+      {showTakeOrReturnOverlay && (
+        <TakeOrReturnOverlay
+          setTakeOrReturnOverlay={setTakeOrReturnOverlay}
+          setShowReturnOverlay={setShowReturnOverlay}
+          setShowTakeOverlay={setShowTakeOverlay}
         />
       )}
     </div>

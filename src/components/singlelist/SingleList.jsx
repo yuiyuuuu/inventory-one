@@ -21,6 +21,7 @@ import ProductInfo from "../productinfo/ProductInfo";
 import AddOverlay from "../item/addsub/AddOverlay";
 import SubtractOverlay from "../item/addsub/SubtractOverlay";
 import ShareOverlay from "./ShareOverlay";
+import { makeGetRequestWithAuth } from "../../requests/helperFunctions";
 
 //css for this will be in home.scss
 
@@ -81,8 +82,9 @@ const SingleList = () => {
   async function fetchProducts(id) {
     if (!id) return;
 
-    const data = await makeGetRequest(
-      `list/${id}/${import.meta.env.VITE_ROUTEPASS}`
+    const data = await makeGetRequestWithAuth(
+      `list/${id}`,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
         if (res.id) {

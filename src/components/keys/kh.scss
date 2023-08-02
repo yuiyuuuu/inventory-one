@@ -133,3 +133,28 @@
 .kh-no {
   margin-top: 20px;
 }
+
+.kh-con {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kh-selectbut {
+  padding: 12px 30px !important;
+  width: 160px;
+  box-sizing: border-box;
+  font-size: 21px;
+  border-radius: 4px;
+  cursor: pointer;
+  max-height: unset !important;
+  text-align: center;
+  margin: 10px;
+}
+
+.kh-torodivider {
+  width: 60%;
+  height: 3px;
+  margin: 15px 0;
+  background-color: white;
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { makeGetRequest } from "../../../requests/helperFunctions";
+import { makeGetRequestWithAuth } from "../../../requests/helperFunctions";
 import PrintListMap from "./PrintListMap";
 
 const PrintListInfo = () => {
@@ -21,18 +21,19 @@ const PrintListInfo = () => {
     const id = params.id;
 
     const f = async () => {
-      await makeGetRequest(`list/${id}/${import.meta.env.VITE_ROUTEPASS}`).then(
-        (res) => {
-          if (res === "access denied") return;
+      await makeGetRequestWithAuth(
+        `list/${id}`,
+        import.meta.env.VITE_ROUTEPASS
+      ).then((res) => {
+        if (res === "access denied") return;
 
-          if (res === "not found") {
-            setListNotFound(true);
-            return;
-          }
-
-          setList(res);
+        if (res === "not found") {
+          setListNotFound(true);
+          return;
         }
-      );
+
+        setList(res);
+      });
     };
 
     f();

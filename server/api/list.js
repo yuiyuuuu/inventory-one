@@ -5,9 +5,9 @@ const { list } = require("./includes");
 
 module.exports = router;
 
-router.get("/:id/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
-    res.send("access denied").status(401);
+router.get("/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
+    res.send("Something went wrong").status(401);
     return;
   }
 
