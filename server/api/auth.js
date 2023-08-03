@@ -48,8 +48,8 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.post("/signup/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/signup", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied");
   }
   try {

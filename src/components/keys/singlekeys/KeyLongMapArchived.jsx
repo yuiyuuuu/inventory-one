@@ -1,5 +1,5 @@
 import React from "react";
-import { makePutRequest } from "../../requests/requestFunctions";
+import { makePutRequest } from "../../../requests/helperFunctions";
 
 const KeyLogMapArchived = ({ keylog }) => {
   const time = new Date(keylog.takeTime).toLocaleString("en-US", {
@@ -10,14 +10,14 @@ const KeyLogMapArchived = ({ keylog }) => {
   });
 
   return (
-    <div className="kh-mapch">
-      <div className="kh-bord ellipsis">
+    <div className='kh-mapch'>
+      <div className='kh-bord ellipsis'>
         {keylog.name.toUpperCase()}
         {keylog.memo && (
-          <div className="kh-t ellipsis">Memo: {keylog.memo}</div>
+          <div className='kh-t ellipsis'>Memo: {keylog.memo}</div>
         )}{" "}
-        <div className="kh-t">Checked Out: {time}</div>
-        <div className="kh-t">Returned: {time2}</div>
+        <div className='kh-t'>Checked Out: {time}</div>
+        <div className='kh-t'>Returned: {time2}</div>
       </div>
     </div>
   );

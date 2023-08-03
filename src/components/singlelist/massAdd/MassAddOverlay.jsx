@@ -1,6 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 
-import { makePostRequest } from "../../requests/requestFunctions";
+import {
+  makePostRequest,
+  makePostRequestWithAuth,
+} from "../../../requests/helperFunctions";
 
 import "./mass.scss";
 
@@ -40,9 +43,10 @@ const MassAddOverlay = ({
 
     setLoading(true);
 
-    await makePostRequest(
-      `/item/create/mass/${import.meta.env.VITE_ROUTEPASS}`,
-      obj
+    await makePostRequestWithAuth(
+      `/item/create/mass`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
         alert("Products Added");
@@ -87,40 +91,40 @@ const MassAddOverlay = ({
 
   return (
     <div
-      className="home-createoverlay"
-      id="massaddoverlay"
+      className='home-createoverlay'
+      id='massaddoverlay'
       style={{ display: !showMassOverlay && "none" }}
     >
-      <div className="homec-inner">
-        <div className="homec-l" style={{ padding: "10px" }}>
+      <div className='homec-inner'>
+        <div className='homec-l' style={{ padding: "10px" }}>
           Mass Add
         </div>
 
         {noCategory && (
           <div
-            className="home-error"
+            className='home-error'
             style={{ alignSelf: "start", marginBottom: "-10px" }}
           >
             Select a category!
           </div>
         )}
 
-        <div className="pio-rel">
+        <div className='pio-rel'>
           <div
-            className="pio-select"
+            className='pio-select'
             onClick={() => setShowCategories((prev) => !prev)}
-            id="co-selcate"
+            id='co-selcate'
           >
             {selectedCategory?.name || "Select a category"}
-            <div className="grow" />
-            <div className="mitem-caret" />
+            <div className='grow' />
+            <div className='mitem-caret' />
           </div>
 
           {showCategories && (
-            <div className="pio-selch" id="co-selcatec">
+            <div className='pio-selch' id='co-selcatec'>
               {currentList?.category?.map((category, i, a) => (
                 <div
-                  className="pio-ch"
+                  className='pio-ch'
                   onClick={() => {
                     setSelectedCategory(category);
                     setShowCategories(false);
@@ -134,7 +138,7 @@ const MassAddOverlay = ({
           )}
         </div>
 
-        <div className="mass-con">
+        <div className='mass-con'>
           {result.map((item, i) => (
             <MassEditMap
               item={item}
@@ -146,7 +150,7 @@ const MassAddOverlay = ({
         </div>
 
         <button
-          className="mass-add mass-but"
+          className='mass-add mass-but'
           onClick={() =>
             setResult((prev) => [
               ...prev,
@@ -158,7 +162,7 @@ const MassAddOverlay = ({
         </button>
 
         <button
-          className="mass-add mass-but homec-but"
+          className='mass-add mass-but homec-but'
           onClick={() => handleSubmit()}
         >
           Submit
@@ -175,7 +179,7 @@ const MassAddOverlay = ({
       </div>
 
       <div
-        className="homec-clickback"
+        className='homec-clickback'
         onClick={() => {
           setShowMassOverlay(false);
           document.querySelector("html").style.overflow = "";
@@ -183,8 +187,8 @@ const MassAddOverlay = ({
       />
 
       {loading && (
-        <div className="submit-loading">
-          <div className="lds-ring" id="spinner-form">
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
             <div></div>
             <div></div>
             <div></div>

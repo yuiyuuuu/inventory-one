@@ -10,8 +10,8 @@ const pd = require("pdfjs-dist");
 
 module.exports = router;
 
-router.get("/gets3/:printlist/:pathname/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/gets3/:printlist/:pathname", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -82,8 +82,8 @@ router.get("/gets3/:printlist/:pathname/:secretkey", async (req, res, next) => {
   }
 });
 
-router.get("/fetch/:id/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetch/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -110,8 +110,8 @@ router.get("/fetch/:id/:secretkey", async (req, res, next) => {
   }
 });
 
-router.post("/createlist/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/createlist", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -141,8 +141,8 @@ router.post("/createlist/:secretkey", async (req, res, next) => {
   }
 });
 
-router.put("/uploads3/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.put("/uploads3", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -197,73 +197,67 @@ router.put("/uploadpdf", async (req, res, next) => {
   }
 });
 
-router.delete(
-  "/deletelist/:id/:printlist/:secretkey",
-  async (req, res, next) => {
-    if (req.params.secretkey !== process.env.ROUTEPASS) {
-      res.send("access denied").status(401);
-      return;
-    }
+router.delete("/deletelist/:id/:printlist", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
 
-    try {
-      await prisma.print.delete({
-        where: {
-          id: req.params.id,
-        },
+  try {
+    await prisma.print.delete({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    //delete objects from aws
+    const listedObjects = await s3
+      .listObjectsV2({
+        Bucket: "inventoryone",
+        Prefix: req.params.printlist + "/",
+      })
+      .promise();
+
+    if (listedObjects.Contents.length > 0) {
+      const deleteParams = {
+        Bucket: "inventoryone",
+        Delete: { Objects: [] },
+      };
+      listedObjects.Contents.forEach(({ Key }) => {
+        deleteParams.Delete.Objects.push({ Key });
       });
 
-      //delete objects from aws
-      const listedObjects = await s3
-        .listObjectsV2({
-          Bucket: "inventoryone",
-          Prefix: req.params.printlist + "/",
-        })
-        .promise();
-
-      if (listedObjects.Contents.length > 0) {
-        const deleteParams = {
-          Bucket: "inventoryone",
-          Delete: { Objects: [] },
-        };
-        listedObjects.Contents.forEach(({ Key }) => {
-          deleteParams.Delete.Objects.push({ Key });
-        });
-
-        await s3.deleteObjects(deleteParams).promise();
-      }
-
-      res.send("deleted");
-    } catch (error) {
-      next(error);
+      await s3.deleteObjects(deleteParams).promise();
     }
+
+    res.send("deleted");
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-router.delete(
-  "/deleteone/:id/:printlist/:pathname/:secretkey",
-  async (req, res, next) => {
-    if (req.params.secretkey !== process.env.ROUTEPASS) {
-      res.send("access denied").status(401);
-      return;
-    }
-
-    try {
-      const deleteFile = await prisma.printFile.delete({
-        where: {
-          id: req.params.id,
-        },
-      });
-
-      await s3
-        .deleteObject({
-          Key: req.params.printlist + "/" + req.params.pathname,
-          Bucket: "inventoryone",
-        })
-        .promise();
-
-      res.send("deleted");
-    } catch (error) {
-      next(error);
-    }
+router.delete("/deleteone/:id/:printlist/:pathname", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
   }
-);
+
+  try {
+    const deleteFile = await prisma.printFile.delete({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    await s3
+      .deleteObject({
+        Key: req.params.printlist + "/" + req.params.pathname,
+        Bucket: "inventoryone",
+      })
+      .promise();
+
+    res.send("deleted");
+  } catch (error) {
+    next(error);
+  }
+});

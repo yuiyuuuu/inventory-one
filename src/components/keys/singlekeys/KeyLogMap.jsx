@@ -1,5 +1,8 @@
 import React from "react";
-import { makePutRequest } from "../../requests/requestFunctions";
+import {
+  makePutRequest,
+  makePutRequestWithAuth,
+} from "../../../requests/helperFunctions";
 
 const KeyLogMap = ({ keylog, setSelectedStore }) => {
   const time = new Date(keylog.takeTime);
@@ -20,7 +23,11 @@ const KeyLogMap = ({ keylog, setSelectedStore }) => {
     );
 
     if (result) {
-      await makePutRequest(`keys/return/${import.meta.env.VITE_ROUTEPASS}`, obj)
+      await makePutRequestWithAuth(
+        `keys/return`,
+        obj,
+        import.meta.env.VITE_ROUTEPASS
+      )
         .then((res) => {
           if (res.id) {
             setSelectedStore(res);
@@ -33,18 +40,18 @@ const KeyLogMap = ({ keylog, setSelectedStore }) => {
   }
 
   return (
-    <div className="kh-mapch">
-      <div className="kh-b">
-        <div className="kh-bord2">
-          <span className="kh-wp ellipsis">{keylog.name.toUpperCase()}</span> -
-          <span className="kh-wpi">{c}</span> <div className="grow" />{" "}
-          <button className="home-add kh-return" onClick={() => returnKey()}>
+    <div className='kh-mapch'>
+      <div className='kh-b'>
+        <div className='kh-bord2'>
+          <span className='kh-wp ellipsis'>{keylog.name.toUpperCase()}</span> -
+          <span className='kh-wpi'>{c}</span> <div className='grow' />{" "}
+          <button className='home-add kh-return' onClick={() => returnKey()}>
             Return
           </button>
         </div>
 
         {keylog.memo && (
-          <div className="ellipsis kh-bord2">Memo: {keylog.memo}</div>
+          <div className='ellipsis kh-bord2'>Memo: {keylog.memo}</div>
         )}
       </div>
     </div>

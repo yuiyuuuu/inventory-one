@@ -2,7 +2,12 @@ import React, { useState } from "react";
 
 import QRCode from "./qr";
 import { useSelector } from "react-redux";
-import { makePostRequest, makePutRequest } from "../requests/requestFunctions";
+import {
+  makePostRequest,
+  makePostRequestWithAuth,
+  makePutRequest,
+  makePutRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 const CreateQROverlay = ({ setShowCreateOverlay }) => {
   const authState = useSelector((state) => state.auth);
@@ -56,7 +61,11 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
       user: authState?.id,
     };
 
-    await makePostRequest(`/qr/create/${import.meta.env.VITE_ROUTEPASS}`, obj)
+    await makePostRequestWithAuth(
+      `/qr/create`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
+    )
       .then(async (res) => {
         //401 status most likely, wrong secret key
         if (!res.id) {
@@ -78,9 +87,10 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
           src: qrsrc,
         };
 
-        await makePutRequest(
-          `/qr/addimg/${import.meta.env.VITE_ROUTEPASS}`,
-          o
+        await makePutRequestWithAuth(
+          `/qr/addimg`,
+          o,
+          import.meta.env.VITE_ROUTEPASS
         ).then((res) => {
           if (res?.id) {
             window.location.href = `${window.location.protocol}//${window.location.host}/qr/${res.id}`;
@@ -96,35 +106,35 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
 
   return (
     <div
-      className="home-createoverlay"
+      className='home-createoverlay'
       onClick={() => setShowCreateOverlay(false)}
     >
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Create QR</div>
+      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Create QR</div>
 
-        <div className="homec-inputcontainer">
-          {noName && <div className="ov-error homec-l">Name is required</div>}
+        <div className='homec-inputcontainer'>
+          {noName && <div className='ov-error homec-l'>Name is required</div>}
           <input
-            placeholder="Name"
-            className="homec-input"
+            placeholder='Name'
+            className='homec-input'
             value={qrName}
             onChange={(e) => setQrName(e.target.value)}
           />
         </div>
 
-        <div className="homec-inputcontainer">
-          {invalidURL && <div className="ov-error homec-l">Invalid URL</div>}
+        <div className='homec-inputcontainer'>
+          {invalidURL && <div className='ov-error homec-l'>Invalid URL</div>}
 
           <input
-            placeholder="URL"
-            className="homec-input"
+            placeholder='URL'
+            className='homec-input'
             value={qrRedirectLink}
             onChange={(e) => setQrRedirectLink(e.target.value)}
           />
         </div>
 
         <div
-          className="homec-submit homec-but ov-submit"
+          className='homec-submit homec-but ov-submit'
           onClick={() => handleSubmit()}
         >
           Create
@@ -132,8 +142,8 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
       </div>
 
       {loading && (
-        <div className="submit-loading">
-          <div className="lds-ring" id="spinner-form">
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
             <div></div>
             <div></div>
             <div></div>

@@ -3,8 +3,8 @@ const prisma = require("../prisma/prismaClient.js");
 
 module.exports = router;
 
-router.get("/fetch/:id/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetch/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -26,8 +26,8 @@ router.get("/fetch/:id/:secretkey", async (req, res, next) => {
   }
 });
 
-router.get("/fetchredirect/:id/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetchredirect/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -59,8 +59,8 @@ router.get("/fetchredirect/:id/:secretkey", async (req, res, next) => {
   }
 });
 
-router.post("/create/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/create", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -82,8 +82,8 @@ router.post("/create/:secretkey", async (req, res, next) => {
   }
 });
 
-router.put("/addimg/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.put("/addimg", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -105,6 +105,11 @@ router.put("/addimg/:secretkey", async (req, res, next) => {
 });
 
 router.put("/editqr", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const { name, link } = req.body;
 
@@ -125,6 +130,11 @@ router.put("/editqr", async (req, res, next) => {
 });
 
 router.delete("/deleteqr/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
   try {
     const del = await prisma.qR.delete({
       where: {

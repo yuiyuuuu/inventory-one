@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Buffer } from "buffer";
 import {
   makeDeleteRequest,
+  makeDeleteRequestWithAuth,
   makePutRequest,
-} from "../requests/requestFunctions";
+  makePutRequestWithAuth,
+} from "../../requests/helperFunctions";
 import $ from "jquery";
 
 import XIcon from "../global/XIcon";
@@ -65,9 +67,10 @@ const EditOverlay = ({
 
     setLoading(true);
 
-    await makePutRequest(
-      `/item/edit/info/${import.meta.env.VITE_ROUTEPASS}`,
-      obj
+    await makePutRequestWithAuth(
+      `/item/edit/info`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
         setSelectedProduct({});
@@ -95,8 +98,9 @@ const EditOverlay = ({
     const c = confirm(`Do you want to delete ${selectedProduct?.name}`);
 
     if (c) {
-      await makeDeleteRequest(
-        `/item/delete/${selectedProduct.id}/${import.meta.env.VITE_ROUTEPASS}`
+      await makeDeleteRequestWithAuth(
+        `/item/delete/${selectedProduct.id}`,
+        import.meta.env.VITE_ROUTEPASS
       )
         .then(() => {
           setShowEditOverlay(false);

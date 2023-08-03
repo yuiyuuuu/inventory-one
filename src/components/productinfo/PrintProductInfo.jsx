@@ -2,7 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-import { makeGetRequest } from "../../requests/helperFunctions";
+import {
+  makeGetRequest,
+  makeGetRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 import Chart from "chart.js/auto";
 
@@ -30,8 +33,9 @@ const PrintProductInfo = () => {
     const id = params.id;
 
     async function f() {
-      await makeGetRequest(
-        `item/fetch/${id}/${import.meta.env.VITE_ROUTEPASS}`
+      await makeGetRequestWithAuth(
+        `item/fetch/${id}`,
+        import.meta.env.VITE_ROUTEPASS
       ).then((res) => {
         if (res.id) {
           setItem(res);

@@ -8,7 +8,6 @@ import "../item/addsub/ov.scss";
 
 import $ from "jquery";
 
-import { makeGetRequest } from "../requests/requestFunctions";
 import { Buffer } from "buffer";
 
 import SearchSvg from "./svg/SearchSvg";

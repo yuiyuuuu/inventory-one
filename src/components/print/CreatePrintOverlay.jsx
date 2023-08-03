@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { makePostRequest } from "../requests/requestFunctions";
+import {
+  makePostRequest,
+  makePostRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 const CreatePrintOverlay = ({ showCreatePrint, setShowCreatePrint }) => {
   const authState = useSelector((state) => state.auth);
@@ -25,9 +28,10 @@ const CreatePrintOverlay = ({ showCreatePrint, setShowCreatePrint }) => {
       name: name,
     };
 
-    await makePostRequest(
-      `/print/createlist/${import.meta.env.VITE_ROUTEPASS}`,
-      obj
+    await makePostRequestWithAuth(
+      `/print/createlist`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
     ).then((res) => {
       if (res === "already exists") {
         setAlreadyExists(true);
@@ -42,15 +46,15 @@ const CreatePrintOverlay = ({ showCreatePrint, setShowCreatePrint }) => {
 
   return (
     <div
-      className="home-createoverlay"
+      className='home-createoverlay'
       onClick={() => setShowCreatePrint(false)}
     >
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Create Print List</div>
+      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Create Print List</div>
 
         {noName && (
           <div
-            className="home-error"
+            className='home-error'
             style={{ alignSelf: "start", marginBottom: "-10px" }}
           >
             Invalid Name
@@ -59,24 +63,24 @@ const CreatePrintOverlay = ({ showCreatePrint, setShowCreatePrint }) => {
 
         {alreadyExists && (
           <div
-            className="home-error"
+            className='home-error'
             style={{ alignSelf: "start", marginBottom: "-10px" }}
           >
             Name is not available
           </div>
         )}
 
-        <div className="homec-inputcontainer">
+        <div className='homec-inputcontainer'>
           <input
-            placeholder="Name"
-            className="homec-input"
+            placeholder='Name'
+            className='homec-input'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
         <button
-          className="homec-submit homec-but"
+          className='homec-submit homec-but'
           onClick={() => handleCreate()}
         >
           Submit

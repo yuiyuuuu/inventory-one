@@ -5,8 +5,8 @@ const { store } = require("./includes.js");
 
 module.exports = router;
 
-router.get("/fetchall/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetchall", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -22,8 +22,8 @@ router.get("/fetchall/:secretkey", async (req, res, next) => {
   }
 });
 
-router.get("/fetch/:id/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetch/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }

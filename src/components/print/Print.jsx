@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { makePutRequest } from "../requests/requestFunctions";
+import { makePutRequest } from "../../requests/helperFunctions";
 
 import "./print.scss";
 
@@ -38,8 +38,8 @@ const Print = () => {
 
   if (authState.loading && authState.loading !== "false") {
     return (
-      <div className="abs-loading2">
-        <div className="lds-ring" id="spinner-form">
+      <div className='abs-loading2'>
+        <div className='lds-ring' id='spinner-form'>
           <div></div>
           <div></div>
           <div></div>
@@ -50,15 +50,15 @@ const Print = () => {
   }
 
   return (
-    <div className="home-parent">
-      <img className="home-logo" src="/assets/logo.jpeg" id="test-mainlogo" />
-      <div className="home-krink">Inventory Print</div>
+    <div className='home-parent'>
+      <img className='home-logo' src='/assets/logo.jpeg' id='test-mainlogo' />
+      <div className='home-krink'>Inventory Print</div>
 
-      <div className="home-f home-lp">
+      <div className='home-f home-lp'>
         <span>Print Lists</span>
-        <div className="grow" />
+        <div className='grow' />
         <div
-          className="home-add home-create"
+          className='home-add home-create'
           onClick={() => setShowCreatePrint(true)}
         >
           Create
@@ -66,26 +66,26 @@ const Print = () => {
       </div>
 
       {authState?.print?.length > 0 ? (
-        <div className="store-mapc">
+        <div className='store-mapc'>
           {authState?.print?.map((print) => (
             <div
-              className="store-map"
+              className='store-map'
               onClick={() => nav(`/print/${print?.id}`)}
             >
-              <div className="store-name">
+              <div className='store-name'>
                 {print?.name}
-                <div className="print-f">{print.printFiles?.length} Files</div>
+                <div className='print-f'>{print.printFiles?.length} Files</div>
               </div>
-              <div className="grow" />
+              <div className='grow' />
               <div
-                className="mitem-caret"
+                className='mitem-caret'
                 style={{ transform: "rotate(-90deg)" }}
               />
             </div>
           ))}
         </div>
       ) : (
-        <div className="print-no">You have no print lists</div>
+        <div className='print-no'>You have no print lists</div>
       )}
 
       {showCreatePrint && (

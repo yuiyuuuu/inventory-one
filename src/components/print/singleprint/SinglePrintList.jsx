@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {
   makeDeleteRequest,
+  makeDeleteRequestWithAuth,
   makeGetRequest,
+  makeGetRequestWithAuth,
   makePutRequest,
-} from "../../requests/requestFunctions";
+  makePutRequestWithAuth,
+} from "../../../requests/helperFunctions";
 import { useSelector } from "react-redux";
 
 import PrintOverlay from "./PrintOverlay";
@@ -51,11 +54,15 @@ const SinglePrintList = () => {
     //turn pdf into binary b64
     const b64str = await toBase64();
 
-    await makePutRequest(`print/uploads3/${import.meta.env.VITE_ROUTEPASS}`, {
-      printlist: currentPrintList,
-      buffer: b64str,
-      name: files[0]?.name,
-    })
+    await makePutRequestWithAuth(
+      `print/uploads3`,
+      {
+        printlist: currentPrintList,
+        buffer: b64str,
+        name: files[0]?.name,
+      },
+      import.meta.env.VITE_ROUTEPASS
+    )
       .then((res) => {
         if (res === "uploaded") {
           const id = params.id;
@@ -70,8 +77,9 @@ const SinglePrintList = () => {
   }
 
   async function fetchList(id) {
-    await makeGetRequest(
-      `print/fetch/${id}/${import.meta.env.VITE_ROUTEPASS}`
+    await makeGetRequestWithAuth(
+      `print/fetch/${id}`,
+      import.meta.env.VITE_ROUTEPASS
     ).then((res) => {
       if (!res.id) {
         setNotFound(true);
@@ -90,10 +98,11 @@ const SinglePrintList = () => {
     //when user clicks a file, it should download
     //debating if i should add this, or just use a pdf renderer and display all the pdfs as previews
 
-    const data = await makeGetRequest(
+    const data = await makeGetRequestWithAuth(
       `print/gets3/${currentPrintList.name}/${file?.pathName.slice(
         currentPrintList?.name?.length + 1
-      )}/${import.meta.env.VITE_ROUTEPASS}`
+      )}`,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then(async (res) => {
         if (res === "error") {
@@ -193,10 +202,9 @@ const SinglePrintList = () => {
 
     if (!c) return;
 
-    await makeDeleteRequest(
-      `print/deletelist/${currentPrintList.id}/${currentPrintList.name}/${
-        import.meta.env.VITE_ROUTEPASS
-      }`
+    await makeDeleteRequestWithAuth(
+      `print/deletelist/${currentPrintList.id}/${currentPrintList.name}`,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
         if (res === "deleted") {
@@ -217,12 +225,11 @@ const SinglePrintList = () => {
 
     if (!c) return;
 
-    await makeDeleteRequest(
+    await makeDeleteRequestWithAuth(
       `print/deleteone/${file.id}/${
         currentPrintList.name
-      }/${file.pathName.slice(currentPrintList?.name?.length + 1)}/${
-        import.meta.env.VITE_ROUTEPASS
-      }`
+      }/${file.pathName.slice(currentPrintList?.name?.length + 1)}`,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
         if (res === "deleted") {
@@ -244,8 +251,8 @@ const SinglePrintList = () => {
 
   if ((authState.loading && authState.loading !== "false") || loading) {
     return (
-      <div className="abs-loading2">
-        <div className="lds-ring" id="spinner-form">
+      <div className='abs-loading2'>
+        <div className='lds-ring' id='spinner-form'>
           <div></div>
           <div></div>
           <div></div>
@@ -257,45 +264,45 @@ const SinglePrintList = () => {
 
   if (notFound) {
     return (
-      <div className="home-parent">
+      <div className='home-parent'>
         <img
-          className="home-logo"
-          src="/assets/logo.jpeg"
+          className='home-logo'
+          src='/assets/logo.jpeg'
           onClick={() => (window.location.href = "/print")}
           style={{ cursor: "pointer" }}
         />
-        <div className="home-krink">List not found</div>
+        <div className='home-krink'>List not found</div>
       </div>
     );
   }
 
   return (
-    <div className="home-parent">
+    <div className='home-parent'>
       <img
-        className="home-logo"
-        src="/assets/logo.jpeg"
+        className='home-logo'
+        src='/assets/logo.jpeg'
         onClick={() => (window.location.href = "/print")}
         style={{ cursor: "pointer" }}
       />
-      <div className="home-krink">Print - {currentPrintList?.name}</div>
+      <div className='home-krink'>Print - {currentPrintList?.name}</div>
 
-      <div className="home-t home-q">
+      <div className='home-t home-q'>
         <div
-          className="home-add kh-take pointer"
+          className='home-add kh-take pointer'
           onClick={() => setShowPrintOverlay(true)}
         >
           Print
         </div>
       </div>
 
-      <div className="home-f home-lp">
+      <div className='home-f home-lp'>
         <span>Files</span>
 
-        <div className="grow" />
+        <div className='grow' />
         {(!authState.loading || authState.loading === "false") &&
           authState?.id && (
             <div
-              className="home-add home-create"
+              className='home-add home-create'
               onClick={() => handleInputClick()}
             >
               Add
@@ -305,7 +312,7 @@ const SinglePrintList = () => {
         {(!authState.loading || authState.loading === "false") &&
           authState?.id && (
             <div
-              className="home-add home-create"
+              className='home-add home-create'
               onClick={() => handleDelete()}
               style={{ marginLeft: "15px", backgroundColor: "red" }}
             >
@@ -315,8 +322,8 @@ const SinglePrintList = () => {
       </div>
 
       {currentPrintList?.printFiles?.length > 0 ? (
-        <div className="print-filecon">
-          <div className="print-filecon">
+        <div className='print-filecon'>
+          <div className='print-filecon'>
             {currentPrintList?.printFiles
               ?.sort(function (a, b) {
                 const at = a?.pathName
@@ -335,16 +342,16 @@ const SinglePrintList = () => {
                 return 0;
               })
               ?.map((file, i) => (
-                <div className="print-li">
+                <div className='print-li'>
                   <div onClick={() => deleteOneFile(file)}>
                     <TrashCanSvg />
                   </div>
 
-                  <span className="print-q ellipsis print-marker">
+                  <span className='print-q ellipsis print-marker'>
                     {i + 1}.&nbsp;
                   </span>
                   <span
-                    className="print-lich ellipsis print-q"
+                    className='print-lich ellipsis print-q'
                     onClick={() => handleDownloadClick(file)}
                   >
                     {file?.pathName.slice(currentPrintList?.name?.length + 1)}
@@ -354,7 +361,7 @@ const SinglePrintList = () => {
           </div>
         </div>
       ) : (
-        <div className="print-q print-no">No Files in this List</div>
+        <div className='print-q print-no'>No Files in this List</div>
       )}
       {showPrintOverlay && (
         <PrintOverlay

@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { makeGetRequest } from "../../requests/requestFunctions";
+import {
+  makeGetRequest,
+  makeGetRequestWithAuth,
+} from "../../../requests/helperFunctions";
 
 import printJs from "print-js-kiosk-delay";
 
@@ -10,8 +13,9 @@ const PrintList = () => {
 
   useEffect(() => {
     async function init() {
-      const list = await makeGetRequest(
-        `print/fetch/${params.id}/${import.meta.env.VITE_ROUTEPASS}`
+      const list = await makeGetRequestWithAuth(
+        `print/fetch/${params.id}`,
+        import.meta.env.VITE_ROUTEPASS
       )
         .then(async (res) => {
           if (res === "not found") {
@@ -30,10 +34,11 @@ const PrintList = () => {
 
           let outeri = 0;
           async function outerloop() {
-            await makeGetRequest(
+            await makeGetRequestWithAuth(
               `print/gets3/${res.name}/${files[outeri].pathName.slice(
                 res?.name?.length + 1
-              )}/${import.meta.env.VITE_ROUTEPASS}`
+              )}`,
+              import.meta.env.VITE_ROUTEPASS
             )
               .then(async (res) => {
                 if (res === "error") {
@@ -92,8 +97,8 @@ const PrintList = () => {
   }, []);
 
   return (
-    <div className="abs-loading2">
-      <div className="lds-ring" id="spinner-form">
+    <div className='abs-loading2'>
+      <div className='lds-ring' id='spinner-form'>
         <div></div>
         <div></div>
         <div></div>

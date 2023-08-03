@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { makePutRequest } from "../requests/requestFunctions";
+import {
+  makePutRequest,
+  makePutRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 const ShareOverlay = ({ currentList, setShowShareOverlay }) => {
   const [email, setEmail] = useState("");
@@ -14,9 +17,10 @@ const ShareOverlay = ({ currentList, setShowShareOverlay }) => {
       email: email,
     };
 
-    await makePutRequest(
-      `/list/sharelist/${import.meta.env.VITE_ROUTEPASS}`,
-      obj
+    await makePutRequestWithAuth(
+      `/list/sharelist`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
         if (res === "user not found") {
@@ -36,25 +40,25 @@ const ShareOverlay = ({ currentList, setShowShareOverlay }) => {
 
   return (
     <div
-      className="home-createoverlay"
+      className='home-createoverlay'
       onClick={() => setShowShareOverlay(false)}
     >
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Share List</div>
+      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Share List</div>
 
-        <div className="homec-inputcontainer">
-          {userNotFound && <div className="home-error">User Not Found</div>}
+        <div className='homec-inputcontainer'>
+          {userNotFound && <div className='home-error'>User Not Found</div>}
 
           <input
-            placeholder="Email"
-            className="homec-input"
+            placeholder='Email'
+            className='homec-input'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <button
-          className="homec-submit homec-but"
+          className='homec-submit homec-but'
           onClick={() => handleSubmit()}
         >
           Share

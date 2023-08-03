@@ -4,7 +4,10 @@ import { useParams } from "react-router";
 import $ from "jquery";
 
 import XIcon from "../global/XIcon";
-import { makePostRequest } from "../requests/requestFunctions";
+import {
+  makePostRequest,
+  makePostRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 const CreateOverlay = ({
   setShowCreateOverlay,
@@ -64,7 +67,11 @@ const CreateOverlay = ({
 
     setCreateLoading(true);
 
-    await makePostRequest(`item/create/${import.meta.env.VITE_ROUTEPASS}`, obj)
+    await makePostRequestWithAuth(
+      `item/create`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
+    )
       .then((res) => {
         setProductInfo({
           name: "",
@@ -90,12 +97,13 @@ const CreateOverlay = ({
 
     setCreateLoading(true);
 
-    await makePostRequest(
-      `/list/category/create/${import.meta.env.VITE_ROUTEPASS}`,
+    await makePostRequestWithAuth(
+      `/list/category/create`,
       {
         listid: currentList.id,
         name: categoryName,
-      }
+      },
+      import.meta.env.VITE_ROUTEPASS
     ).then((res) => {
       if (res.id) {
         setCreateLoading(false);
@@ -169,25 +177,25 @@ const CreateOverlay = ({
   $("#createoverlay").off("click", "#createoverlay", clickout).click(clickout);
 
   return (
-    <div className="home-createoverlay" id="createoverlay">
-      <div className="homec-inner">
-        <div className="homec-l">Add</div>
+    <div className='home-createoverlay' id='createoverlay'>
+      <div className='homec-inner'>
+        <div className='homec-l'>Add</div>
 
-        <div className="pio-rel">
+        <div className='pio-rel'>
           <div
-            className="pio-select"
+            className='pio-select'
             onClick={() => setShowAddWhat((prev) => !prev)}
-            id="co-select"
+            id='co-select'
           >
             {addWhat}
-            <div className="grow" />
-            <div className="mitem-caret" />
+            <div className='grow' />
+            <div className='mitem-caret' />
           </div>
 
           {showAddWhat && (
-            <div className="pio-selch" id="co-selectc">
+            <div className='pio-selch' id='co-selectc'>
               <div
-                className="pio-ch"
+                className='pio-ch'
                 onClick={() => {
                   setAddWhat("Product");
                   setShowAddWhat(false);
@@ -196,7 +204,7 @@ const CreateOverlay = ({
                 Product
               </div>
               <div
-                className="pio-ch"
+                className='pio-ch'
                 onClick={() => {
                   setAddWhat("Category");
                   setShowAddWhat(false);
@@ -210,15 +218,15 @@ const CreateOverlay = ({
         </div>
 
         {addWhat === "Product" ? (
-          <div className="home-uf">
-            <div className="homec-inputcontainer">
+          <div className='home-uf'>
+            <div className='homec-inputcontainer'>
               {createNoName && (
-                <div className="home-error">Name is required!</div>
+                <div className='home-error'>Name is required!</div>
               )}
               <input
-                placeholder="Name"
-                className="homec-input"
-                id="create-name"
+                placeholder='Name'
+                className='homec-input'
+                id='create-name'
                 value={productInfo.name}
                 onChange={(e) =>
                   setProductInfo((prev) => {
@@ -228,13 +236,13 @@ const CreateOverlay = ({
               />
             </div>
 
-            <div className="homec-inputcontainer">
+            <div className='homec-inputcontainer'>
               <input
-                placeholder="Quantity"
-                className="homec-input"
-                id="create-qty"
+                placeholder='Quantity'
+                className='homec-input'
+                id='create-qty'
                 value={productInfo.quantity}
-                type="number"
+                type='number'
                 onChange={(e) =>
                   setProductInfo((prev) => {
                     return { ...prev, quantity: e.target.value };
@@ -243,11 +251,11 @@ const CreateOverlay = ({
               />
             </div>
 
-            <div className="homec-inputcontainer">
+            <div className='homec-inputcontainer'>
               <input
-                placeholder="Units"
-                className="homec-input"
-                id="create-units"
+                placeholder='Units'
+                className='homec-input'
+                id='create-units'
                 value={productInfo.units}
                 onChange={(e) =>
                   setProductInfo((prev) => {
@@ -259,29 +267,29 @@ const CreateOverlay = ({
 
             {createNoCategory && (
               <div
-                className="home-error"
+                className='home-error'
                 style={{ alignSelf: "start", marginBottom: "-10px" }}
               >
                 Select a category!
               </div>
             )}
 
-            <div className="pio-rel">
+            <div className='pio-rel'>
               <div
-                className="pio-select"
+                className='pio-select'
                 onClick={() => setShowCategories((prev) => !prev)}
-                id="co-selcate"
+                id='co-selcate'
               >
                 {productInfo?.category?.name || "Select a category"}
-                <div className="grow" />
-                <div className="mitem-caret" />
+                <div className='grow' />
+                <div className='mitem-caret' />
               </div>
 
               {showCategories && (
-                <div className="pio-selch" id="co-selcatec">
+                <div className='pio-selch' id='co-selcatec'>
                   {currentList?.category?.map((category, i, a) => (
                     <div
-                      className="pio-ch"
+                      className='pio-ch'
                       onClick={() => {
                         setProductInfo((prev) => {
                           return { ...prev, category: category };
@@ -298,7 +306,7 @@ const CreateOverlay = ({
             </div>
             {!productInfo?.image && (
               <button
-                className="homec-upload"
+                className='homec-upload'
                 onClick={() => handleImageUpload()}
               >
                 Upload Image
@@ -306,10 +314,10 @@ const CreateOverlay = ({
             )}
 
             {productInfo.image && (
-              <div className="flexcol-aligncenter">
-                <img src={imagePreview} className="homec-imgpre" />
+              <div className='flexcol-aligncenter'>
+                <img src={imagePreview} className='homec-imgpre' />
                 <button
-                  className="homec-but homec-remove"
+                  className='homec-but homec-remove'
                   onClick={() => {
                     setProductInfo((prev) => {
                       return { ...prev, image: null };
@@ -324,12 +332,12 @@ const CreateOverlay = ({
             )}
           </div>
         ) : (
-          <div className="home-uf">
-            <div className="homec-inputcontainer">
+          <div className='home-uf'>
+            <div className='homec-inputcontainer'>
               <input
-                placeholder="Name"
-                className="homec-input"
-                id="create-category"
+                placeholder='Name'
+                className='homec-input'
+                id='create-category'
                 value={categoryName}
                 onChange={(e) => setCategoryName(e.target.value)}
               />
@@ -338,7 +346,7 @@ const CreateOverlay = ({
         )}
 
         <button
-          className="homec-submit homec-but"
+          className='homec-submit homec-but'
           onClick={() => {
             if (addWhat === "Product") {
               handleSubmit();
@@ -361,7 +369,7 @@ const CreateOverlay = ({
       </div>
 
       <div
-        className="homec-clickback"
+        className='homec-clickback'
         onClick={() => {
           setShowCreateOverlay(false);
           setProductInfo({ name: "", qty: 0, image: null });
@@ -370,8 +378,8 @@ const CreateOverlay = ({
       />
 
       {createLoading && (
-        <div className="submit-loading">
-          <div className="lds-ring" id="spinner-form">
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
             <div></div>
             <div></div>
             <div></div>

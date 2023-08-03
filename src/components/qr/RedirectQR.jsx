@@ -1,7 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
-import { makeGetRequest } from "../../requests/helperFunctions";
+import {
+  makeGetRequest,
+  makeGetRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 const RedirectQR = () => {
   const params = useParams();
@@ -10,8 +13,9 @@ const RedirectQR = () => {
     const id = params.id;
 
     async function f() {
-      await makeGetRequest(
-        `/qr/fetchredirect/${id}/${import.meta.env.VITE_ROUTEPASS}`
+      await makeGetRequestWithAuth(
+        `/qr/fetchredirect/${id}`,
+        import.meta.env.VITE_ROUTEPASS
       ).then((res) => {
         if (res.id) {
           window.location.href = res.link;

@@ -31,8 +31,8 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //this post sends back user to set auth state
-router.post("/create/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/create", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -64,8 +64,8 @@ router.post("/create/:secretkey", async (req, res, next) => {
   }
 });
 
-router.post("/category/create/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/category/create", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -93,8 +93,8 @@ router.post("/category/create/:secretkey", async (req, res, next) => {
   }
 });
 
-router.put("/sharelist/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.put("/sharelist", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }

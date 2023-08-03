@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import $ from "jquery";
-import { makePutRequest } from "../../requests/requestFunctions";
+import { makePutRequestWithAuth } from "../../../requests/helperFunctions";
 import { useSelector } from "react-redux";
 
 const SubtractOverlay = ({
@@ -52,7 +52,11 @@ const SubtractOverlay = ({
       listid: currentList.id,
     };
 
-    await makePutRequest(`item/editqty/${import.meta.env.VITE_ROUTEPASS}`, obj)
+    await makePutRequestWithAuth(
+      `item/editqty`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
+    )
       .then((res) => {
         if (res.id) {
           setOverlayData({});
@@ -61,6 +65,8 @@ const SubtractOverlay = ({
             prev.map((item) => (item.id === res.id ? res : item))
           );
           alert("Order created");
+        } else {
+          alert("Something went wrong, please try again");
         }
       })
       .catch(() => {
@@ -88,43 +94,43 @@ const SubtractOverlay = ({
   }, [showSelectStores]);
 
   return (
-    <div className="ov-parent" onClick={() => setShowSubtractOverlay(false)}>
+    <div className='ov-parent' onClick={() => setShowSubtractOverlay(false)}>
       <div
-        className="homec-inner ov-inner"
+        className='homec-inner ov-inner'
         onClick={(e) => e.stopPropagation()}
         style={{
           height: showSelectStores ? "45vh" : "30vh",
           justifyContent: showSelectStores && "unset",
         }}
       >
-        <div className="homec-l">Subtract Quantity (Create Order)</div>
-        <div className="ov-divider" />
+        <div className='homec-l'>Subtract Quantity (Create Order)</div>
+        <div className='ov-divider' />
 
-        <div className="homec-l">{overlayData?.name}</div>
+        <div className='homec-l'>{overlayData?.name}</div>
 
         {noStoreError && (
-          <div className="ov-error homec-l">Please Select a Store</div>
+          <div className='ov-error homec-l'>Please Select a Store</div>
         )}
 
-        <div className="pio-rel">
+        <div className='pio-rel'>
           <div
-            className="pio-select  aover-select"
+            className='pio-select  aover-select'
             onClick={() => setShowSelectStores((prev) => !prev)}
             style={{ padding: "5px" }}
           >
             {selectedStore ? selectedStore.name : "Select a store"}
-            <div className="grow" />
+            <div className='grow' />
             <div
-              className="mitem-caret"
+              className='mitem-caret'
               style={{ transform: !showSelectStores && "rotate(-90deg)" }}
             />
           </div>
 
           {showSelectStores && (
-            <div className="pio-selch aover-selch">
+            <div className='pio-selch aover-selch'>
               {allStores?.map((v) => (
                 <div
-                  className="pio-ch"
+                  className='pio-ch'
                   onClick={() => {
                     setShowSelectStores(false);
                     setSelectedStore(v);
@@ -138,26 +144,26 @@ const SubtractOverlay = ({
         </div>
 
         {badQtyError && (
-          <div className="ov-error homec-l">Invalid Quantity</div>
+          <div className='ov-error homec-l'>Invalid Quantity</div>
         )}
 
         {leadingZero && (
-          <div className="ov-error homec-l">
+          <div className='ov-error homec-l'>
             Leading 0 will be removed on submit ({quantity} turns into{" "}
             {parseInt(quantity)})
           </div>
         )}
 
         <div
-          className="homec-inputcontainer"
+          className='homec-inputcontainer'
           style={{ margin: "0 8px", width: "calc(100% - 16px)" }}
         >
           <input
-            placeholder="Quantity"
-            className="homec-input"
+            placeholder='Quantity'
+            className='homec-input'
             value={quantity}
-            type="number"
-            id="ov-sub"
+            type='number'
+            id='ov-sub'
             onChange={(e) => {
               if (
                 String(e.target.value).length > 1 &&
@@ -174,7 +180,7 @@ const SubtractOverlay = ({
         </div>
 
         <div
-          className="homec-submit homec-but ov-submit"
+          className='homec-submit homec-but ov-submit'
           onClick={() => handleSubmit()}
         >
           Submit

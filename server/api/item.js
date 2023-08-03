@@ -3,8 +3,8 @@ const prisma = require("../prisma/prismaClient.js");
 
 module.exports = router;
 
-router.get("/fetch/:id/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetch/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -31,8 +31,8 @@ router.get("/fetch/:id/:secretkey", async (req, res, next) => {
   }
 });
 
-router.get("/fetchall/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetchall", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -59,8 +59,8 @@ router.get("/fetchall/:secretkey", async (req, res, next) => {
   }
 });
 
-router.post("/create/mass/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/create/mass", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -107,8 +107,8 @@ router.post("/create/mass/:secretkey", async (req, res, next) => {
   }
 });
 
-router.post("/create/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/create", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -164,8 +164,8 @@ router.post("/create/:secretkey", async (req, res, next) => {
   }
 });
 
-router.put("/editqty/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.put("/editqty", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -261,8 +261,8 @@ router.put("/editqty/:secretkey", async (req, res, next) => {
   }
 });
 
-router.put("/edit/info/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.put("/edit/info", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -358,8 +358,8 @@ router.all("/external/editqty", async (req, res, next) => {
   res.send("updated").status(200);
 });
 
-router.delete("/delete/:id/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.delete("/delete/:id", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }

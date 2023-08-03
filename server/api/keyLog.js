@@ -3,8 +3,8 @@ const prisma = require("../prisma/prismaClient.js");
 
 module.exports = router;
 
-router.get("/fetchall/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetchall", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -22,8 +22,8 @@ router.get("/fetchall/:secretkey", async (req, res, next) => {
   }
 });
 
-router.get("/fetch/active/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.get("/fetch/active", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -47,8 +47,8 @@ router.get("/fetch/active/:secretkey", async (req, res, next) => {
   }
 });
 
-router.post("/create/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.post("/create", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -95,8 +95,8 @@ router.post("/create/:secretkey", async (req, res, next) => {
   }
 });
 
-router.put("/return/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.put("/return", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }
@@ -139,8 +139,8 @@ router.put("/return/:secretkey", async (req, res, next) => {
 });
 
 //this one returns all active ones, the other one returns the store
-router.put("/returnfromoverlay/:secretkey", async (req, res, next) => {
-  if (req.params.secretkey !== process.env.ROUTEPASS) {
+router.put("/returnfromoverlay", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;
   }

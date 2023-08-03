@@ -7,8 +7,6 @@ import "atropos/css";
 
 import $ from "jquery";
 
-import { makeGetRequest } from "./components/requests/requestFunctions";
-
 import { dispatchSetScreenWidth } from "./store/global/screenWidth";
 import { dispatchSetSidebarState } from "./store/sidebar";
 import { dispatchSetAllStores } from "./store/allStores";
@@ -33,6 +31,7 @@ import SinglePrintList from "./components/print/singleprint/SinglePrintList";
 import PrintList from "./components/print/singleprint/PrintList";
 import PrintProductInfo from "./components/productinfo/PrintProductInfo";
 import PrintListInfo from "./components/productinfo/printlist/PrintListInfo";
+import { makeGetRequestWithAuth } from "./requests/helperFunctions";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -43,20 +42,21 @@ const App = () => {
 
   useEffect(() => {
     async function fetchall() {
-      makeGetRequest(`stores/fetchall/${import.meta.env.VITE_ROUTEPASS}`).then(
-        (res) => {
-          function sorting(a, b) {
-            const num1 = Number(a.name.slice(0, 2));
-            const num2 = Number(b.name.slice(0, 2));
+      makeGetRequestWithAuth(
+        `stores/fetchall`,
+        import.meta.env.VITE_ROUTEPASS
+      ).then((res) => {
+        function sorting(a, b) {
+          const num1 = Number(a.name.slice(0, 2));
+          const num2 = Number(b.name.slice(0, 2));
 
-            if (num1 > num2) return 1;
-            if (num1 < num2) return -1;
-            return 0;
-          }
-
-          dispatch(dispatchSetAllStores(res.sort(sorting)));
+          if (num1 > num2) return 1;
+          if (num1 < num2) return -1;
+          return 0;
         }
-      );
+
+        dispatch(dispatchSetAllStores(res.sort(sorting)));
+      });
     }
 
     fetchall();

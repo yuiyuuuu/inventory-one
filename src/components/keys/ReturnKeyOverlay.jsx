@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { makeGetRequest, makePutRequest } from "../requests/requestFunctions";
+import {
+  makeGetRequest,
+  makeGetRequestWithAuth,
+  makePutRequest,
+  makePutRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
   const [activeKeyLogs, setActiveKeyLogs] = useState([]);
@@ -12,9 +17,10 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
       returnTime: new Date(),
     };
 
-    const c = await makePutRequest(
-      `keys/returnfromoverlay/${import.meta.env.VITE_ROUTEPASS}`,
-      obj
+    const c = await makePutRequestWithAuth(
+      `keys/returnfromoverlay`,
+      obj,
+      import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
         if (res === "access denied") throw new Error("access denied");
@@ -31,8 +37,9 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
 
   useEffect(() => {
     async function fetch() {
-      const c = await makeGetRequest(
-        `keys/fetch/active/${import.meta.env.VITE_ROUTEPASS}`
+      const c = await makeGetRequestWithAuth(
+        `keys/fetch/active`,
+        import.meta.env.VITE_ROUTEPASS
       ).then((res) => {
         if (res.length > 0) {
           setActiveKeyLogs(res);
@@ -59,17 +66,17 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
 
   return (
     <div
-      className="home-createoverlay"
+      className='home-createoverlay'
       onClick={() => {
         document.querySelector("html").style.overflow = "";
         setShowReturnOverlay(false);
       }}
     >
-      <div className="homec-inner kh-rko" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Return Key</div>
+      <div className='homec-inner kh-rko' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Return Key</div>
 
         {activeKeyLogs?.length > 0 ? (
-          <div className="kh-start">
+          <div className='kh-start'>
             {Object.keys(sortedLogs)
               .sort(function (a, b) {
                 const num1 = Number(a.slice(0, 2));
@@ -80,29 +87,29 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
                 return 0;
               })
               ?.map((key) => (
-                <div className="pio-inner">
+                <div className='pio-inner'>
                   <div
-                    className="pio-bbot pi-fs"
+                    className='pio-bbot pi-fs'
                     style={{ borderBottomColor: "red" }}
                   >
                     {key}
                   </div>
 
-                  <div className="kh-j">
+                  <div className='kh-j'>
                     {sortedLogs[key].map((log) => (
                       <div
-                        className="kh-mapch"
+                        className='kh-mapch'
                         style={{ width: "100%" }}
                         onClick={() =>
                           (window.location.href = `/keys/${log.store.id}`)
                         }
                       >
-                        <div className="kh-b">
-                          <div className="kh-bord2 kh-bordfont">
-                            <span className="kh-wp ellipsis">
+                        <div className='kh-b'>
+                          <div className='kh-bord2 kh-bordfont'>
+                            <span className='kh-wp ellipsis'>
                               {log.name.toUpperCase()} -{" "}
                             </span>{" "}
-                            <span className="kp-wpi">
+                            <span className='kp-wpi'>
                               {" "}
                               {new Date(new Date(log.takeTime)).toLocaleString(
                                 "en-US",
@@ -111,9 +118,9 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
                                 }
                               )}
                             </span>
-                            <div className="grow" />{" "}
+                            <div className='grow' />{" "}
                             <button
-                              className="home-add kh-return"
+                              className='home-add kh-return'
                               onClick={(e) => {
                                 e.stopPropagation();
                                 returnKey(log.id, log.name);
@@ -130,7 +137,7 @@ const ReturnKeyOverlay = ({ setShowReturnOverlay }) => {
               ))}
           </div>
         ) : (
-          <div className="kh-no">No active key logs</div>
+          <div className='kh-no'>No active key logs</div>
         )}
       </div>
     </div>
