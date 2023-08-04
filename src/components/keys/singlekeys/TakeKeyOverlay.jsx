@@ -60,7 +60,7 @@ const TakeKeyOverlay = ({
     const c = confirm(
       `Take keys for ${selected
         .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
-        ?.toString()}`
+        ?.toString()}?`
     );
 
     if (!c) return;
