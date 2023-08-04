@@ -80,6 +80,18 @@
   }
 }
 
+.kh-return2 {
+  font-size: 20px;
+  border-color: red;
+  background-color: red !important;
+  padding: 12px 20px !important;
+
+  @media only screen and (max-width: 500px) {
+    padding: 6px 14px !important;
+    font-size: 12px !important;
+  }
+}
+
 .kh-t {
   margin: 10px 0;
 }
@@ -141,10 +153,9 @@
 }
 
 .kh-selectbut {
-  padding: 12px 30px !important;
-  width: 160px;
+  padding: 12px 20px;
+  width: 220px;
   box-sizing: border-box;
-  font-size: 21px;
   border-radius: 4px;
   cursor: pointer;
   max-height: unset !important;
@@ -155,6 +166,19 @@
 .kh-torodivider {
   width: 60%;
   height: 3px;
-  margin: 15px 0;
+  margin: 32px 0;
   background-color: white;
+}
+
+.kh-toroinner {
+  @media only screen and (max-width: 750px) {
+    height: 70vh !important;
+  }
+}
+
+.kh-toromedia {
+  @media only screen and (max-width: 650px) {
+    font-size: 24px !important;
+    padding: 24px 40px !important;
+  }
 }
