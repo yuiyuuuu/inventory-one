@@ -21,10 +21,27 @@ app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: "*",
+  origin: ["http://inventoryone.herokuapp.com", "http://localhost:3004"],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-app.use(cors(corsOptions));
+
+// app.use(cors(corsOptions));
+
+app.all("*", function (req, res, next) {
+  console.log(corsOptions.origin, "origin");
+  console.log(req.header("origin"));
+  const origin = corsOptions.origin.includes(
+    req.header("origin")?.toLowerCase()
+  )
+    ? req.headers.origin
+    : cors.default;
+  res.header("Access-Control-Allow-Origin", origin);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 app.use("/api", require("./api/api"));
 
