@@ -21,7 +21,11 @@ app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ["http://inventoryone.herokuapp.com", "http://localhost:3004"],
+  origin: [
+    "http://inventoryone.herokuapp.com",
+    "http://localhost:3004",
+    "http://it.citysportsusa.com/",
+  ],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
