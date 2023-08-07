@@ -314,7 +314,7 @@ router.all("/external/editqty", async (req, res, next) => {
     },
   });
 
-  for (let i = 0; i < req.body.items.length; i++) {
+  for (let i = 0; i < req.body.items?.length || 0; i++) {
     const cur = body.items[i];
 
     const finditem = await prisma.item.findFirst({
