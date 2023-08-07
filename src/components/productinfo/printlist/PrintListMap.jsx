@@ -136,8 +136,6 @@ const PrintListMap = ({ category, setReady }) => {
       },
     });
 
-    console.log(Object.values(result2));
-
     setReady((prev) => [...prev, category.id]);
   }, [result]);
 
