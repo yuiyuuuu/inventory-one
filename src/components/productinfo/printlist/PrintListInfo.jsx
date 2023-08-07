@@ -64,21 +64,21 @@ const PrintListInfo = () => {
     window.onbeforeprint = beforePrint;
     window.onafterprint = afterPrint;
 
-    setTimeout(() => {
-      window.print();
-    }, 2300);
+    // setTimeout(() => {
+    //   window.print();
+    // }, 2300);
   }, [ready, list]);
 
   if (!authState?.id && (!authState.loading || authState.loading === "false")) {
-    return <div className='ppi-b'>Login to print</div>;
+    return <div className="ppi-b">Login to print</div>;
   }
 
   if (listNotFound) {
-    return <div className='home-krink'>List not found</div>;
+    return <div className="home-krink">List not found</div>;
   }
 
   return (
-    <div className='ppi-parent'>
+    <div className="ppi-parent">
       {list?.category?.map((category) => (
         <PrintListMap category={category} setReady={setReady} />
       ))}

@@ -47,7 +47,7 @@ const PrintListMap = ({ category, setReady }) => {
     const last8months = [];
     const today = new Date();
 
-    for (var i = 8; i > 0; i -= 1) {
+    for (var i = 7; i >= 0; i -= 1) {
       const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
 
       last8months.push(
@@ -77,7 +77,9 @@ const PrintListMap = ({ category, setReady }) => {
         re[year][months[month]] += order.quantity;
 
         //result2, just different format of the object
-        re2[month + "/" + String(year).slice(2)] += order.quantity;
+        if (re2[month + "/" + String(year).slice(2)] >= 0) {
+          re2[month + "/" + String(year).slice(2)] += order.quantity;
+        }
         setResult2(re2);
       });
     });
@@ -134,21 +136,23 @@ const PrintListMap = ({ category, setReady }) => {
       },
     });
 
+    console.log(Object.values(result2));
+
     setReady((prev) => [...prev, category.id]);
   }, [result]);
 
   return (
-    <div className='pagebreak'>
-      <div className='home-krink ppi-martop'>{category?.name}</div>
-      <div className='ppi-can'>
+    <div className="pagebreak">
+      <div className="home-krink ppi-martop">{category?.name}</div>
+      <div className="ppi-can">
         <canvas
-          className='pi-parent ppi-print'
+          className="pi-parent ppi-print"
           id={`pi-parent-${category?.id}`}
         ></canvas>
       </div>
 
-      <div className='ppi-bot'>
-        <div className='pi-octoggle ppi-b ppi-c ppi-titlesmall'>Statistics</div>
+      <div className="ppi-bot">
+        <div className="pi-octoggle ppi-b ppi-c ppi-titlesmall">Statistics</div>
         {result &&
           Object.keys(result).map((year) =>
             Object.keys(result[year])
@@ -156,7 +160,7 @@ const PrintListMap = ({ category, setReady }) => {
                 return monthReversed[a] - monthReversed[b];
               })
               .map((month) => (
-                <div className='pi-sub ppi-b ppi-fontsmall'>
+                <div className="pi-sub ppi-b ppi-fontsmall">
                   {month} {year}: {result[year][month]}
                 </div>
               ))
