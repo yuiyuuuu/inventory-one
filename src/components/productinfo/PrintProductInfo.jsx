@@ -278,9 +278,9 @@ const PrintProductInfo = () => {
     window.onbeforeprint = beforePrint;
     window.onafterprint = afterPrint;
 
-    // setTimeout(() => {
-    //   window.print();
-    // }, 1700);
+    setTimeout(() => {
+      window.print();
+    }, 1700);
   }, [chartRef, average180, oosDays, itemNotFound]);
 
   if (!authState?.id && (!authState.loading || authState.loading === "false")) {
