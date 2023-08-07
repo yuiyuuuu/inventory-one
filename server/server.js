@@ -24,7 +24,7 @@ const corsOptions = {
   origin: [
     "http://inventoryone.herokuapp.com",
     "http://localhost:3004",
-    "http://it.citysportsusa.com/",
+    "http://it.citysportsusa.com",
   ],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
