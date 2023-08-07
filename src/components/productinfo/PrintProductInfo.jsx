@@ -183,7 +183,7 @@ const PrintProductInfo = () => {
     const last8months = [];
     const today = new Date();
 
-    for (var i = 8; i > 0; i -= 1) {
+    for (var i = 7; i >= 0; i -= 1) {
       const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
 
       last8months.push(
@@ -198,8 +198,10 @@ const PrintProductInfo = () => {
     for (let i = 0; i < Object.keys(result).length; i++) {
       const d = new Date(Object.keys(result)[i]);
 
-      re2[`${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`] +=
-        Object.values(result)[i].quantity;
+      if (re2[`${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`] >= 0) {
+        re2[`${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`] +=
+          Object.values(result)[i].quantity;
+      }
     }
 
     setResult2(re2);
@@ -276,42 +278,42 @@ const PrintProductInfo = () => {
     window.onbeforeprint = beforePrint;
     window.onafterprint = afterPrint;
 
-    setTimeout(() => {
-      window.print();
-    }, 1700);
+    // setTimeout(() => {
+    //   window.print();
+    // }, 1700);
   }, [chartRef, average180, oosDays, itemNotFound]);
 
   if (!authState?.id && (!authState.loading || authState.loading === "false")) {
-    return <div className='ppi-b'>Login to print</div>;
+    return <div className="ppi-b">Login to print</div>;
   }
 
   if (itemNotFound) {
-    return <div className='home-krink'>Item not found</div>;
+    return <div className="home-krink">Item not found</div>;
   }
 
   return (
-    <div className='ppi-parent'>
-      <div className='home-krink ppi-martop'>Inventory One</div>
-      <div className='ppi-can'>
-        <canvas className='pi-parent ppi-print' id='pi-parent'></canvas>
+    <div className="ppi-parent">
+      <div className="home-krink ppi-martop">Inventory One</div>
+      <div className="ppi-can">
+        <canvas className="pi-parent ppi-print" id="pi-parent"></canvas>
       </div>
 
-      <div className='ppi-bot'>
-        <div className='ppi-name'>{item?.name}</div>
+      <div className="ppi-bot">
+        <div className="ppi-name">{item?.name}</div>
 
-        <div className='pi-octoggle ppi-b ppi-c'>Statistics</div>
+        <div className="pi-octoggle ppi-b ppi-c">Statistics</div>
 
-        <div className='pi-w'>
-          <div className='pi-sub ppi-b'>Category: {item?.category?.name}</div>
+        <div className="pi-w">
+          <div className="pi-sub ppi-b">Category: {item?.category?.name}</div>
 
-          <div className='pi-sub ppi-b'>Current Quantity: {item?.quantity}</div>
-          <div className='pi-sub ppi-b'>
+          <div className="pi-sub ppi-b">Current Quantity: {item?.quantity}</div>
+          <div className="pi-sub ppi-b">
             History Quantity: {item?.historyQTY}
           </div>
-          <div className='pi-sub ppi-b'>
+          <div className="pi-sub ppi-b">
             Average per day (last 180 days): {average180}
           </div>
-          <div className='pi-sub ppi-b'>
+          <div className="pi-sub ppi-b">
             Predicted OOS day:{" "}
             {item?.quantity === 0
               ? "Out of Stock"
@@ -326,7 +328,7 @@ const PrintProductInfo = () => {
 
           {result2 &&
             Object.keys(result2).map((value, i) => (
-              <div className='pi-sub ppi-b'>
+              <div className="pi-sub ppi-b">
                 {value}: {Object.values(result2)[i]}
               </div>
             ))}
