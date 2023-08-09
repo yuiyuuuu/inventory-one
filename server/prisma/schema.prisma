@@ -19,6 +19,9 @@ model List{
   sharedUsers User[] @relation("shared")
   category Category[]
   orders Order[]
+  
+  createdAt DateTime @default(now()) @db.Timestamp
+
 }
 
 //order can have one store, one item, but item can have many orders and store can have many orders
@@ -28,6 +31,9 @@ model Category{
   items Item []
   list List? @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String?
+
+  createdAt DateTime @default(now()) @db.Timestamp
+
 }
 
 model Item{
@@ -38,7 +44,6 @@ model Item{
   historyQTY Int @default(0)//how many sold in the past
   image String?
   units String?
-  createdAt DateTime @default(now()) @db.Timestamp
 
   list List? @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String?
@@ -47,6 +52,9 @@ model Item{
   categoryId String?
 
   orders Order[]
+  
+  createdAt DateTime @default(now()) @db.Timestamp
+  
 }
 
 
@@ -56,6 +64,10 @@ model Store{
   number Int?
   orders Order []
   keyLog Keylog []
+  keyImage Keyimage []
+
+   createdAt DateTime @default(now()) @db.Timestamp
+
 }
 
 model Order {
@@ -89,6 +101,8 @@ model User{
   QR QR[]
 
   print Print[]
+
+  createdAt DateTime @default(now()) @db.Timestamp
 }
 
 //keys stuff below
@@ -100,6 +114,16 @@ model Keylog{
   returnTime DateTime?
   store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
   storeId String
+
+}
+
+model Keyimage{
+  id String @id @default(uuid())
+  image String
+
+  store Store @relation(fields: [storeId], references: [id])
+  storeId String
+  createdAt DateTime @default(now()) @db.Timestamp
 }
 
 //qr section
@@ -111,6 +135,8 @@ model QR{
   user User @relation(fields: [userid], references: [id], onDelete: Cascade)
   userid String
   count Int @default(0)
+
+ createdAt DateTime @default(now()) @db.Timestamp
 }
 
 //print section
@@ -121,6 +147,8 @@ model Print{
   userid String
 
 printFiles PrintFile[]
+
+  createdAt DateTime @default(now()) @db.Timestamp
 }
 
 model PrintFile{
@@ -129,6 +157,8 @@ model PrintFile{
 
   printList Print @relation(fields: [printListId], references: [id], onDelete: Cascade)
   printListId String
+
+    createdAt DateTime @default(now()) @db.Timestamp
 }
 
 

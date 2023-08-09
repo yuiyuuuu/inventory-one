@@ -30,8 +30,8 @@ const KeysHome = () => {
 
   if (stores.length < 1) {
     return (
-      <div className='abs-loading2'>
-        <div className='lds-ring' id='spinner-form'>
+      <div className="abs-loading2">
+        <div className="lds-ring" id="spinner-form">
           <div></div>
           <div></div>
           <div></div>
@@ -42,13 +42,13 @@ const KeysHome = () => {
   }
 
   return (
-    <div className='home-parent'>
-      <img className='home-logo' src='/assets/logo.jpeg' />
-      <div className='home-krink'>Inventory Keys</div>
+    <div className="home-parent">
+      <img className="home-logo" src="/assets/logo.jpeg" />
+      <div className="home-krink">Inventory Keys</div>
 
-      <div className='home-t home-q'>
+      <div className="home-t home-q">
         <button
-          className='home-add kh-take'
+          className="home-add kh-take"
           onClick={() => {
             document.querySelector("html").style.overflow = "hidden";
             setShowTakeOverlay(true);
@@ -58,7 +58,7 @@ const KeysHome = () => {
         </button>
 
         <button
-          className='home-add kh-take kh-return'
+          className="home-add kh-take kh-return"
           onClick={() => {
             document.querySelector("html").style.overflow = "hidden";
             setShowReturnOverlay(true);
@@ -69,13 +69,13 @@ const KeysHome = () => {
         </button>
       </div>
 
-      <div className='store-mapc'>
-        {stores?.map((store) => (
-          <div className='store-map' onClick={() => nav(`/keys/${store?.id}`)}>
-            <div className='store-name'>{store?.name}</div>
-            <div className='grow' />
+      <div className="store-mapc">
+        {stores?.slice(1)?.map((store) => (
+          <div className="store-map" onClick={() => nav(`/keys/${store?.id}`)}>
+            <div className="store-name">{store?.name}</div>
+            <div className="grow" />
             <div
-              className='mitem-caret'
+              className="mitem-caret"
               style={{ transform: "rotate(-90deg)" }}
             />
           </div>
