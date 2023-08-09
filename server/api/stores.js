@@ -6,7 +6,6 @@ const { store } = require("./includes.js");
 module.exports = router;
 
 router.get("/fetchall", async (req, res, next) => {
-  console.log(req.headers.host);
   if (req.headers.authorization !== process.env.ROUTEPASS) {
     res.send("access denied").status(401);
     return;

@@ -182,3 +182,41 @@
     padding: 24px 40px !important;
   }
 }
+
+.kh-preview {
+  max-width: 65%;
+  vertical-align: top;
+  margin-left: 20px;
+}
+
+.kh-ol {
+  margin-top: 25px;
+  max-height: 60vh;
+  overflow-y: scroll;
+  padding-bottom: 25px;
+}
+
+.kh-previewli {
+  margin-bottom: 17px;
+}
+
+.kh-licon {
+  display: flex;
+}
+
+.kh-trashcon {
+  margin-right: 13px;
+}
+
+.kh-img {
+  max-width: 60%;
+  vertical-align: top;
+  margin-left: 20px;
+}
+
+.kh-ol2 {
+  margin-top: 25px;
+  max-height: 75vh;
+  overflow-y: scroll;
+  padding-bottom: 25px;
+}

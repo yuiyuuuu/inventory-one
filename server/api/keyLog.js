@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const prisma = require("../prisma/prismaClient.js");
 
+const { store } = require("./includes.js");
+
 module.exports = router;
 
 router.get("/fetchall", async (req, res, next) => {
@@ -168,6 +170,65 @@ router.put("/returnfromoverlay", async (req, res, next) => {
     });
 
     res.send(find);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/addimage", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    const images = req.body.images;
+
+    for (let i = 0; i < images.length; i++) {
+      await prisma.keyimage.create({
+        data: {
+          image: images[i].image,
+          storeId: req.body.storeId,
+        },
+      });
+    }
+
+    const s = await prisma.store.findUnique({
+      where: {
+        id: req.body.storeId,
+      },
+
+      include: JSON.parse(store),
+    });
+
+    res.send(s).status(200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/deleteimage/:id/:storeid", async (req, res, next) => {
+  if (req.headers.authorization !== process.env.ROUTEPASS) {
+    res.send("access denied").status(401);
+    return;
+  }
+
+  try {
+    await prisma.keyimage.delete({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    const s = await prisma.store.findUnique({
+      where: {
+        id: req.params.storeid,
+      },
+
+      include: JSON.parse(store),
+    });
+
+    res.send(s).status(200);
   } catch (error) {
     next(error);
   }

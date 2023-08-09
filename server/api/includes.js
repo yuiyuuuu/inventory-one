@@ -43,6 +43,7 @@ const store = JSON.stringify({
   },
 
   keyLog: true,
+  keyImage: true,
 });
 
 const userinclude = JSON.stringify({

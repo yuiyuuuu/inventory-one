@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { makeGetRequestWithAuth } from "./requests/helperFunctions";
 
 import "./index.scss";
 import "atropos/css";
@@ -31,7 +32,6 @@ import SinglePrintList from "./components/print/singleprint/SinglePrintList";
 import PrintList from "./components/print/singleprint/PrintList";
 import PrintProductInfo from "./components/productinfo/PrintProductInfo";
 import PrintListInfo from "./components/productinfo/printlist/PrintListInfo";
-import { makeGetRequestWithAuth } from "./requests/helperFunctions";
 
 const App = () => {
   const dispatch = useDispatch();
