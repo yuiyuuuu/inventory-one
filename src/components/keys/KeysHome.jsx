@@ -44,7 +44,7 @@ const KeysHome = () => {
   return (
     <div className="home-parent">
       <img className="home-logo" src="/assets/logo.jpeg" />
-      <div className="home-krink">Inventory Keys</div>
+      <div className="home-krink">Key Checkout</div>
 
       <div className="home-t home-q">
         <button

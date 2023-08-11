@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className='side-inner'
+      className="side-inner"
       style={{
         transform: sidebarState.display
           ? "translate(0)"
@@ -23,37 +23,37 @@ const Sidebar = () => {
         e.stopPropagation();
       }}
     >
-      <div className='side-acontainer'>
-        <a className='side-a' href='/'>
+      <div className="side-acontainer">
+        <a className="side-a" href="/">
           Inventory One
         </a>
-        <a className='side-a' href='/stores'>
+        <a className="side-a" href="/stores">
           Inventory Stores
         </a>
 
-        <a className='side-a' href='/keys'>
-          Inventory Keys
+        <a className="side-a" href="/keys">
+          Key Checkout
         </a>
 
-        <a className='side-a' href='/qr'>
+        <a className="side-a" href="/qr">
           Inventory QR
         </a>
 
-        <a className='side-a' href='/print'>
+        <a className="side-a" href="/print">
           Inventory Print
         </a>
       </div>
 
       {authState?.id && !authState.loading ? (
-        <div className='side-user'>
-          <div className='side-userin'>
-            <div className='side-img'></div>
-            <div className='side-infocol'>
-              <div className='side-username side-ell'>{authState?.name}</div>
-              <div className='side-email side-ell'>{authState?.email}</div>
+        <div className="side-user">
+          <div className="side-userin">
+            <div className="side-img"></div>
+            <div className="side-infocol">
+              <div className="side-username side-ell">{authState?.name}</div>
+              <div className="side-email side-ell">{authState?.email}</div>
             </div>
 
-            <div className='grow' />
+            <div className="grow" />
 
             <LogoutIcon
               oc={() => {
@@ -64,11 +64,11 @@ const Sidebar = () => {
           </div>
         </div>
       ) : (
-        <div className='side-user'>
-          <div className='side-userin'>
-            <div className='side-log'>
+        <div className="side-user">
+          <div className="side-userin">
+            <div className="side-log">
               <span
-                className='side-sp'
+                className="side-sp"
                 onClick={() => (window.location.href = "/login")}
               >
                 Login

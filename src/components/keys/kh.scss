@@ -198,6 +198,7 @@
 
 .kh-previewli {
   margin-bottom: 17px;
+  width: 100%;
 }
 
 .kh-licon {
@@ -211,7 +212,13 @@
 .kh-img {
   max-width: 60%;
   vertical-align: top;
-  margin-left: 20px;
+  margin-left: 10px;
+  min-width: 250px;
+
+  @media only screen and (min-width: 650px) {
+    width: 45%;
+    max-width: unset;
+  }
 }
 
 .kh-ol2 {
