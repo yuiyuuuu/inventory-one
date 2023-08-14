@@ -234,6 +234,8 @@ const PrintProductInfo = () => {
                 size: 15,
               },
             },
+            grace: 10,
+            beginAtZero: true,
           },
         },
 
