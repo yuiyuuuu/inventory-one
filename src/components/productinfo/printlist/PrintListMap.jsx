@@ -122,7 +122,7 @@ const PrintListMap = ({ category, setReady }) => {
                 size: 15,
               },
             },
-            grace: 10,
+            grace: "12%",
             beginAtZero: true,
           },
         },
@@ -142,17 +142,17 @@ const PrintListMap = ({ category, setReady }) => {
   }, [result]);
 
   return (
-    <div className="pagebreak">
-      <div className="home-krink ppi-martop">{category?.name}</div>
-      <div className="ppi-can">
+    <div className='pagebreak'>
+      <div className='home-krink ppi-martop'>{category?.name}</div>
+      <div className='ppi-can'>
         <canvas
-          className="pi-parent ppi-print"
+          className='pi-parent ppi-print'
           id={`pi-parent-${category?.id}`}
         ></canvas>
       </div>
 
-      <div className="ppi-bot">
-        <div className="pi-octoggle ppi-b ppi-c ppi-titlesmall">Statistics</div>
+      <div className='ppi-bot'>
+        <div className='pi-octoggle ppi-b ppi-c ppi-titlesmall'>Statistics</div>
         {result &&
           Object.keys(result).map((year) =>
             Object.keys(result[year])
@@ -160,7 +160,7 @@ const PrintListMap = ({ category, setReady }) => {
                 return monthReversed[a] - monthReversed[b];
               })
               .map((month) => (
-                <div className="pi-sub ppi-b ppi-fontsmall">
+                <div className='pi-sub ppi-b ppi-fontsmall'>
                   {month} {year}: {result[year][month]}
                 </div>
               ))
