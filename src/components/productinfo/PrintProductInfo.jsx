@@ -290,6 +290,8 @@ const PrintProductInfo = () => {
     chartRef.current = chart;
   }, [item, resultsSortedByDate, authState]);
 
+  console.log(chartRef, "chartref");
+
   useEffect(() => {
     if ((item?.quantity !== 0 && !oosDays) || !average180 || !chartRef.current)
       return;
@@ -338,7 +340,12 @@ const PrintProductInfo = () => {
 
       <div className="ppi-bot">
         <div className="ppi-name">{item?.name}</div>
-        <div className="pi-octoggle ppi-b ppi-c">Statistics</div>
+        <div
+          className="pi-octoggle ppi-b ppi-c"
+          style={{ marginTop: "10.5px" }}
+        >
+          Statistics
+        </div>
 
         <div style={{ paddingLeft: "3px" }}>
           <div className="pi-w">
@@ -368,7 +375,12 @@ const PrintProductInfo = () => {
           </div>
         </div>
 
-        <div className="pi-octoggle ppi-b ppi-c">Usage by Month</div>
+        <div
+          className="pi-octoggle ppi-b ppi-c"
+          style={{ marginTop: "10.5px" }}
+        >
+          Usage by Month
+        </div>
 
         <div style={{ paddingLeft: "3px" }}>
           {result2 &&
