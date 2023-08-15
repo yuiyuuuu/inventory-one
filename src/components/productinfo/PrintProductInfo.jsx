@@ -234,7 +234,7 @@ const PrintProductInfo = () => {
                 size: 15,
               },
             },
-            grace: 10,
+            grace: 8,
             beginAtZero: true,
           },
         },
@@ -286,36 +286,36 @@ const PrintProductInfo = () => {
   }, [chartRef, average180, oosDays, itemNotFound]);
 
   if (!authState?.id && (!authState.loading || authState.loading === "false")) {
-    return <div className="ppi-b">Login to print</div>;
+    return <div className='ppi-b'>Login to print</div>;
   }
 
   if (itemNotFound) {
-    return <div className="home-krink">Item not found</div>;
+    return <div className='home-krink'>Item not found</div>;
   }
 
   return (
-    <div className="ppi-parent">
-      <div className="home-krink ppi-martop">Inventory One</div>
-      <div className="ppi-can">
-        <canvas className="pi-parent ppi-print" id="pi-parent"></canvas>
+    <div className='ppi-parent'>
+      <div className='home-krink ppi-martop'>Inventory One</div>
+      <div className='ppi-can'>
+        <canvas className='pi-parent ppi-print' id='pi-parent'></canvas>
       </div>
 
-      <div className="ppi-bot">
-        <div className="ppi-name">{item?.name}</div>
+      <div className='ppi-bot'>
+        <div className='ppi-name'>{item?.name}</div>
 
-        <div className="pi-octoggle ppi-b ppi-c">Statistics</div>
+        <div className='pi-octoggle ppi-b ppi-c'>Statistics</div>
 
-        <div className="pi-w">
-          <div className="pi-sub ppi-b">Category: {item?.category?.name}</div>
+        <div className='pi-w'>
+          <div className='pi-sub ppi-b'>Category: {item?.category?.name}</div>
 
-          <div className="pi-sub ppi-b">Current Quantity: {item?.quantity}</div>
-          <div className="pi-sub ppi-b">
+          <div className='pi-sub ppi-b'>Current Quantity: {item?.quantity}</div>
+          <div className='pi-sub ppi-b'>
             History Quantity: {item?.historyQTY}
           </div>
-          <div className="pi-sub ppi-b">
+          <div className='pi-sub ppi-b'>
             Average per day (last 180 days): {average180}
           </div>
-          <div className="pi-sub ppi-b">
+          <div className='pi-sub ppi-b'>
             Predicted OOS day:{" "}
             {item?.quantity === 0
               ? "Out of Stock"
@@ -330,7 +330,7 @@ const PrintProductInfo = () => {
 
           {result2 &&
             Object.keys(result2).map((value, i) => (
-              <div className="pi-sub ppi-b">
+              <div className='pi-sub ppi-b'>
                 {value}: {Object.values(result2)[i]}
               </div>
             ))}
