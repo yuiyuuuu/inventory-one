@@ -64,9 +64,9 @@ const PrintListInfo = () => {
     window.onbeforeprint = beforePrint;
     window.onafterprint = afterPrint;
 
-    setTimeout(() => {
-      window.print();
-    }, 2300);
+    // setTimeout(() => {
+    //   window.print();
+    // }, 2300);
   }, [ready, list]);
 
   if (!authState?.id && (!authState.loading || authState.loading === "false")) {

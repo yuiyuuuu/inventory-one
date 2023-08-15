@@ -9,6 +9,21 @@ import {
 
 import Chart from "chart.js/auto";
 
+const months = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December",
+};
+
 const PrintProductInfo = () => {
   const params = useParams();
   const chartRef = useRef(null);
@@ -20,6 +35,9 @@ const PrintProductInfo = () => {
 
   //result 2, sorted by month
   const [result2, setResult2] = useState(null);
+
+  //result 3, keys are full month name + space + qty, eg. Feburary 2023
+  const [result3, setResult3] = useState(null);
 
   //prediction info states
   const [average180, setAverage180] = useState(null);
@@ -164,6 +182,7 @@ const PrintProductInfo = () => {
     //sort result object by date
     const re = {};
     const re2 = {};
+    const re3 = {};
 
     //get all keys of result, then sort the keys based on date
     Object.keys(result)
@@ -189,6 +208,8 @@ const PrintProductInfo = () => {
       last8months.push(
         `${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`
       );
+
+      re3[months[d.getMonth() + 1] + " " + d.getFullYear()] ||= 0;
     }
 
     for (let i = 0; i < last8months.length; i++) {
@@ -202,9 +223,15 @@ const PrintProductInfo = () => {
         re2[`${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`] +=
           Object.values(result)[i].quantity;
       }
+
+      if (re3[`${months[d.getMonth() + 1]} ${String(d.getFullYear())}`] >= 0) {
+        re3[`${months[d.getMonth() + 1]} ${String(d.getFullYear())}`] +=
+          Object.values(result)[i].quantity;
+      }
     }
 
     setResult2(re2);
+    setResult3(re3);
 
     const chart = new Chart(document.getElementById("pi-parent"), {
       type: "line",
@@ -289,9 +316,9 @@ const PrintProductInfo = () => {
     window.onbeforeprint = beforePrint;
     window.onafterprint = afterPrint;
 
-    setTimeout(() => {
-      window.print();
-    }, 1700);
+    // setTimeout(() => {
+    //   window.print();
+    // }, 1700);
   }, [chartRef, average180, oosDays, itemNotFound, item]);
 
   if (!authState?.id && (!authState.loading || authState.loading === "false")) {
@@ -304,43 +331,50 @@ const PrintProductInfo = () => {
 
   return (
     <div className="ppi-parent">
-      <div className="home-krink ppi-martop">Inventory One</div>
+      <div className="home-krink ppi-martop">Inventory Reports</div>
       <div className="ppi-can">
         <canvas className="pi-parent ppi-print" id="pi-parent"></canvas>
       </div>
 
       <div className="ppi-bot">
         <div className="ppi-name">{item?.name}</div>
-
         <div className="pi-octoggle ppi-b ppi-c">Statistics</div>
 
-        <div className="pi-w">
-          <div className="pi-sub ppi-b">Category: {item?.category?.name}</div>
+        <div style={{ paddingLeft: "3px" }}>
+          <div className="pi-w">
+            <div className="pi-sub ppi-b">Category: {item?.category?.name}</div>
 
-          <div className="pi-sub ppi-b">Current Quantity: {item?.quantity}</div>
-          <div className="pi-sub ppi-b">
-            History Quantity: {item?.historyQTY}
+            <div className="pi-sub ppi-b">
+              Current Quantity: {item?.quantity}
+            </div>
+            <div className="pi-sub ppi-b">
+              History Quantity: {item?.historyQTY}
+            </div>
+            <div className="pi-sub ppi-b">
+              Average per day (last 180 days): {average180}
+            </div>
+            <div className="pi-sub ppi-b">
+              Predicted OOS day:{" "}
+              {item?.quantity === 0
+                ? "Out of Stock"
+                : item?.historyQTY === 0
+                ? "No History"
+                : `${
+                    oosDays?.month < 10 ? "0" + oosDays?.month : oosDays?.month
+                  }/${oosDays?.day < 10 ? "0" + oosDays?.day : oosDays?.day}/${
+                    oosDays?.year
+                  }`}
+            </div>
           </div>
-          <div className="pi-sub ppi-b">
-            Average per day (last 180 days): {average180}
-          </div>
-          <div className="pi-sub ppi-b">
-            Predicted OOS day:{" "}
-            {item?.quantity === 0
-              ? "Out of Stock"
-              : item?.historyQTY === 0
-              ? "No History"
-              : `${
-                  oosDays?.month < 10 ? "0" + oosDays?.month : oosDays?.month
-                }/${oosDays?.day < 10 ? "0" + oosDays?.day : oosDays?.day}/${
-                  oosDays?.year
-                }`}
-          </div>
+        </div>
 
+        <div className="pi-octoggle ppi-b ppi-c">Usage by Month</div>
+
+        <div style={{ paddingLeft: "3px" }}>
           {result2 &&
-            Object.keys(result2).map((value, i) => (
+            Object.keys(result3).map((value, i) => (
               <div className="pi-sub ppi-b">
-                {value}: {Object.values(result2)[i]}
+                {value}: {Object.values(result3)[i]}
               </div>
             ))}
         </div>

@@ -36,11 +36,14 @@ const PrintListMap = ({ category, setReady }) => {
   const [result, setResult] = useState(null);
   const [result2, setResult2] = useState(null);
 
+  const [result3, setResult3] = useState(null);
+
   useEffect(() => {
     if (!category?.id) return;
 
     const re = {};
     const re2 = {};
+    const re3 = {};
 
     //initialize re2 with sorted months
 
@@ -53,6 +56,8 @@ const PrintListMap = ({ category, setReady }) => {
       last8months.push(
         `${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`
       );
+
+      re3[months[d.getMonth() + 1] + " " + d.getFullYear()] ||= 0;
     }
 
     for (let i = 0; i < last8months.length; i++) {
@@ -76,15 +81,30 @@ const PrintListMap = ({ category, setReady }) => {
 
         re[year][months[month]] += order.quantity;
 
-        //result2, just different format of the object
+        //result2 and result3, just different format of the object
         if (re2[month + "/" + String(year).slice(2)] >= 0) {
           re2[month + "/" + String(year).slice(2)] += order.quantity;
         }
-        setResult2(re2);
+
+        if (
+          re3[
+            `${months[completedDate.getMonth() + 1]} ${String(
+              completedDate.getFullYear()
+            )}`
+          ] >= 0
+        ) {
+          re3[
+            `${months[completedDate.getMonth() + 1]} ${String(
+              completedDate.getFullYear()
+            )}`
+          ] += order.quantity;
+        }
       });
     });
 
     setResult(re);
+    setResult2(re2);
+    setResult3(re3);
   }, [category]);
 
   //could use one useeffect, but two is more clean and easier to read with the chart
@@ -163,19 +183,15 @@ const PrintListMap = ({ category, setReady }) => {
       </div>
 
       <div className="ppi-bot">
-        <div className="pi-octoggle ppi-b ppi-c ppi-titlesmall">Statistics</div>
-        {result &&
-          Object.keys(result).map((year) =>
-            Object.keys(result[year])
-              .sort(function (a, b) {
-                return monthReversed[a] - monthReversed[b];
-              })
-              .map((month) => (
-                <div className="pi-sub ppi-b ppi-fontsmall">
-                  {month} {year}: {result[year][month]}
-                </div>
-              ))
-          )}
+        <div className="pi-octoggle ppi-b ppi-c ppi-titlesmall">
+          Usage by Month
+        </div>
+        {result3 &&
+          Object.keys(result3).map((value, i) => (
+            <div className="pi-sub ppi-b ppi-fontsmall">
+              {value}: {Object.values(result3)[i]}
+            </div>
+          ))}
       </div>
     </div>
   );

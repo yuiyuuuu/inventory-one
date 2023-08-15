@@ -53,7 +53,6 @@ const AddImageOverlay = ({
       import.meta.env.VITE_ROUTEPASS
     )
       .then((res) => {
-        console.log(res);
         if (res?.id) {
           setSelectedStore(res);
           alert("Images added");
@@ -66,28 +65,28 @@ const AddImageOverlay = ({
   }
 
   return (
-    <div className='home-createoverlay' onClick={() => setShowAddImage(false)}>
-      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
-        <div className='homec-l'>Add Key Image</div>
+    <div className="home-createoverlay" onClick={() => setShowAddImage(false)}>
+      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
+        <div className="homec-l">Add Key Image</div>
 
-        <button className='homec-upload' onClick={() => handleUploadImage()}>
+        <button className="homec-upload" onClick={() => handleUploadImage()}>
           Upload Image
         </button>
 
         {images?.length > 0 && (
-          <ol className='kh-ol'>
+          <ol className="kh-ol">
             {images?.map((im, i) => (
-              <div className='kh-licon'>
+              <div className="kh-licon">
                 <div
                   onClick={() => {
                     setImages((prev) => [...prev.toSpliced(i, 1)]);
                   }}
-                  className='kh-trashcon'
+                  className="kh-trashcon"
                 >
                   <TrashCanSvg />
                 </div>
-                <li className='kh-previewli'>
-                  <img src={im?.preview} className='kh-preview' />
+                <li className="kh-previewli">
+                  <img src={im?.preview} className="kh-preview" />
                 </li>
               </div>
             ))}
@@ -96,7 +95,7 @@ const AddImageOverlay = ({
 
         {images?.length > 0 && (
           <button
-            className='homec-submit homec-but'
+            className="homec-submit homec-but"
             onClick={() => handleSubmit()}
           >
             Submit
