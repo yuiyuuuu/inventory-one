@@ -98,8 +98,19 @@ const PrintListMap = ({ category, setReady }) => {
       options: {
         responsive: true,
         plugins: {
+          // legend: {
+          //   // display: false,
+          // },
+
           legend: {
-            display: false,
+            labels: {
+              boxWidth: 60,
+              boxHeight: 18,
+              font: {
+                size: 22,
+              },
+              textAlign: "center",
+            },
           },
         },
 
@@ -131,7 +142,7 @@ const PrintListMap = ({ category, setReady }) => {
         labels: Object.keys(result2).map((v) => v),
         datasets: [
           {
-            label: " Category QTY by month",
+            label: " Category Usage by Month",
             data: Object.values(result2).map((v) => v),
           },
         ],
@@ -142,17 +153,17 @@ const PrintListMap = ({ category, setReady }) => {
   }, [result]);
 
   return (
-    <div className='pagebreak'>
-      <div className='home-krink ppi-martop'>{category?.name}</div>
-      <div className='ppi-can'>
+    <div className="pagebreak">
+      <div className="home-krink ppi-martop">{category?.name}</div>
+      <div className="ppi-can">
         <canvas
-          className='pi-parent ppi-print'
+          className="pi-parent ppi-print"
           id={`pi-parent-${category?.id}`}
         ></canvas>
       </div>
 
-      <div className='ppi-bot'>
-        <div className='pi-octoggle ppi-b ppi-c ppi-titlesmall'>Statistics</div>
+      <div className="ppi-bot">
+        <div className="pi-octoggle ppi-b ppi-c ppi-titlesmall">Statistics</div>
         {result &&
           Object.keys(result).map((year) =>
             Object.keys(result[year])
@@ -160,7 +171,7 @@ const PrintListMap = ({ category, setReady }) => {
                 return monthReversed[a] - monthReversed[b];
               })
               .map((month) => (
-                <div className='pi-sub ppi-b ppi-fontsmall'>
+                <div className="pi-sub ppi-b ppi-fontsmall">
                   {month} {year}: {result[year][month]}
                 </div>
               ))
