@@ -54,6 +54,17 @@ const SingleStore = () => {
 
   const [noStore, setNoStore] = useState({ loading: true, notfound: false });
 
+  const clickoutList = useCallback((e) => {
+    const $target = $(event.target);
+    if (
+      !$target.closest("#showlist").length &&
+      !$target.closest("#ss-list").length &&
+      $("#showlist").is(":visible")
+    ) {
+      setShowSelectList(false);
+    }
+  }, []);
+
   const clickoutYear = useCallback((e) => {
     const $target = $(event.target);
     if (
@@ -77,6 +88,7 @@ const SingleStore = () => {
     }
   }, []);
 
+  $(document).off("click", document, clickoutList).click(clickoutList);
   $(document).off("click", document, clickoutYear).click(clickoutYear);
   $(document).off("click", document, clickoutMonth).click(clickoutMonth);
 
