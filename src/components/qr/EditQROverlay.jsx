@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import {
+  isValidHttpUrl,
   makePutRequest,
   makePutRequestWithAuth,
 } from "../../requests/helperFunctions";
@@ -20,18 +21,6 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
     setInvalidURL(false);
 
     let bad = false;
-
-    function isValidHttpUrl(string) {
-      let url;
-
-      try {
-        url = new URL(string);
-      } catch (_) {
-        return false;
-      }
-
-      return url.protocol === "http:" || url.protocol === "https:";
-    }
 
     if (!editedQr?.name) {
       setNoName(true);
@@ -81,15 +70,15 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
   }, [selectedQR]);
 
   return (
-    <div className="home-createoverlay" onClick={() => setShowEdit(false)}>
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Edit QR</div>
+    <div className='home-createoverlay' onClick={() => setShowEdit(false)}>
+      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Edit QR</div>
 
-        <div className="homec-inputcontainer">
-          {noName && <div className="ov-error homec-l">Name is required</div>}
+        <div className='homec-inputcontainer'>
+          {noName && <div className='ov-error homec-l'>Name is required</div>}
           <input
-            placeholder="Name"
-            className="homec-input"
+            placeholder='Name'
+            className='homec-input'
             value={editedQr?.name}
             onChange={(e) =>
               setEditedQr((prev) => {
@@ -99,12 +88,12 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
           />
         </div>
 
-        <div className="homec-inputcontainer">
-          {invalidURL && <div className="ov-error homec-l">Invalid URL</div>}
+        <div className='homec-inputcontainer'>
+          {invalidURL && <div className='ov-error homec-l'>Invalid URL</div>}
 
           <input
-            placeholder="URL"
-            className="homec-input"
+            placeholder='URL'
+            className='homec-input'
             value={editedQr?.link}
             onChange={(e) =>
               setEditedQr((prev) => {
@@ -114,7 +103,7 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
           />
         </div>
         <div
-          className="homec-submit homec-but ov-submit"
+          className='homec-submit homec-but ov-submit'
           onClick={() => handleSubmit()}
         >
           Submit
@@ -122,8 +111,8 @@ const EditQROverlay = ({ selectedQR, setShowEdit, setSelectedQr, after }) => {
       </div>
 
       {loading && (
-        <div className="submit-loading">
-          <div className="lds-ring" id="spinner-form">
+        <div className='submit-loading'>
+          <div className='lds-ring' id='spinner-form'>
             <div></div>
             <div></div>
             <div></div>

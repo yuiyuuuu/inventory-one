@@ -303,3 +303,11 @@
 .ppi-martop {
   margin-top: 20px;
 }
+
+.pi-clickh {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
