@@ -12,6 +12,7 @@ import PiOrders from "./orders/PiOrders";
 import OrderChildStore from "./orderChildStore/OrderChildStore";
 
 const ProductInfo = ({ data, setShowSingleProduct }) => {
+  console.log("data", data);
   //reference to chart so we can destroy
   const chartRef = useRef(null);
 
@@ -22,6 +23,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
   //SHOW HEIGHT STATES
   const [showStats, setShowStats] = useState(true);
   const [showOrders, setShowOrders] = useState(false);
+  const [showShipments, setShowShipments] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
   //prediction info states
@@ -512,6 +514,28 @@ Click to see all orders on this date
                       oosDays?.day < 10 ? "0" + oosDays?.day : oosDays?.day
                     }/${oosDays?.year}`}
               </div>
+            </div>
+
+            <div
+              className="pi-octoggle"
+              onClick={() => setShowShipments((prev) => !prev)}
+            >
+              Shipments <div className="grow" />
+              <div
+                className="mitem-caret"
+                style={{ transform: !showShipments && "rotate(-90deg)" }}
+              />
+            </div>
+
+            <div
+              style={{ maxHeight: showShipments ? "300px" : 0 }}
+              className="pi-w"
+            >
+              {data?.shipments?.length < 1 ? (
+                <div className="pi-sub">No shipments for this item</div>
+              ) : (
+                ""
+              )}
             </div>
 
             <div

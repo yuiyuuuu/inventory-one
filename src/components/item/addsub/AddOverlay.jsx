@@ -17,16 +17,53 @@ const AddOverlay = ({
   const [leadingZero, setLeadingZero] = useState(false);
   const [badQtyError, setBadQtyError] = useState(false);
 
+  const [isShipment, setIsShipment] = useState(false);
+
+  //shipment inputs
+  const [shipmentStore, setShipmentStore] = useState("");
+  const [shipmentDate, setShipmentDate] = useState(null);
+  const [shipmentLink, setShipmentLink] = useState(null); //optional
+
+  const [shipmentStoreError, setShipmentStoreError] = useState("");
+  const [shipmentDateError, setShipmentDateError] = useState(null);
+
+  console.log(shipmentDate);
+
   async function handleSubmit() {
+    let bad = false;
+
+    //set error states to false
+    setBadQtyError(false);
+    setShipmentDateError(false);
+    setShipmentStoreError(false);
+
     if (parseInt(quantity) < 1) {
       setBadQtyError(true);
-      return;
+      bad = true;
     }
+
+    if (isShipment) {
+      if (typeof shipmentDate !== "string") {
+        setShipmentDateError(true);
+        bad = true;
+      }
+
+      if (!shipmentStore) {
+        setShipmentStoreError(true);
+        bad = true;
+      }
+    }
+
+    if (bad) return;
 
     const obj = {
       which: "add",
       quantity: parseInt(quantity),
       id: overlayData.id,
+      isShipment,
+      shipmentDate,
+      shipmentStore,
+      shipmentLink,
     };
 
     await makePutRequestWithAuth(
@@ -64,40 +101,40 @@ const AddOverlay = ({
 
   return (
     <div
-      className='ov-parent'
+      className="ov-parent"
       onClick={() => {
         setShowAddOverlay(false);
         setOverlayData({});
       }}
     >
       <div
-        className='homec-inner ov-inner '
+        className="homec-inner ov-inner "
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='homec-l'>Add Quantity</div>
+        <div className="homec-l">Add Quantity</div>
 
-        <div className='ov-divider' />
+        <div className="ov-divider" />
 
-        <div className='homec-l'>{overlayData?.name}</div>
+        <div className="homec-l">{overlayData?.name}</div>
 
         {badQtyError && (
-          <div className='ov-error homec-l'>Invalid Quantity</div>
+          <div className="ov-error homec-l">Invalid Quantity</div>
         )}
 
         {leadingZero && (
-          <div className='ov-error homec-l'>
+          <div className="ov-error homec-l">
             Leading 0 will be removed on submit ({quantity} turns into{" "}
             {parseInt(quantity)})
           </div>
         )}
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Quantity'
-            className='homec-input'
+            placeholder="Quantity"
+            className="homec-input"
             value={quantity}
-            type='number'
-            id='ov-add'
+            type="number"
+            id="ov-add"
             onChange={(e) => {
               if (
                 String(e.target.value).length > 1 &&
@@ -113,8 +150,61 @@ const AddOverlay = ({
           />
         </div>
 
+        <div className="item-shipincon">
+          <input
+            type="checkbox"
+            id="shipment"
+            checked={isShipment}
+            onClick={() => setIsShipment((prev) => !prev)}
+          />
+          <label htmlFor="shipment" className="item-shiplabel">
+            Shipment
+          </label>
+        </div>
+
+        {isShipment && (
+          <div className="item-shipcon">
+            <div
+              className="homec-inputcontainer"
+              style={{ position: "relative" }}
+            >
+              {shipmentDateError && (
+                <div className="home-error">Shipment Date is required</div>
+              )}
+              <input
+                className="homec-input"
+                value={shipmentDate}
+                type="date"
+                id="shipment-date"
+                onChange={(e) => setShipmentDate(e.target.value)}
+              />
+            </div>
+
+            <div className="homec-inputcontainer">
+              {shipmentStoreError && (
+                <div className="home-error">Shipment Store is required</div>
+              )}
+              <input
+                placeholder="Store"
+                className="homec-input"
+                value={shipmentStore}
+                onChange={(e) => setShipmentStore(e.target.value)}
+              />
+            </div>
+
+            <div className="homec-inputcontainer">
+              <input
+                placeholder="Order Link (optional)"
+                className="homec-input"
+                value={shipmentLink}
+                onChange={(e) => setShipmentLink(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+
         <div
-          className='homec-submit homec-but ov-submit'
+          className="homec-submit homec-but ov-submit"
           onClick={() => handleSubmit()}
         >
           Submit

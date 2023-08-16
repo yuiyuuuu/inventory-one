@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const prisma = require("../prisma/prismaClient.js");
 
+const { item: itemIncludes } = require("./includes.js");
+
 module.exports = router;
 
 router.get("/fetch/:id", async (req, res, next) => {
@@ -14,15 +16,7 @@ router.get("/fetch/:id", async (req, res, next) => {
       where: {
         id: req.params.id,
       },
-      include: {
-        orders: {
-          include: {
-            user: true,
-            store: true,
-          },
-        },
-        category: true,
-      },
+      include: JSON.parse(itemIncludes),
     });
 
     res.send(item);
@@ -42,15 +36,7 @@ router.get("/fetchall", async (req, res, next) => {
       orderBy: {
         name: "asc",
       },
-      include: {
-        orders: {
-          include: {
-            user: true,
-            store: true,
-          },
-        },
-        category: true,
-      },
+      include: JSON.parse(itemIncludes),
     });
 
     res.send(data);
@@ -87,15 +73,7 @@ router.post("/create/mass", async (req, res, next) => {
         },
         include: {
           item: {
-            include: {
-              orders: {
-                include: {
-                  user: true,
-                  store: true,
-                },
-              },
-              category: true,
-            },
+            include: JSON.parse(itemIncludes),
           },
         },
       });
@@ -128,15 +106,7 @@ router.post("/create", async (req, res, next) => {
         // category: req.body.category || "General Supply",
       },
 
-      include: {
-        orders: {
-          include: {
-            user: true,
-            store: true,
-          },
-        },
-        category: true,
-      },
+      include: JSON.parse(itemIncludes),
     });
 
     const list = await prisma.list.findUnique({
@@ -145,15 +115,7 @@ router.post("/create", async (req, res, next) => {
       },
       include: {
         item: {
-          include: {
-            orders: {
-              include: {
-                user: true,
-                store: true,
-              },
-            },
-            category: true,
-          },
+          include: JSON.parse(itemIncludes),
         },
       },
     });
@@ -186,6 +148,19 @@ router.put("/editqty", async (req, res, next) => {
           quantity: find.quantity + req.body.quantity,
         },
       });
+
+      if (req.body.isShipment) {
+        await prisma.shipment.create({
+          data: {
+            store: req.body.shipmentStore,
+            quantity: req.body.quantity,
+            orderLink: req.body.shipmentLink,
+            shipmentDate: new Date(req.body.shipmentDate).toISOString(),
+
+            itemId: req.body.id,
+          },
+        });
+      }
     } else {
       let negativeStock = null;
       //prevent negative qty
@@ -244,15 +219,7 @@ router.put("/editqty", async (req, res, next) => {
 
     const final = await prisma.item.findUnique({
       where: { id: req.body.id },
-      include: {
-        orders: {
-          include: {
-            user: true,
-            store: true,
-          },
-        },
-        category: true,
-      },
+      include: JSON.parse(itemIncludes),
     });
 
     res.send(final);
@@ -278,15 +245,7 @@ router.put("/edit/info", async (req, res, next) => {
         image: req.body.image,
         units: req.body.units || null,
       },
-      include: {
-        orders: {
-          include: {
-            user: true,
-            store: true,
-          },
-        },
-        category: true,
-      },
+      include: JSON.parse(itemIncludes),
     });
 
     res.send(update);

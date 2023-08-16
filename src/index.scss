@@ -31,6 +31,20 @@ input:focus {
   border: none;
 }
 
+//parent con must not be position static
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
 button {
   border: none;
   cursor: pointer;

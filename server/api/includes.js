@@ -11,6 +11,7 @@ const list = JSON.stringify({
         },
       },
       category: true,
+      shipments: true,
     },
   },
 
@@ -62,4 +63,15 @@ const userinclude = JSON.stringify({
   },
 });
 
-module.exports = { list, store, userinclude };
+const item = JSON.stringify({
+  orders: {
+    include: {
+      user: true,
+      store: true,
+    },
+  },
+  category: true,
+  shipments: true,
+});
+
+module.exports = { list, store, userinclude, item };
