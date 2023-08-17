@@ -140,14 +140,16 @@ router.put("/editqty", async (req, res, next) => {
     });
 
     if (req.body.which === "add") {
-      await prisma.item.update({
-        where: {
-          id: req.body.id,
-        },
-        data: {
-          quantity: find.quantity + req.body.quantity,
-        },
-      });
+      if (!req.body.dontAddQty) {
+        await prisma.item.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            quantity: find.quantity + req.body.quantity,
+          },
+        });
+      }
 
       if (req.body.isShipment) {
         await prisma.shipment.create({

@@ -20,6 +20,10 @@ const AddOverlay = ({
 
   const [isShipment, setIsShipment] = useState(false);
 
+  //dont add qty means they only want to add shipment, dont add the qty
+  //used for adding past orders to correctly reflect data, not present shipments orders
+  const [dontAddQty, setDontAddQty] = useState(false);
+
   //shipment inputs
   const [shipmentStore, setShipmentStore] = useState("");
   const [shipmentDate, setShipmentDate] = useState(null);
@@ -28,8 +32,6 @@ const AddOverlay = ({
   const [shipmentStoreError, setShipmentStoreError] = useState(false);
   const [shipmentDateError, setShipmentDateError] = useState(false);
   const [shipmentLinkError, setShipmentLinkError] = useState(false);
-
-  console.log(shipmentDate);
 
   async function handleSubmit() {
     let bad = false;
@@ -72,6 +74,7 @@ const AddOverlay = ({
       shipmentDate,
       shipmentStore,
       shipmentLink,
+      dontAddQty,
     };
 
     await makePutRequestWithAuth(
@@ -165,7 +168,11 @@ const AddOverlay = ({
             checked={isShipment}
             onClick={() => setIsShipment((prev) => !prev)}
           />
-          <label htmlFor='shipment' className='item-shiplabel'>
+          <label
+            htmlFor='shipment'
+            className='item-shiplabel'
+            style={{ marginTop: "3px" }}
+          >
             Shipment
           </label>
         </div>
@@ -210,6 +217,22 @@ const AddOverlay = ({
                 value={shipmentLink}
                 onChange={(e) => setShipmentLink(e.target.value)}
               />
+            </div>
+
+            <div className='item-shipincon'>
+              <input
+                type='checkbox'
+                id='dontadd'
+                checked={dontAddQty}
+                onClick={() => setDontAddQty((prev) => !prev)}
+              />
+              <label
+                htmlFor='dontadd'
+                className='item-shiplabel'
+                style={{ marginTop: "3px" }}
+              >
+                Don't Add Quantity
+              </label>
             </div>
           </div>
         )}
