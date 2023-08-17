@@ -8,34 +8,34 @@ const PiShipments = ({ data }) => {
   console.log(shipDate, shipDate.getDate());
 
   return (
-    <div className='pio-inner'>
-      <div className='pio-bbot pi-fs' onClick={() => setShow((prev) => !prev)}>
+    <div className="pio-inner">
+      <div className="pio-bbot pi-fs" onClick={() => setShow((prev) => !prev)}>
         {data?.store} -{" "}
         {`${
           shipDate.getMonth() + 1
         }/${shipDate.getDate()}/${shipDate.getFullYear()}`}
-        <div className='grow' />
+        <div className="grow" />
         <div
-          className='mitem-caret'
+          className="mitem-caret"
           style={{ transform: !show && "rotate(-90deg)" }}
         />
       </div>
-      <div className='pi-w' style={{ maxHeight: show ? "200px" : "0" }}>
-        <div className='pi-sub'>Id: {data?.id}</div>
-        <div className='pi-sub'>
+      <div className="pi-w" style={{ maxHeight: show ? "200px" : "0" }}>
+        <div className="pi-sub">ID: {data?.id}</div>
+        <div className="pi-sub">
           Date:{" "}
           {`${
             shipDate.getMonth() + 1
           }/${shipDate.getDate()}/${shipDate.getFullYear()}`}
         </div>
-        <div className='pi-sub'>Store: {data?.store}</div>
+        <div className="pi-sub">Store: {data?.store}</div>
 
-        <div className='pi-sub'>Quantity: {data?.quantity}</div>
+        <div className="pi-sub">Quantity: {data?.quantity}</div>
         {data?.orderLink && (
-          <div className='pi-sub'>
+          <div className="pi-sub">
             Order Link:{" "}
             <span
-              className='pi-clickh'
+              className="pi-clickh"
               onClick={() => {
                 const an = document.createElement("a");
                 an.href = data?.orderLink;
