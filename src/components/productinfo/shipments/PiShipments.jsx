@@ -5,11 +5,15 @@ const PiShipments = ({ data }) => {
 
   const shipDate = new Date(data?.shipmentDate);
 
+  console.log(shipDate, shipDate.getDate());
+
   return (
     <div className='pio-inner'>
       <div className='pio-bbot pi-fs' onClick={() => setShow((prev) => !prev)}>
         {data?.store} -{" "}
-        {`${shipDate.getMonth()}/${shipDate.getDate()}/${shipDate.getFullYear()}`}
+        {`${
+          shipDate.getMonth() + 1
+        }/${shipDate.getDate()}/${shipDate.getFullYear()}`}
         <div className='grow' />
         <div
           className='mitem-caret'
@@ -19,7 +23,9 @@ const PiShipments = ({ data }) => {
       <div className='pi-w' style={{ maxHeight: show ? "200px" : "0" }}>
         <div className='pi-sub'>
           Date:{" "}
-          {`${shipDate.getMonth()}/${shipDate.getDate()}/${shipDate.getFullYear()}`}
+          {`${
+            shipDate.getMonth() + 1
+          }/${shipDate.getDate()}/${shipDate.getFullYear()}`}
         </div>
         <div className='pi-sub'>Store: {data?.store}</div>
 

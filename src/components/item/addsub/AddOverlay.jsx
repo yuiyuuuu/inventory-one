@@ -95,6 +95,8 @@ const AddOverlay = ({
       });
   }
 
+  console.log(shipmentDate);
+
   useEffect(() => {
     $("#ov-add")
       .focus()
