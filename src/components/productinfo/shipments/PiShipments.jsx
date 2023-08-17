@@ -21,6 +21,7 @@ const PiShipments = ({ data }) => {
         />
       </div>
       <div className='pi-w' style={{ maxHeight: show ? "200px" : "0" }}>
+        <div className='pi-sub'>Id: {data?.id}</div>
         <div className='pi-sub'>
           Date:{" "}
           {`${
