@@ -24,8 +24,18 @@ const PiOrders = ({ orders, selectedDate, showOrders, setSelectedDate }) => {
   $(".pi-container").off("click", ".pi-container", clickout).click(clickout);
 
   useEffect(() => {
-    $(".pio-selch").css("top", $(".pio-select").outerHeight() + 9);
+    $("#pio-pelch").css("top", $(".pio-select").outerHeight() + 9);
   }, [showSelectDate]);
+
+  // $(window)
+  //   .off("resize")
+  //   .resize(() => setShowSelectDate(false));
+
+  useEffect(() => {
+    $(window).resize(() => {
+      setShowSelectDate(false);
+    });
+  }, []);
 
   return (
     <div className="pio-parent" style={{ display: !showOrders && "none" }}>
