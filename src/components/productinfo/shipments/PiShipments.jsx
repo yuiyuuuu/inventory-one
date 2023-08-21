@@ -5,8 +5,6 @@ const PiShipments = ({ data }) => {
 
   const shipDate = new Date(data?.shipmentDate);
 
-  console.log(shipDate, shipDate.getDate());
-
   return (
     <div className="pio-inner">
       <div className="pio-bbot pi-fs" onClick={() => setShow((prev) => !prev)}>
