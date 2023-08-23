@@ -28,7 +28,7 @@ const Sidebar = () => {
           Inventory One
         </a>
         <a className="side-a" href="/stores">
-          Inventory Stores
+          Store Statistics
         </a>
 
         <a className="side-a" href="/keys">
@@ -36,11 +36,11 @@ const Sidebar = () => {
         </a>
 
         <a className="side-a" href="/qr">
-          Inventory QR
+          QR Codes
         </a>
 
         <a className="side-a" href="/print">
-          Inventory Print
+          Print Forms
         </a>
       </div>
 
