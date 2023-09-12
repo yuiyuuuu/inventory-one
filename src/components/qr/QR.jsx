@@ -66,7 +66,7 @@ const QR = () => {
   return (
     <div className='home-parent'>
       <img className='home-logo' src='/assets/logo.jpeg' />
-      <div className='home-krink'>Inventory QR</div>
+      <div className='home-krink'>QR Codes</div>
 
       <div className='home-f home-lp'>
         <span>Your QR Codes</span>

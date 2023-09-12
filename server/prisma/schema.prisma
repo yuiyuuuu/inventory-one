@@ -77,6 +77,7 @@ model Store{
   orders Order []
   keyLog Keylog []
   keyImage Keyimage []
+  callLog CallLog []
 
    createdAt DateTime @default(now()) @db.Timestamp
 
@@ -171,6 +172,20 @@ model PrintFile{
   printListId String
 
     createdAt DateTime @default(now()) @db.Timestamp
+}
+
+//call logs section
+model CallLog{
+  id String @id @default(uuid())
+
+  name String
+  title String
+  body String
+
+  createdAt DateTime @default(now()) @db.Timestamp
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  storeId String
 }
 
 

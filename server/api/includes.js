@@ -45,6 +45,7 @@ const store = JSON.stringify({
 
   keyLog: true,
   keyImage: true,
+  callLog: true,
 });
 
 const userinclude = JSON.stringify({
@@ -74,4 +75,8 @@ const item = JSON.stringify({
   shipments: true,
 });
 
-module.exports = { list, store, userinclude, item };
+const calls = JSON.stringify({
+  store: true,
+});
+
+module.exports = { list, store, userinclude, item, calls };

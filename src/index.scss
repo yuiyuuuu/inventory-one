@@ -21,7 +21,8 @@ input {
   border: none;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #d3d3d3;
 }
 
