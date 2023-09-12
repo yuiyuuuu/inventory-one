@@ -11,16 +11,10 @@ const CallLogs = () => {
 
   const [showCreateOverlay, setShowCreateOverlay] = useState(false);
 
-  //   useEffect(()=> {
-
-  //   }, [])
-
-  console.log(stores);
-
   if (authState.loading && authState.loading !== "false") {
     return (
-      <div className='abs-loading2'>
-        <div className='lds-ring' id='spinner-form'>
+      <div className="abs-loading2">
+        <div className="lds-ring" id="spinner-form">
           <div></div>
           <div></div>
           <div></div>
@@ -31,13 +25,13 @@ const CallLogs = () => {
   }
 
   return (
-    <div className='home-parent'>
-      <img className='home-logo' src='/assets/logo.jpeg' />
-      <div className='home-krink'>Call Logs</div>
+    <div className="home-parent">
+      <img className="home-logo" src="/assets/logo.jpeg" />
+      <div className="home-krink">Call Logs</div>
 
-      <div className='home-t home-q'>
+      <div className="home-t home-q">
         <button
-          className='home-add kh-take'
+          className="home-add kh-take"
           onClick={() => {
             setShowCreateOverlay(true);
             document.querySelector("html").style.overflow = "hidden";
@@ -47,17 +41,14 @@ const CallLogs = () => {
         </button>
       </div>
 
-      <div className='store-mapc'>
+      <div className="store-mapc">
         {stores?.slice(1)?.map((store) => (
           <CallLogsStoreMap store={store} />
         ))}
       </div>
 
       {showCreateOverlay && (
-        <CreateCallLogOverlay
-          setShow={setShowCreateOverlay}
-          allStores={stores}
-        />
+        <CreateCallLogOverlay setShow={setShowCreateOverlay} />
       )}
     </div>
   );

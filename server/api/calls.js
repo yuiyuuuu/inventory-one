@@ -26,7 +26,7 @@ router.post("/create", async (req, res, next) => {
       },
     });
 
-    res.send(create);
+    res.send({ create: create, storeId: req.body.storeId });
   } catch (error) {
     next(error);
   }

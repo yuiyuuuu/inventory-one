@@ -109,58 +109,6 @@ const SinglePrintList = () => {
           throw new Error();
         }
 
-        // console.log(atob(res));
-
-        // let str = "data:application/w+;base64," + res;
-        // let binaryLen = str.length;
-        // let bytes = new Uint8Array(binaryLen);
-        // console.log(str);
-
-        // for (let i = 0; i < binaryLen; i++) {
-        //   let ascii = str.charCodeAt(i);
-        //   bytes[i] = ascii;
-        // }
-
-        // let blob = new Blob([bytes.buffer], { type: "application/pdf" });
-
-        // console.log(blob);
-
-        // let link = document.createElement("a");
-
-        // link.href = str;
-        // link.download = file?.pathName.slice(
-        //   currentPrintList?.name?.length + 1
-        // );
-
-        // document.body.append(link);
-        // link.click();
-        // link.remove();
-        // console.log(bytes);
-
-        // let binaryString = window.atob("data:application/w+;base64," + res);
-        // let binaryLen = binaryString.length;
-        // console.log(binaryString);
-
-        // const base64str = btoa(
-        //   new Uint8Array(res.Body.data).reduce(
-        //     (data, byte) => data + String.fromCharCode(byte),
-        //     ""
-        //   )
-        // );
-
-        // console.log(base64str, "b64");
-        // console.log(res.Body);
-        // console.log(res, "responseeeeeeeee");
-
-        // const blob = new Blob([new Int8Array(res.Body.data).buffer], {
-        //   type: "application/pdf",
-        // });
-
-        // console.log(blob, "blob");
-        // console.log(new Int8Array(res.Body));
-
-        // console.log(URL.createObjectURL(blob));
-
         await fetch("data:application/w+;base64," + atob(res))
           .then((resp) => resp.blob())
           .then((res) => {
@@ -175,27 +123,12 @@ const SinglePrintList = () => {
             link.click();
             link.remove();
           });
-
-        // const decode = atob(res);
-        // console.log(decode);
-        // const link = document.createElement("a");
-        // link.href = URL.createObjectURL("data:application/w+;base64," + decode);
-
-        // link.download = file?.pathName.slice(
-        //   currentPrintList?.name?.length + 1
-        // );
-
-        // document.body.append(link);
-        // link.click();
-        // link.remove();
       })
       .catch((err) => {
         console.log(err);
         alert("Something went wrong, please try again");
       });
   }
-
-  //printJs(URL.createObjectURL(res));
 
   async function handleDelete() {
     const c = confirm(`Confirm delete for ${currentPrintList.name}`);
@@ -251,8 +184,8 @@ const SinglePrintList = () => {
 
   if ((authState.loading && authState.loading !== "false") || loading) {
     return (
-      <div className='abs-loading2'>
-        <div className='lds-ring' id='spinner-form'>
+      <div className="abs-loading2">
+        <div className="lds-ring" id="spinner-form">
           <div></div>
           <div></div>
           <div></div>
@@ -264,45 +197,45 @@ const SinglePrintList = () => {
 
   if (notFound) {
     return (
-      <div className='home-parent'>
+      <div className="home-parent">
         <img
-          className='home-logo'
-          src='/assets/logo.jpeg'
+          className="home-logo"
+          src="/assets/logo.jpeg"
           onClick={() => (window.location.href = "/print")}
           style={{ cursor: "pointer" }}
         />
-        <div className='home-krink'>List not found</div>
+        <div className="home-krink">List not found</div>
       </div>
     );
   }
 
   return (
-    <div className='home-parent'>
+    <div className="home-parent">
       <img
-        className='home-logo'
-        src='/assets/logo.jpeg'
+        className="home-logo"
+        src="/assets/logo.jpeg"
         onClick={() => (window.location.href = "/print")}
         style={{ cursor: "pointer" }}
       />
-      <div className='home-krink'>Print - {currentPrintList?.name}</div>
+      <div className="home-krink">Print - {currentPrintList?.name}</div>
 
-      <div className='home-t home-q'>
+      <div className="home-t home-q">
         <div
-          className='home-add kh-take pointer'
+          className="home-add kh-take pointer"
           onClick={() => setShowPrintOverlay(true)}
         >
           Print
         </div>
       </div>
 
-      <div className='home-f home-lp'>
+      <div className="home-f home-lp">
         <span>Files</span>
 
-        <div className='grow' />
+        <div className="grow" />
         {(!authState.loading || authState.loading === "false") &&
           authState?.id && (
             <div
-              className='home-add home-create'
+              className="home-add home-create"
               onClick={() => handleInputClick()}
             >
               Add
@@ -312,7 +245,7 @@ const SinglePrintList = () => {
         {(!authState.loading || authState.loading === "false") &&
           authState?.id && (
             <div
-              className='home-add home-create'
+              className="home-add home-create"
               onClick={() => handleDelete()}
               style={{ marginLeft: "15px", backgroundColor: "red" }}
             >
@@ -322,8 +255,8 @@ const SinglePrintList = () => {
       </div>
 
       {currentPrintList?.printFiles?.length > 0 ? (
-        <div className='print-filecon'>
-          <div className='print-filecon'>
+        <div className="print-filecon">
+          <div className="print-filecon">
             {currentPrintList?.printFiles
               ?.sort(function (a, b) {
                 const at = a?.pathName
@@ -342,16 +275,16 @@ const SinglePrintList = () => {
                 return 0;
               })
               ?.map((file, i) => (
-                <div className='print-li'>
+                <div className="print-li">
                   <div onClick={() => deleteOneFile(file)}>
                     <TrashCanSvg />
                   </div>
 
-                  <span className='print-q ellipsis print-marker'>
+                  <span className="print-q ellipsis print-marker">
                     {i + 1}.&nbsp;
                   </span>
                   <span
-                    className='print-lich ellipsis print-q'
+                    className="print-lich ellipsis print-q"
                     onClick={() => handleDownloadClick(file)}
                   >
                     {file?.pathName.slice(currentPrintList?.name?.length + 1)}
@@ -361,7 +294,7 @@ const SinglePrintList = () => {
           </div>
         </div>
       ) : (
-        <div className='print-q print-no'>No Files in this List</div>
+        <div className="print-q print-no">No Files in this List</div>
       )}
       {showPrintOverlay && (
         <PrintOverlay

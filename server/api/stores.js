@@ -36,7 +36,11 @@ router.get("/fetch/:id", async (req, res, next) => {
       include: JSON.parse(store),
     });
 
-    res.send(findstore);
+    if (findstore?.id) {
+      res.send(findstore);
+    } else {
+      res.send("not found");
+    }
   } catch (error) {
     next(error);
   }

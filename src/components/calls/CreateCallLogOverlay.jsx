@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { makePostRequest } from "../../requests/helperFunctions";
+import { useSelector } from "react-redux";
 
-const CreateCallLogOverlay = ({ setShow, allStores }) => {
+const CreateCallLogOverlay = ({ setShow, prefill }) => {
+  const allStores = useSelector((state) => state.allStores);
+
   const [name, setName] = useState(null);
   const [title, setTitle] = useState(null);
   const [body, setBody] = useState(null);
 
-  const [selectedStore, setSelectedStore] = useState(null);
+  const [selectedStore, setSelectedStore] = useState(prefill || null);
 
   const [showStores, setShowStores] = useState(false);
 
@@ -49,10 +52,11 @@ const CreateCallLogOverlay = ({ setShow, allStores }) => {
       name,
       title,
       body,
+      storeId: selectedStore.id,
     })
       .then((res) => {
-        if (res?.id) {
-          window.location.href = "/calls/" + res.id;
+        if (res?.storeId) {
+          window.location.href = "/calls/" + res.storeId;
         }
       })
       .catch(() => {
@@ -80,68 +84,68 @@ const CreateCallLogOverlay = ({ setShow, allStores }) => {
 
   return (
     <div
-      className='home-createoverlay'
+      className="home-createoverlay"
       onClick={() => {
         setShow(false);
         document.querySelector("html").style.overflow = "auto";
       }}
     >
-      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
-        <div className='homec-l'>Create Call Log</div>
+      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
+        <div className="homec-l">Create Call Log</div>
 
-        <div className='homec-inputcontainer'>
-          {nameError && <div className='kh-error'>Name Missing!</div>}
+        <div className="homec-inputcontainer">
+          {nameError && <div className="kh-error">Name Missing!</div>}
 
           <input
-            className='homec-input'
-            placeholder='Name'
+            className="homec-input"
+            placeholder="Name"
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-        <div className='homec-inputcontainer'>
-          {titleError && <div className='kh-error'>Title missing!</div>}
+        <div className="homec-inputcontainer">
+          {titleError && <div className="kh-error">Title missing!</div>}
 
           <input
-            className='homec-input'
-            placeholder='Title'
+            className="homec-input"
+            placeholder="Title"
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
 
-        <div className='homec-inputcontainer'>
-          {bodyError && <div className='kh-error'>Body Missing!</div>}
+        <div className="homec-inputcontainer">
+          {bodyError && <div className="kh-error">Body Missing!</div>}
 
           <textarea
-            className='cl-textarea'
-            placeholder='Body'
+            className="cl-textarea"
+            placeholder="Body"
             onChange={(e) => setBody(e.target.value)}
           />
         </div>
 
-        <div className='pio-rel' style={{ display: "block" }}>
-          {storeError && <div className='kh-error'>Select a store!</div>}
+        <div className="pio-rel" style={{ display: "block" }}>
+          {storeError && <div className="kh-error">Select a store!</div>}
           <div
-            className='pio-select'
+            className="pio-select"
             onClick={() => setShowStores((prev) => !prev)}
-            id='call-sel'
+            id="call-sel"
             style={{ width: "calc(100% - 16px)" }}
           >
-            <div className='ellipsis'>
+            <div className="ellipsis">
               {selectedStore?.id ? selectedStore?.name : "Select a store"}
             </div>
-            <div className='grow' />
+            <div className="grow" />
             <div
-              className='mitem-caret'
+              className="mitem-caret"
               style={{ transform: !showStores && "rotate(-90deg)" }}
             />
           </div>
 
           {showStores && (
-            <div className='pio-selch' id='call-selch'>
+            <div className="pio-selch" id="call-selch">
               {allStores.slice(1).map((store, i, a) => (
                 <div
-                  className='pio-ch'
+                  className="pio-ch"
                   onClick={() => {
                     setSelectedStore(store);
                     setShowStores(false);
@@ -155,7 +159,7 @@ const CreateCallLogOverlay = ({ setShow, allStores }) => {
         </div>
 
         <div
-          className='homec-submit homec-but ov-submit'
+          className="homec-submit homec-but ov-submit"
           onClick={() => handleSubmit()}
         >
           Submit

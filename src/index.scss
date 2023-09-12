@@ -52,6 +52,12 @@ input[type="checkbox"] {
   border-radius: 0;
 }
 
+pre {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
 button {
   border: none;
   cursor: pointer;

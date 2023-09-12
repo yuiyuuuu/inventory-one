@@ -95,8 +95,6 @@ const AddOverlay = ({
       });
   }
 
-  console.log(shipmentDate);
-
   useEffect(() => {
     $("#ov-add")
       .focus()
@@ -114,40 +112,40 @@ const AddOverlay = ({
 
   return (
     <div
-      className='ov-parent'
+      className="ov-parent"
       onClick={() => {
         setShowAddOverlay(false);
         setOverlayData({});
       }}
     >
       <div
-        className='homec-inner ov-inner '
+        className="homec-inner ov-inner "
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='homec-l'>Add Quantity</div>
+        <div className="homec-l">Add Quantity</div>
 
-        <div className='ov-divider' />
+        <div className="ov-divider" />
 
-        <div className='homec-l'>{overlayData?.name}</div>
+        <div className="homec-l">{overlayData?.name}</div>
 
         {badQtyError && (
-          <div className='ov-error homec-l'>Invalid Quantity</div>
+          <div className="ov-error homec-l">Invalid Quantity</div>
         )}
 
         {leadingZero && (
-          <div className='ov-error homec-l'>
+          <div className="ov-error homec-l">
             Leading 0 will be removed on submit ({quantity} turns into{" "}
             {parseInt(quantity)})
           </div>
         )}
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Quantity'
-            className='homec-input'
+            placeholder="Quantity"
+            className="homec-input"
             value={quantity}
-            type='number'
-            id='ov-add'
+            type="number"
+            id="ov-add"
             onChange={(e) => {
               if (
                 String(e.target.value).length > 1 &&
@@ -163,16 +161,16 @@ const AddOverlay = ({
           />
         </div>
 
-        <div className='item-shipincon'>
+        <div className="item-shipincon">
           <input
-            type='checkbox'
-            id='shipment'
+            type="checkbox"
+            id="shipment"
             checked={isShipment}
             onClick={() => setIsShipment((prev) => !prev)}
           />
           <label
-            htmlFor='shipment'
-            className='item-shiplabel'
+            htmlFor="shipment"
+            className="item-shiplabel"
             style={{ marginTop: "3px" }}
           >
             Shipment
@@ -180,57 +178,57 @@ const AddOverlay = ({
         </div>
 
         {isShipment && (
-          <div className='item-shipcon'>
+          <div className="item-shipcon">
             <div
-              className='homec-inputcontainer'
+              className="homec-inputcontainer"
               style={{ position: "relative" }}
             >
               {shipmentDateError && (
-                <div className='home-error'>Shipment Date is required</div>
+                <div className="home-error">Shipment Date is required</div>
               )}
               <input
-                className='homec-input'
+                className="homec-input"
                 value={shipmentDate}
-                type='date'
-                id='shipment-date'
+                type="date"
+                id="shipment-date"
                 onChange={(e) => setShipmentDate(e.target.value)}
               />
             </div>
 
-            <div className='homec-inputcontainer'>
+            <div className="homec-inputcontainer">
               {shipmentStoreError && (
-                <div className='home-error'>Shipment Store is required</div>
+                <div className="home-error">Shipment Store is required</div>
               )}
               <input
-                placeholder='Store'
-                className='homec-input'
+                placeholder="Store"
+                className="homec-input"
                 value={shipmentStore}
                 onChange={(e) => setShipmentStore(e.target.value)}
               />
             </div>
 
-            <div className='homec-inputcontainer'>
+            <div className="homec-inputcontainer">
               {shipmentLinkError && (
-                <div className='home-error'>Invalid Link</div>
+                <div className="home-error">Invalid Link</div>
               )}
               <input
-                placeholder='Order Link (optional)'
-                className='homec-input'
+                placeholder="Order Link (optional)"
+                className="homec-input"
                 value={shipmentLink}
                 onChange={(e) => setShipmentLink(e.target.value)}
               />
             </div>
 
-            <div className='item-shipincon'>
+            <div className="item-shipincon">
               <input
-                type='checkbox'
-                id='dontadd'
+                type="checkbox"
+                id="dontadd"
                 checked={dontAddQty}
                 onClick={() => setDontAddQty((prev) => !prev)}
               />
               <label
-                htmlFor='dontadd'
-                className='item-shiplabel'
+                htmlFor="dontadd"
+                className="item-shiplabel"
                 style={{ marginTop: "3px" }}
               >
                 Don't Add Quantity
@@ -240,7 +238,7 @@ const AddOverlay = ({
         )}
 
         <div
-          className='homec-submit homec-but ov-submit'
+          className="homec-submit homec-but ov-submit"
           onClick={() => handleSubmit()}
         >
           Submit
