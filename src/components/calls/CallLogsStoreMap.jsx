@@ -35,9 +35,7 @@ const CallLogsStoreMap = ({ store }) => {
           Last Called:{" "}
           {lastCalled === "none"
             ? "None"
-            : new Date(lastCalled?.createdAt).toLocaleString("en-US", {
-                timeZone: "America/Chicago",
-              })}
+            : new Date(lastCalled?.createdAt).toLocaleDateString("en-US")}
         </div>
 
         {lastCalled?.id && (

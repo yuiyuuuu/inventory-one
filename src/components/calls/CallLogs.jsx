@@ -4,12 +4,23 @@ import CallLogsStoreMap from "./CallLogsStoreMap";
 
 import "./cl.scss";
 import CreateCallLogOverlay from "./CreateCallLogOverlay";
+import CallsChartView from "./callschartview/CallsChartView";
 
 const CallLogs = () => {
   const authState = useSelector((state) => state.auth);
   const stores = useSelector((state) => state.allStores);
 
   const [showCreateOverlay, setShowCreateOverlay] = useState(false);
+
+  const [view, setView] = useState(
+    window.localStorage.getItem("callview") === "default"
+      ? "default"
+      : window.localStorage.getItem("callview") === "chart"
+      ? "chart"
+      : "default"
+  );
+
+  console.log(view);
 
   if (authState.loading && authState.loading !== "false") {
     return (
@@ -39,13 +50,35 @@ const CallLogs = () => {
         >
           Create
         </button>
+
+        <button
+          className="home-add kh-take"
+          style={{ marginLeft: "10px" }}
+          onClick={() => {
+            if (view === "default") {
+              setView("chart");
+              window.localStorage.setItem("callview", "chart");
+            } else {
+              setView("default");
+              window.localStorage.setItem("callview", "default");
+            }
+          }}
+        >
+          Switch View
+        </button>
       </div>
 
-      <div className="store-mapc">
-        {stores?.slice(1)?.map((store) => (
-          <CallLogsStoreMap store={store} />
-        ))}
-      </div>
+      {view === "default" ? (
+        <div>
+          <div className="store-mapc">
+            {stores?.slice(1)?.map((store) => (
+              <CallLogsStoreMap store={store} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <CallsChartView store={stores} />
+      )}
 
       {showCreateOverlay && (
         <CreateCallLogOverlay setShow={setShowCreateOverlay} />
