@@ -24,10 +24,16 @@ const CallChartTr = ({ store }) => {
 
   return (
     <tr onClick={() => nav(`/calls/${store?.id}`)}>
-      <td style={{ width: "20%" }}>{store?.name}</td>
-      <td>{lastCalled === "none" ? "None" : lastCalled?.title}</td>
-      <td>{lastCalled === "none" ? "None" : lastCalled?.name}</td>
-      <td>
+      <td style={{ maxWidth: "25%" }} className="ellipsis">
+        {store?.name}
+      </td>
+      <td className="ellipsis" style={{ maxWidth: "25%" }}>
+        {lastCalled === "none" ? "None" : lastCalled?.title}
+      </td>
+      <td style={{ maxWidth: "25%" }} className="ellipsis">
+        {lastCalled === "none" ? "None" : lastCalled?.name}
+      </td>
+      <td style={{ maxWidth: "25%" }} className="ellipsis">
         {lastCalled === "none"
           ? "None"
           : new Date(lastCalled?.createdAt).toLocaleDateString("en-US", {
