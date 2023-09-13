@@ -18,7 +18,7 @@ const CallsChartView = ({ store }) => {
           </tr>
         </thead>
         <tbody>
-          {store?.map((store) => (
+          {store?.slice(1)?.map((store) => (
             <CallChartTr store={store} />
           ))}
         </tbody>

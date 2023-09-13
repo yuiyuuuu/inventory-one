@@ -1,4 +1,6 @@
 .ccv-table {
+  width: 100%;
+
   thead tr td,
   tbody tr td {
     padding: 12px 15px;
@@ -8,5 +10,9 @@
     @media only screen and (max-width: 500px) {
       font-size: 12px;
     }
+  }
+
+  tbody tr {
+    cursor: pointer;
   }
 }

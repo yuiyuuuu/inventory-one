@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CallChartTr = ({ store }) => {
+  const nav = useNavigate();
+
   const [lastCalled, setLastCalled] = useState(null);
 
   useEffect(() => {
@@ -20,7 +23,7 @@ const CallChartTr = ({ store }) => {
   }, [store]);
 
   return (
-    <tr>
+    <tr onClick={() => nav(`/calls/${store?.id}`)}>
       <td style={{ width: "20%" }}>{store?.name}</td>
       <td>{lastCalled === "none" ? "None" : lastCalled?.title}</td>
       <td>{lastCalled === "none" ? "None" : lastCalled?.name}</td>
