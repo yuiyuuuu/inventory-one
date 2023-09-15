@@ -2,6 +2,15 @@
   width: 100%;
   table-layout: fixed;
 
+  thead tr {
+    background-color: rgb(233, 233, 233);
+
+    td {
+      color: black !important;
+      font-weight: 700 !important;
+    }
+  }
+
   thead tr td,
   tbody tr td {
     padding: 12px 15px;
@@ -15,5 +24,19 @@
 
   tbody tr {
     cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      transition: 0.3s ease all;
+
+      td {
+        color: black !important;
+        // border-right: 1px solid black;
+
+        // :last-child {
+        //   border-right: 1px solid white;
+        // }
+      }
+    }
   }
 }
