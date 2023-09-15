@@ -3,7 +3,7 @@
   table-layout: fixed;
 
   thead tr {
-    background-color: rgb(233, 233, 233);
+    background-color: #ccc;
 
     td {
       color: black !important;
@@ -26,11 +26,12 @@
     cursor: pointer;
 
     &:hover {
-      background-color: white;
+      background-color: rgb(255, 255, 0);
       transition: 0.3s ease all;
 
       td {
         color: black !important;
+        transition: 0.3s ease all;
         // border-right: 1px solid black;
 
         // :last-child {
