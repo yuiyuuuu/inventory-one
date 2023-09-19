@@ -28,14 +28,14 @@ const CallChartTr = ({ store }) => {
         {store?.name}
       </td>
       <td className="ellipsis" style={{ maxWidth: "25%" }}>
-        {lastCalled === "none" ? "None" : lastCalled?.title}
+        {lastCalled === "none" ? "---" : lastCalled?.title}
       </td>
       <td style={{ maxWidth: "25%" }} className="ellipsis">
-        {lastCalled === "none" ? "None" : lastCalled?.name}
+        {lastCalled === "none" ? "---" : lastCalled?.name}
       </td>
       <td style={{ maxWidth: "25%" }} className="ellipsis">
         {lastCalled === "none"
-          ? "None"
+          ? "---"
           : new Date(lastCalled?.createdAt).toLocaleDateString("en-US", {
               timeZone: "America/Chicago",
             })}

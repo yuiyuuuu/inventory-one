@@ -35,11 +35,11 @@ const KeysChartTr = ({ store }) => {
         {store?.name}
       </td>
       <td className="ellipsis" style={{ maxWidth: "25%" }}>
-        {lastTaken === "none" ? "None" : lastTaken?.name}
+        {lastTaken === "none" ? "---" : lastTaken?.name}
       </td>
       <td style={{ maxWidth: "25%" }} className="ellipsis">
         {lastTaken === "none"
-          ? "None"
+          ? "---"
           : new Date(lastTaken?.takeTime).toLocaleDateString("en-US", {
               timeZone: "America/Chicago",
             })}
