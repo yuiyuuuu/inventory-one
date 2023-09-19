@@ -20,8 +20,6 @@ const CallLogs = () => {
       : "default"
   );
 
-  console.log(view);
-
   if (authState.loading && authState.loading !== "false") {
     return (
       <div className="abs-loading2">
@@ -53,7 +51,7 @@ const CallLogs = () => {
 
         <button
           className="home-add kh-take"
-          style={{ marginLeft: "10px" }}
+          style={{ marginLeft: "10px", backgroundColor: "orange" }}
           onClick={() => {
             if (view === "default") {
               setView("chart");

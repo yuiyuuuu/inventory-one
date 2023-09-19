@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { makeGetRequest } from "../../requests/helperFunctions";
-
 import "./kh.scss";
 
 import TakeKeyOverlay from "./singlekeys/TakeKeyOverlay";
 import ReturnKeyOverlay from "./ReturnKeyOverlay";
 import TakeOrReturnOverlay from "./TakeOrReturnOverlay";
+import KeysChartView from "./keyschartview/KeysChartView";
 
 const KeysHome = () => {
   const nav = useNavigate();
@@ -21,6 +20,10 @@ const KeysHome = () => {
   const [showReturnOverlay, setShowReturnOverlay] = useState(false);
 
   const [allActiveLogs, setAllActiveLogs] = useState([]);
+
+  const [view, setView] = useState(
+    window.localStorage.getItem("keysview") || "default"
+  );
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -67,20 +70,41 @@ const KeysHome = () => {
         >
           Return Key
         </button>
+
+        <button
+          className="home-add kh-take"
+          onClick={() => {
+            setView((prev) => {
+              const c = prev === "default" ? "chart" : "default";
+              window.localStorage.setItem("keysview", c);
+              return c;
+            });
+          }}
+          style={{ marginLeft: "15px", backgroundColor: "orange" }}
+        >
+          Switch View
+        </button>
       </div>
 
-      <div className="store-mapc">
-        {stores?.slice(1)?.map((store) => (
-          <div className="store-map" onClick={() => nav(`/keys/${store?.id}`)}>
-            <div className="store-name">{store?.name}</div>
-            <div className="grow" />
+      {view === "default" ? (
+        <div className="store-mapc">
+          {stores?.slice(1)?.map((store) => (
             <div
-              className="mitem-caret"
-              style={{ transform: "rotate(-90deg)" }}
-            />
-          </div>
-        ))}
-      </div>
+              className="store-map"
+              onClick={() => nav(`/keys/${store?.id}`)}
+            >
+              <div className="store-name">{store?.name}</div>
+              <div className="grow" />
+              <div
+                className="mitem-caret"
+                style={{ transform: "rotate(-90deg)" }}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <KeysChartView />
+      )}
 
       {showTakeOverlay && (
         <TakeKeyOverlay setShowTakeOverlay={setShowTakeOverlay} />
