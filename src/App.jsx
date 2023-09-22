@@ -34,6 +34,7 @@ import PrintProductInfo from "./components/productinfo/PrintProductInfo";
 import PrintListInfo from "./components/productinfo/printlist/PrintListInfo";
 import CallLogs from "./components/calls/CallLogs";
 import SingleStoreCallLog from "./components/calls/singlestorecalllog/SingleStoreCallLog";
+import Employees from "./components/employees/Employees";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -152,6 +153,9 @@ const App = () => {
             path="/calls/:storeid"
             element={<SingleStoreCallLog />}
           />
+
+          {/* users routes */}
+          <Route exact path="/employees" element={<Employees />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -189,3 +189,23 @@ model CallLog{
 }
 
 
+//employees section
+model Employees{
+  id String @id @default(uuid())
+  intranetId String?
+
+  firstName String
+  lastName String
+  email String?
+  phone String? 
+  address String?
+
+  store String? //string for now, later ill find a way to connect it to the store model
+
+  role String
+
+  startDate DateTime @db.Timestamp
+  endDate DateTime? @db.Timestamp
+
+}
+
