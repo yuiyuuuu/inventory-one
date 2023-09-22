@@ -33,7 +33,8 @@ input:focus {
 }
 
 //parent con must not be position static
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
   color: transparent;
@@ -86,6 +87,10 @@ td {
   .pagebreak {
     page-break-after: always;
   }
+}
+
+.rel {
+  position: relative;
 }
 
 .flexcol-aligncenter {

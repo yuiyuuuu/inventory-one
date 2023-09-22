@@ -6,12 +6,15 @@ import {
 } from "../../../requests/helperFunctions";
 import CreateCallLogOverlay from "../CreateCallLogOverlay";
 import SingleCallLogMap from "./SingleCallLogMap";
+import EditCallLogOverlay from "../EditCallLogOverlay";
 
 const SingleStoreCallLog = () => {
   const params = useParams();
   const [selectedStore, setSelectedStore] = useState(null);
 
   const [showCreateOverlay, setShowCreateOverlay] = useState(false);
+  const [showEditOverlay, setShowEditOverlay] = useState(false);
+  const [editInfo, setEditInfo] = useState(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -105,7 +108,11 @@ const SingleStoreCallLog = () => {
           })
           ?.map((log) => (
             <div>
-              <SingleCallLogMap info={log} />
+              <SingleCallLogMap
+                info={log}
+                setShowEdit={setShowEditOverlay}
+                setEditInfo={setEditInfo}
+              />
             </div>
           ))
       )}
@@ -114,6 +121,14 @@ const SingleStoreCallLog = () => {
         <CreateCallLogOverlay
           setShow={setShowCreateOverlay}
           prefill={selectedStore}
+        />
+      )}
+
+      {showEditOverlay && (
+        <EditCallLogOverlay
+          setShow={setShowEditOverlay}
+          prefill={editInfo}
+          store={selectedStore}
         />
       )}
     </div>

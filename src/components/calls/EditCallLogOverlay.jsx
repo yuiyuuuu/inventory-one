@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { makePostRequest } from "../../requests/helperFunctions";
+import { makePutRequest } from "../../requests/helperFunctions";
 import { useSelector } from "react-redux";
 
 import { convertToDateTimeLocalString } from "../../requests/toDateTimeLocalStringFormat";
 
-const CreateCallLogOverlay = ({ setShow, prefill }) => {
+const EditCallLogOverlay = ({ setShow, prefill, store }) => {
   const allStores = useSelector((state) => state.allStores);
 
-  const [name, setName] = useState(null);
-  const [title, setTitle] = useState(null);
-  const [body, setBody] = useState(null);
+  const [name, setName] = useState(prefill?.name || null);
+  const [title, setTitle] = useState(prefill?.title || null);
+  const [body, setBody] = useState(prefill?.body || null);
+  const [time, setTime] = useState(
+    convertToDateTimeLocalString(new Date(prefill?.createdAt || ""))
+  );
 
-  const [selectedStore, setSelectedStore] = useState(prefill || null);
+  const [selectedStore, setSelectedStore] = useState(store || null);
 
   const [showStores, setShowStores] = useState(false);
 
@@ -19,8 +22,6 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
   const [titleError, setTitleError] = useState(false);
   const [bodyError, setBodyError] = useState(false);
   const [storeError, setStoreError] = useState(false);
-
-  const [time, setTime] = useState(convertToDateTimeLocalString(new Date()));
 
   async function handleSubmit() {
     let bad = false;
@@ -52,7 +53,8 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
 
     if (bad) return;
 
-    const c = await makePostRequest("/calllog/create", {
+    const c = await makePutRequest("/calllog/edit", {
+      id: prefill.id,
       name,
       title,
       body,
@@ -60,8 +62,11 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
       time: time,
     })
       .then((res) => {
-        if (res?.storeId) {
-          window.location.href = "/calls/" + res.storeId;
+        if (res?.id) {
+          setShow(false);
+
+          //temp solution for now. I just want to get the feature working. Later on, we will map instead of reloading so if the user is keep in the logs, they wont lose their scroll position when they edit something
+          window.location.reload();
         }
       })
       .catch(() => {
@@ -103,7 +108,7 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
           justifyContent: showStores && "unset",
         }}
       >
-        <div className="homec-l">Create Call Log</div>
+        <div className="homec-l">Edit Call Log</div>
 
         <div className="homec-inputcontainer">
           {nameError && <div className="kh-error">Name Missing!</div>}
@@ -111,6 +116,7 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
           <input
             className="homec-input"
             placeholder="Name"
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
@@ -121,6 +127,7 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
           <input
             className="homec-input"
             placeholder="Title"
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -132,6 +139,7 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
             className="cl-textarea"
             placeholder="Body"
             onChange={(e) => setBody(e.target.value)}
+            value={body}
           />
         </div>
 
@@ -193,4 +201,4 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
   );
 };
 
-export default CreateCallLogOverlay;
+export default EditCallLogOverlay;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const SingleCallLogMap = ({ info }) => {
+const SingleCallLogMap = ({ info, setShowEdit, setEditInfo }) => {
   const [show, setShow] = useState(false);
 
   const [height, setHeight] = useState(0);
@@ -23,6 +23,17 @@ const SingleCallLogMap = ({ info }) => {
           timeZone: "America/Chicago",
         })}
         <div className="grow" />
+        <div
+          className="home-add qr-edit"
+          style={{ marginRight: "10px" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowEdit(true);
+            setEditInfo(info);
+          }}
+        >
+          Edit
+        </div>
         <div
           className="mitem-caret"
           style={{ transform: !show && "rotate(-90deg)" }}
