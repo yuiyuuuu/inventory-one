@@ -1,17 +1,15 @@
-const prisma = require("./prismaClient");
+const prisma = require("../prismaClient");
 
-const { c } = require("../jsonobj");
+const { c } = require("../../jsonobj");
 
 const bcrypt = require("bcrypt");
-
-//notes for seeding -
-//depending on senario- change the code and deletes accordingly. most of the time, a full delete is not necessary if we are changing a unique contraint
-//the current code below simply deletes orders and categories, then reseeds the items in supply inventory with the old quantity before seed. preserves quantity so we dont have to recount.
 
 //IMPORTANT
 //for later on when you recount inventory, before deleting everything, store the previous qty here and then we can reseed with the previous qty.
 // that way we get the new updates and dont have to recount inventory
 //will applythis when i recount inventory since I havent updated in so long
+
+//this file does not preserve old qty
 
 const stores = {
   1: "01-MAIN H/Q",
@@ -48,32 +46,10 @@ function sorting(a, b) {
 }
 
 const findqty = async () => {
-  const findOldQty = await prisma.user.findUnique({
-    where: {
-      email: "hr@palmusa.com",
-    },
-    include: {
-      lists: {
-        where: {
-          name: "Supply Inventory List",
-        },
-
-        include: {
-          item: true,
-        },
-      },
-    },
-  });
-
-  console.log(findOldQty);
-
   await prisma.item.deleteMany();
-  // await prisma.user.deleteMany();
-  // await prisma.store.deleteMany();
   await prisma.order.deleteMany();
-  // await prisma.keylog.deleteMany();
   await prisma.category.deleteMany();
-  // await prisma.list.deleteMany();
+  await prisma.list.deleteMany();
 
   const jack = await prisma.user.upsert({
     where: {
@@ -112,22 +88,12 @@ const findqty = async () => {
     update: {},
   });
 
-  let firstList = "";
-
-  if (!findOldQty.id) {
-    firstList = await prisma.list.create({
-      data: {
-        name: "Supply Inventory List",
-        ownerId: jack.id,
-      },
-    });
-  } else {
-    firstList = await prisma.list.findUnique({
-      where: {
-        id: findOldQty.lists[0].id,
-      },
-    });
-  }
+  const firstList = await prisma.list.create({
+    data: {
+      name: "Supply Inventory List",
+      ownerId: jack.id,
+    },
+  });
 
   for (let i = 0; i < c.length; i++) {
     const cur = c[i];
@@ -153,20 +119,10 @@ const findqty = async () => {
         categoryId: category.id,
         seedid: cur.SUPPLY_NUM,
         listId: firstList.id,
-        quantity:
-          findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
-            ?.quantity || 0,
-        historyQTY:
-          findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
-            ?.historyQTY || 0,
+        quantity: 0,
       },
       update: {},
     });
-
-    console.log(
-      findOldQty?.lists[0]?.item?.find((v) => v.seedid === cur.SUPPLY_NUM)
-        ?.quantity
-    );
 
     //find or create store
     const store = await prisma.store.upsert({
@@ -177,9 +133,7 @@ const findqty = async () => {
         name: stores[cur.W_STORE_CODE],
         number: Number(cur.W_STORE_CODE),
       },
-      update: {
-        number: Number(cur.W_STORE_CODE),
-      },
+      update: {},
     });
 
     // find or create user
@@ -207,7 +161,7 @@ const findqty = async () => {
       },
     });
 
-    // console.log(Number(item.historyQTY) + Number(cur.QTY));
+    console.log(Number(item.historyQTY) + Number(cur.QTY));
 
     await prisma.item.update({
       where: {

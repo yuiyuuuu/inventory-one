@@ -1,0 +1,46 @@
+.emp-sel {
+  width: 100%;
+  border: 1px solid white;
+  margin-top: -1px;
+  box-sizing: border-box;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.emp-selch {
+  padding: 10px;
+  transition: 0.3s ease all;
+  cursor: pointer;
+  border-bottom: 1px solid white;
+  display: flex;
+  align-items: center;
+  transition: 0.3s ease all;
+  background-color: black;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+}
+
+.emp-r {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.emp-un {
+  display: block !important;
+}
+
+.emp-submit {
+  width: 75px !important;
+  margin: 10px auto 0;
+  display: block;
+}
+
+.emp-l {
+  text-align: center;
+}
