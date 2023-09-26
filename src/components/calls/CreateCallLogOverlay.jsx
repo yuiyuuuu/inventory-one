@@ -4,12 +4,23 @@ import { useSelector } from "react-redux";
 
 import { convertToDateTimeLocalString } from "../../requests/toDateTimeLocalStringFormat";
 
+const titleChoices = [
+  "General Check-in",
+  "HR Related Questions",
+  "Backup Schedule",
+  "Store Maintenance",
+  "Supply Inventory",
+  "Other Department Requested Call",
+];
+
 const CreateCallLogOverlay = ({ setShow, prefill }) => {
   const allStores = useSelector((state) => state.allStores);
 
   const [name, setName] = useState(null);
   const [title, setTitle] = useState(null);
   const [body, setBody] = useState(null);
+
+  const [showTitle, setShowTitle] = useState(false);
 
   const [selectedStore, setSelectedStore] = useState(prefill || null);
 
@@ -105,6 +116,48 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
       >
         <div className="homec-l">Create Call Log</div>
 
+        {/* <div className="homec-inputcontainer">
+
+          <input
+            className="homec-input"
+            placeholder="Title"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div> */}
+
+        <div className="pio-rel" style={{ display: "block" }}>
+          {titleError && <div className="kh-error">Title missing!</div>}
+
+          <div
+            className="pio-select"
+            style={{ margin: "10px 0 0" }}
+            onClick={() => setShowTitle((prev) => !prev)}
+          >
+            {!title ? "Select Subject" : title}
+            <div className="grow" />{" "}
+            <div
+              className="mitem-caret"
+              style={{ transform: !showTitle && "rotate(-90deg)" }}
+            />
+          </div>
+
+          {showTitle && (
+            <div className="emp-sel">
+              {titleChoices.map((c) => (
+                <div
+                  className="emp-selch"
+                  onClick={() => {
+                    setTitle(c);
+                    setShowTitle(false);
+                  }}
+                >
+                  {c}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="homec-inputcontainer">
           {nameError && <div className="kh-error">Name Missing!</div>}
 
@@ -112,16 +165,6 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
             className="homec-input"
             placeholder="Name"
             onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        <div className="homec-inputcontainer">
-          {titleError && <div className="kh-error">Title missing!</div>}
-
-          <input
-            className="homec-input"
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
 

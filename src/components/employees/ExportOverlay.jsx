@@ -35,7 +35,26 @@ const ExportOverlay = ({ set }) => {
 
   const [selectedInfo, setSelectedInfo] = useState([]);
 
-  console.log(selectedStores.length === stores.length);
+  function handleExportExcel() {
+    const c = [...allProducts];
+
+    const re = [];
+
+    c.forEach((v) => {
+      //prevents mutation to the allproducts array
+      re.push({
+        name: v.name,
+        quantity: v.quantity,
+        units: v.units || "pieces",
+      });
+    });
+
+    const sheet = utils.json_to_sheet(re);
+    const newBook = utils.book_new();
+    utils.book_append_sheet(newBook, sheet, "Data");
+
+    writeFileXLSX(newBook, "SheetJSReactAoO.xlsx");
+  }
   return (
     <div className="home-createoverlay" onClick={() => set(false)}>
       <div
