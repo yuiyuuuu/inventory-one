@@ -46,6 +46,11 @@ const store = JSON.stringify({
   keyLog: true,
   keyImage: true,
   callLog: true,
+  employees: {
+    include: {
+      store: true,
+    },
+  },
 });
 
 const userinclude = JSON.stringify({

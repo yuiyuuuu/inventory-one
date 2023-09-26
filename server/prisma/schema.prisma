@@ -78,6 +78,7 @@ model Store{
   keyLog Keylog []
   keyImage Keyimage []
   callLog CallLog []
+  employees Employees[]
 
    createdAt DateTime @default(now()) @db.Timestamp
 
@@ -200,7 +201,8 @@ model Employees{
   phone String? 
   address String?
 
-  store String? //string for now, later ill find a way to connect it to the store model
+  store Store @relation(fields: [storeId], references: [id]) //string for now, later ill find a way to connect it to the store model
+  storeId String
 
   role String
 

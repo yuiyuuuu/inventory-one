@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+
+import * as Excel from "exceljs";
+
 import CheckMark from "../keys/singlekeys/svg/CheckMark";
+import { saveAs } from "file-saver";
 
 const roles = [
   "Senior manager",
@@ -15,15 +19,24 @@ const roles = [
 ];
 
 const info = [
-  "First Name",
-  "Last Name",
-  "Email",
-  "Phone Number",
-  "Address",
-  "Role",
-  "Start Date",
-  "End Date",
+  { name: "First Name", prop: "firstName" },
+  { name: "Last Name", prop: "lastName" },
+  { name: "Email", prop: "email" },
+  { name: "Phone Number", prop: "phone" },
+  { name: "Address", prop: "address" },
+  { name: "Store", prop: "store" },
+  { name: "Role", prop: "role" },
+  { name: "Start Date", prop: "startDate" },
+  { name: "End Date", prop: "endDate" },
 ];
+
+//so its always in this order
+//sometimes when user unselect and reselect, we dont want to add it to end, it would look weird
+function sortInfo(a, b) {
+  const m = info.map((t) => t.name);
+
+  return m.indexOf(a.name) - m.indexOf(b.name);
+}
 
 const ExportOverlay = ({ set }) => {
   const stores = useSelector((state) => state.allStores);
@@ -35,26 +48,100 @@ const ExportOverlay = ({ set }) => {
 
   const [selectedInfo, setSelectedInfo] = useState([]);
 
-  function handleExportExcel() {
-    const c = [...allProducts];
+  const [newSheetEachStore, setNewSheetEachStore] = useState(false);
 
-    const re = [];
+  const [infoError, setInfoError] = useState(false);
+  const [storeError, setStoreError] = useState(false);
 
-    c.forEach((v) => {
-      //prevents mutation to the allproducts array
-      re.push({
-        name: v.name,
-        quantity: v.quantity,
-        units: v.units || "pieces",
+  // function handleExportExcel() {
+  //   const c = [...allProducts];
+
+  //   const re = [];
+
+  //   c.forEach((v) => {
+  //     //prevents mutation to the allproducts array
+  //     re.push({
+  //       name: v.name,
+  //       quantity: v.quantity,
+  //       units: v.units || "pieces",
+  //     });
+  //   });
+
+  //   const sheet = utils.json_to_sheet(re);
+  //   const newBook = utils.book_new();
+  //   utils.book_append_sheet(newBook, sheet, "Data");
+
+  //   writeFileXLSX(newBook, "SheetJSReactAoO.xlsx");
+  // }
+
+  async function excelDownload() {
+    setInfoError(false);
+    setStoreError(false);
+
+    let bad = false;
+    if (!selectedInfo.length) {
+      bad = true;
+      setInfoError(true);
+    }
+
+    if (!selectedStores.length) {
+      bad = true;
+      setStoreError(true);
+    }
+
+    if (bad) return;
+
+    function populateSheet(book, sheetname, employees) {
+      const sheet = book.addWorksheet(sheetname, {
+        views: [{ state: "frozen", ySplit: 1 }],
       });
-    });
 
-    const sheet = utils.json_to_sheet(re);
-    const newBook = utils.book_new();
-    utils.book_append_sheet(newBook, sheet, "Data");
+      sheet.columns = [
+        ...selectedInfo.map((v, i) => {
+          return { header: v.name, key: v.name };
+        }),
+      ];
 
-    writeFileXLSX(newBook, "SheetJSReactAoO.xlsx");
+      if (employees.length) {
+        employees.forEach((emp) => {
+          const obj = {};
+
+          selectedInfo.forEach((v) => {
+            obj[v.name] ||=
+              v.prop === "store" ? emp[v.prop]?.name : emp[v.prop]; //for each selected info, add onto object with corresponding key
+          });
+
+          sheet.addRow(obj); //add the obj
+        });
+      }
+    }
+
+    // const book = Excel.Workbook();
+    const book = new Excel.Workbook();
+
+    //if user wants to split each store by sheet
+    if (newSheetEachStore) {
+      selectedStores.forEach((store) => {
+        populateSheet(book, store.name.replace(/\//g, "-"), store.employees);
+      });
+    } else {
+      const all = [];
+
+      //else we combine all employees into one array and populate sheet once, seperating stores by one space
+      selectedStores.forEach((store) => {
+        if (!store.employees.length) return;
+
+        all.push(...store.employees);
+        all.push({}); //space to sep stores?
+      });
+
+      populateSheet(book, "CombinedSheet", all);
+    }
+    const buf = await book.xlsx.writeBuffer();
+
+    saveAs(new Blob([buf]), "SheetJSReactAoO.xlsx");
   }
+
   return (
     <div className="home-createoverlay" onClick={() => set(false)}>
       <div
@@ -68,6 +155,11 @@ const ExportOverlay = ({ set }) => {
           className="pio-rel"
           style={{ display: "block", maxHeight: "35vh", overflowY: "scroll" }}
         >
+          {storeError && (
+            <div className="kh-error" style={{ marginBottom: "12px" }}>
+              Select a store!
+            </div>
+          )}
           <div
             className="pio-select"
             onClick={() => setShowStores((prev) => !prev)}
@@ -155,6 +247,18 @@ const ExportOverlay = ({ set }) => {
           )}
         </div>
 
+        <div className="emp-r">
+          <input
+            type="checkbox"
+            id="newsheetstore"
+            checked={newSheetEachStore}
+            onClick={() => setNewSheetEachStore((prev) => !prev)}
+          />
+          <label htmlFor="newsheetstore" style={{ marginLeft: "10px" }}>
+            New Sheet for Each Store
+          </label>
+        </div>
+
         <div style={{ width: "100%", marginTop: "15px" }}>
           <div className="pi-octoggle">Roles</div>
 
@@ -203,6 +307,12 @@ const ExportOverlay = ({ set }) => {
         <div style={{ width: "100%", marginTop: "15px" }}>
           <div className="pi-octoggle">Information</div>
 
+          {infoError && (
+            <div className="kh-error" style={{ marginBottom: "12px" }}>
+              Select Information!
+            </div>
+          )}
+
           <div className="emp-optmap">
             <div className="emp-r">
               <input
@@ -225,25 +335,30 @@ const ExportOverlay = ({ set }) => {
               <div className="emp-r">
                 <input
                   type="checkbox"
-                  checked={selectedInfo.includes(inf)}
-                  id={inf}
+                  checked={selectedInfo.map((t) => t.name).includes(inf.name)}
+                  id={inf.name}
                   onClick={() => {
-                    if (selectedInfo.includes(inf)) {
-                      setSelectedInfo((prev) => prev.filter((t) => t !== inf));
+                    if (selectedInfo.map((t) => t.name).includes(inf.name)) {
+                      setSelectedInfo((prev) =>
+                        prev.filter((t) => t.name !== inf.name)
+                      );
                     } else {
-                      setSelectedInfo((prev) => [...prev, inf]);
+                      setSelectedInfo((prev) => [...prev, inf].sort(sortInfo));
                     }
                   }}
                 />
-                <label htmlFor={inf} style={{ marginLeft: "10px" }}>
-                  {inf}
+                <label htmlFor={inf.name} style={{ marginLeft: "10px" }}>
+                  {inf.name}
                 </label>
               </div>
             ))}
           </div>
         </div>
 
-        <button className="homec-submit homec-but ov-submut emp-submit">
+        <button
+          className="homec-submit homec-but ov-submut emp-submit"
+          onClick={() => excelDownload("sheet1")}
+        >
           Submit
         </button>
       </div>
