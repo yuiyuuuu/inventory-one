@@ -42,8 +42,11 @@ const App = () => {
   const sidebarState = useSelector((state) => state.sidebarState);
   const datePickerState = useSelector((state) => state.datePicker);
   const loading = useSelector((state) => state.loading);
+  const authstate = useSelector((state) => state.auth);
 
   useEffect(() => {
+    if (!authstate?.id) return;
+
     async function fetchall() {
       makeGetRequestWithAuth(
         `stores/fetchall`,
@@ -63,7 +66,7 @@ const App = () => {
     }
 
     fetchall();
-  }, []);
+  }, [authstate]);
 
   useEffect(() => {
     $(window).on("resize", () => {
@@ -81,10 +84,9 @@ const App = () => {
         !window.location.href.includes("signup") &&
         !window.location.href.includes("test") && <BurgerIcon />}
 
-      {!window.location.href.includes("login") &&
-        !window.location.href.includes("signup") && <Sidebar />}
-
       <BrowserRouter>
+        {!window.location.href.includes("login") &&
+          !window.location.href.includes("signup") && <Sidebar />}
         {sidebarState?.display && (
           <div
             className="side-blur"
@@ -100,7 +102,7 @@ const App = () => {
         {datePickerState?.display && <CustomDateSelector />}
 
         {loading && (
-          <div className="abs-loading">
+          <div className="abs-loading" style={{ backgroundColor: "black" }}>
             <div className="lds-ring" id="spinner-form">
               <div></div>
               <div></div>
@@ -109,6 +111,7 @@ const App = () => {
             </div>
           </div>
         )}
+
         <Routes>
           <Route exact path="/" element={<Home />} />
 

@@ -2,13 +2,21 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "./svg/LogoutIcon";
 import { logout } from "../../store/auth/auth";
+import { useNavigate } from "react-router-dom";
+import { dispatchSetSidebarState } from "../../store/sidebar";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const sidebarState = useSelector((state) => state.sidebarState);
 
   const authState = useSelector((state) => state.auth);
+
+  function go(loc) {
+    nav(loc);
+    dispatch(dispatchSetSidebarState({ display: false }));
+  }
 
   return (
     <div
@@ -23,7 +31,7 @@ const Sidebar = () => {
         e.stopPropagation();
       }}
     >
-      <div className="side-acontainer">
+      {/* <div className="side-acontainer">
         <a className="side-a" href="/">
           Inventory One
         </a>
@@ -50,6 +58,35 @@ const Sidebar = () => {
         <a className="side-a" href="/employees">
           Employee Export
         </a>
+      </div> */}
+
+      <div className="side-acontainer">
+        <div className="side-a" onClick={() => go("/")}>
+          Inventory One
+        </div>
+        <div className="side-a" onClick={() => go("/stores")}>
+          Store Statistics
+        </div>
+
+        <div className="side-a" onClick={() => go("/keys")}>
+          Key Checkout
+        </div>
+
+        <div className="side-a" onClick={() => go("/qr")}>
+          QR Codes
+        </div>
+
+        <div className="side-a" onClick={() => go("/print")}>
+          Print Forms
+        </div>
+
+        <div className="side-a" onClick={() => go("/calls")}>
+          Call Logs
+        </div>
+
+        <div className="side-a" onClick={() => go("/employees")}>
+          Employee Export
+        </div>
       </div>
 
       {authState?.id && !authState.loading ? (
