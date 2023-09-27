@@ -78,6 +78,10 @@ const App = () => {
     dispatch(getLocalData());
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [window.location.href]);
+
   return (
     <div>
       {!window.location.href.includes("login") &&
@@ -89,7 +93,7 @@ const App = () => {
           !window.location.href.includes("signup") && <Sidebar />}
         {sidebarState?.display && (
           <div
-            className="side-blur"
+            className='side-blur'
             style={{
               zIndex: !sidebarState.display && -1000,
             }}
@@ -102,8 +106,8 @@ const App = () => {
         {datePickerState?.display && <CustomDateSelector />}
 
         {loading && (
-          <div className="abs-loading" style={{ backgroundColor: "black" }}>
-            <div className="lds-ring" id="spinner-form">
+          <div className='abs-loading' style={{ backgroundColor: "black" }}>
+            <div className='lds-ring' id='spinner-form'>
               <div></div>
               <div></div>
               <div></div>
@@ -113,52 +117,52 @@ const App = () => {
         )}
 
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path='/' element={<Home />} />
 
           {/*list routes */}
-          <Route exact path="/lists/:id" element={<SingleList />} />
-          <Route exact path="/lists/print/:id" element={<PrintProductInfo />} />
+          <Route exact path='/lists/:id' element={<SingleList />} />
+          <Route exact path='/lists/print/:id' element={<PrintProductInfo />} />
           <Route
             exact
-            path="/lists/printlist/:id"
+            path='/lists/printlist/:id'
             element={<PrintListInfo />}
           />
 
           {/* stores routes*/}
-          <Route exact path="/stores" element={<Stores />} />
-          <Route exact path="/stores/:id" element={<SingleStore />} />
+          <Route exact path='/stores' element={<Stores />} />
+          <Route exact path='/stores/:id' element={<SingleStore />} />
 
           {/* auth routes*/}
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
+          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/signup' element={<Signup />} />
 
           {/* testing only routes*/}
-          <Route exact path="/test" element={<CustomDateSelector />} />
+          <Route exact path='/test' element={<CustomDateSelector />} />
 
           {/* keys routes*/}
-          <Route exact path="/keys" element={<KeysHome />} />
-          <Route exact path="/keys/:id" element={<SingleStoreKey />} />
+          <Route exact path='/keys' element={<KeysHome />} />
+          <Route exact path='/keys/:id' element={<SingleStoreKey />} />
 
           {/* QR routes*/}
-          <Route exact path="/qr" element={<QR />} />
-          <Route exact path="/qr/:id" element={<SingleQR />} />
-          <Route exact path="/r/:id" element={<RedirectQR />} />
+          <Route exact path='/qr' element={<QR />} />
+          <Route exact path='/qr/:id' element={<SingleQR />} />
+          <Route exact path='/r/:id' element={<RedirectQR />} />
 
           {/* print routes*/}
-          <Route exact path="/print" element={<Print />} />
-          <Route exact path="/print/:id" element={<SinglePrintList />} />
-          <Route exact path="/printlist/:id/:qty" element={<PrintList />} />
+          <Route exact path='/print' element={<Print />} />
+          <Route exact path='/print/:id' element={<SinglePrintList />} />
+          <Route exact path='/printlist/:id/:qty' element={<PrintList />} />
 
           {/* call log routes */}
-          <Route exact path="/calls" element={<CallLogs />} />
+          <Route exact path='/calls' element={<CallLogs />} />
           <Route
             exact
-            path="/calls/:storeid"
+            path='/calls/:storeid'
             element={<SingleStoreCallLog />}
           />
 
           {/* users routes */}
-          <Route exact path="/employees" element={<Employees />} />
+          <Route exact path='/employees' element={<Employees />} />
         </Routes>
       </BrowserRouter>
     </div>
