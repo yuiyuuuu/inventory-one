@@ -8,11 +8,13 @@ import TakeKeyOverlay from "./singlekeys/TakeKeyOverlay";
 import ReturnKeyOverlay from "./ReturnKeyOverlay";
 import TakeOrReturnOverlay from "./TakeOrReturnOverlay";
 import KeysChartView from "./keyschartview/KeysChartView";
+import { makeGetRequest } from "../../requests/helperFunctions";
 
 const KeysHome = () => {
   const nav = useNavigate();
 
-  const stores = useSelector((state) => state.allStores);
+  const s = useSelector((state) => state.allStores);
+  const [stores, setStores] = useState([]);
 
   const [showTakeOrReturnOverlay, setTakeOrReturnOverlay] = useState(false);
 
@@ -24,6 +26,24 @@ const KeysHome = () => {
   const [view, setView] = useState(
     window.localStorage.getItem("keysview") || "default"
   );
+
+  useEffect(() => {
+    if (s?.length) {
+      setStores(s);
+    } else {
+      async function f() {
+        await makeGetRequest("/stores/fetchall/golyek").then((res) => {
+          setStores(
+            res.sort(function (a, b) {
+              return a.name.localeCompare(b.name);
+            })
+          );
+        });
+      }
+
+      f();
+    }
+  }, [s]);
 
   useEffect(() => {
     const url = new URL(window.location.href);

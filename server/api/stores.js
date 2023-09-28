@@ -61,3 +61,18 @@ router.get("/fetchbylistandstore/:listid/:storeid", async (req, res, next) => {
     },
   });
 });
+
+router.get("/fetchall/golyek", async (req, res, next) => {
+  try {
+    const stores = await prisma.store.findMany({
+      include: {
+        keyLog: true,
+        keyImage: true,
+      },
+    });
+
+    res.send(stores);
+  } catch (error) {
+    next(error);
+  }
+});
