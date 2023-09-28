@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import {
   makeGetRequest,
   makeGetRequestWithAuth,
@@ -10,6 +12,9 @@ import EditCallLogOverlay from "../EditCallLogOverlay";
 
 const SingleStoreCallLog = () => {
   const params = useParams();
+
+  const authState = useSelector((state) => state.auth);
+
   const [selectedStore, setSelectedStore] = useState(null);
 
   const [showCreateOverlay, setShowCreateOverlay] = useState(false);
@@ -20,6 +25,8 @@ const SingleStoreCallLog = () => {
 
   useEffect(() => {
     const id = params.storeid;
+
+    if (!authState.id) return;
 
     async function f() {
       await makeGetRequestWithAuth(
@@ -41,7 +48,26 @@ const SingleStoreCallLog = () => {
     }
 
     f();
-  }, []);
+  }, [authState]);
+
+  if (!authState.id && authState.loading === "false") {
+    return (
+      <div className="home-parent">
+        <img
+          className="home-logo"
+          src="/assets/logo.jpeg"
+          onClick={() => (window.location.href = "/calls")}
+        />
+        <div className="home-krink">Call Logs</div>{" "}
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
+            Log in
+          </a>{" "}
+          to see call logs
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

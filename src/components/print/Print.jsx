@@ -32,6 +32,21 @@ const Print = () => {
     );
   }
 
+  if (!authState.id) {
+    return (
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" id="test-mainlogo" />
+        <div className="home-krink">Print Forms</div>{" "}
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
+            Log in
+          </a>{" "}
+          to print
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="home-parent">
       <img className="home-logo" src="/assets/logo.jpeg" id="test-mainlogo" />

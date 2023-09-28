@@ -12,9 +12,11 @@ import KeyLogMap from "./KeyLogMap";
 import KeyLogMapArchived from "./KeyLongMapArchived";
 import AddImageOverlay from "./AddImageOverlay";
 import TrashCanSvg from "../../print/svg/TrashCanSvg";
+import { useSelector } from "react-redux";
 
 const SingleKey = () => {
   const params = useParams();
+  const authState = useSelector((state) => state.auth);
 
   const [selectedStore, setSelectedStore] = useState({});
 
@@ -54,6 +56,13 @@ const SingleKey = () => {
   useEffect(() => {
     const id = params.id;
 
+    if (!authState.id) {
+      if (authState.loading === "false") {
+        setNoStore({ loading: false, notfound: false });
+        return;
+      }
+    }
+
     async function fetch() {
       const store = await makeGetRequestWithAuth(
         `/stores/fetch/${id}`,
@@ -73,7 +82,29 @@ const SingleKey = () => {
     }
 
     fetch();
-  }, []);
+  }, [authState]);
+
+  if (authState.loading === "false" && !authState.id) {
+    return (
+      <div className="home-parent">
+        <img
+          className="home-logo"
+          src="/assets/logo.jpeg"
+          onClick={() => (window.location.href = "/keys")}
+          style={{ cursor: "pointer" }}
+        />
+
+        <div className="home-krink">Keys</div>
+
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
+            Log in
+          </a>{" "}
+          to see keylogs
+        </div>
+      </div>
+    );
+  }
 
   if (noStore.loading) {
     return (

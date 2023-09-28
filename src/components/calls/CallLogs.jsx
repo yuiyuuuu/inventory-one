@@ -33,6 +33,21 @@ const CallLogs = () => {
     );
   }
 
+  if (!authState.id) {
+    return (
+      <div className="home-parent">
+        <img className="home-logo" src="/assets/logo.jpeg" id="test-mainlogo" />
+        <div className="home-krink">Call Logs</div>{" "}
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
+            Log in
+          </a>{" "}
+          to view and create call logs
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="home-parent">
       <img className="home-logo" src="/assets/logo.jpeg" />

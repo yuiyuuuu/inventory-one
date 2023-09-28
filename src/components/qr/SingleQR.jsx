@@ -46,6 +46,8 @@ const SingleQR = () => {
   useEffect(() => {
     const id = params.id;
 
+    if (!authstate.id) return;
+
     async function fetchQr() {
       await makeGetRequestWithAuth(
         `/qr/fetch/${id}`,
@@ -63,12 +65,34 @@ const SingleQR = () => {
     }
 
     fetchQr();
-  }, []);
+  }, [authstate]);
+
+  if (authstate.loading === "false" && !authstate.id) {
+    return (
+      <div className="home-parent">
+        <img
+          className="home-logo"
+          src="/assets/logo.jpeg"
+          onClick={() => (window.location.href = "/qr")}
+          style={{ cursor: "pointer" }}
+        />
+
+        <div className="home-krink">QR Codes</div>
+
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
+            Log in
+          </a>{" "}
+          to see QR codes
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
-      <div className='abs-loading2'>
-        <div className='lds-ring' id='spinner-form'>
+      <div className="abs-loading2">
+        <div className="lds-ring" id="spinner-form">
           <div></div>
           <div></div>
           <div></div>
@@ -80,60 +104,60 @@ const SingleQR = () => {
 
   if (notFound) {
     return (
-      <div className='home-parent'>
+      <div className="home-parent">
         <img
-          className='home-logo'
-          src='/assets/logo.jpeg'
+          className="home-logo"
+          src="/assets/logo.jpeg"
           style={{ cursor: "pointer" }}
           onClick={() => (window.location.href = `/qr`)}
         />
 
-        <div className='home-krink'>No QR Found</div>
+        <div className="home-krink">No QR Found</div>
       </div>
     );
   }
 
   return (
-    <div className='home-parent'>
+    <div className="home-parent">
       <img
-        className='home-logo'
-        src='/assets/logo.jpeg'
+        className="home-logo"
+        src="/assets/logo.jpeg"
         style={{ cursor: "pointer" }}
         onClick={() => (window.location.href = `/qr`)}
       />
-      <div className='home-krink'>QR - {selectedQr?.name}</div>
+      <div className="home-krink">QR - {selectedQr?.name}</div>
       {authstate.loading === "false" && !authstate?.id ? (
-        <div className='home-none'>
-          <a className='home-siredir' href='/login'>
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
             Log in
           </a>{" "}
           to see QR codes
         </div>
       ) : (
         <div>
-          <div className='qr-i'>
-            <img src={`${selectedQr?.image}`} id='qrimg' className='qr-img' />
+          <div className="qr-i">
+            <img src={`${selectedQr?.image}`} id="qrimg" className="qr-img" />
           </div>
-          <div className='home-f home-lp'>
+          <div className="home-f home-lp">
             Link
-            <div className='grow' />
-            <div className='home-add qr-edit' onClick={() => setShowEdit(true)}>
+            <div className="grow" />
+            <div className="home-add qr-edit" onClick={() => setShowEdit(true)}>
               Edit
             </div>
             <div
-              className='home-add qr-edit'
+              className="home-add qr-edit"
               onClick={() => handleDeleteQR(selectedQr)}
               style={{ marginLeft: "15px", backgroundColor: "red" }}
             >
               Delete
             </div>
           </div>
-          <div className='qr-u'>
+          <div className="qr-u">
             <a
-              className='ellipsis qr-hov qr-ur'
+              className="ellipsis qr-hov qr-ur"
               href={selectedQr?.link}
-              target='_blank'
-              rel='noreferrer'
+              target="_blank"
+              rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
             >
               {selectedQr?.link}
