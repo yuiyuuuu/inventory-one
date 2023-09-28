@@ -63,6 +63,10 @@ const http = require("http");
 app.set("port", process.env.PORT || 3004);
 app.set("host", process.env.HOST || "0.0.0.0");
 
+setInterval(() => {
+  http.get("https://inventory-one-6678ca6b043d.herokuapp.com");
+}, 25 * 60 * 1000);
+
 // http
 //   .createServer(app)
 app.listen(

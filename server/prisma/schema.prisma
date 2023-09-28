@@ -10,6 +10,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User{
+  id String @id @default(uuid())
+  name String
+  orders Order []
+  email String? @unique //optional for now, so when i migrate it wont return error
+  password String? //optional for now
+  
+  lists List[]
+  sharedLists List[] @relation("shared")
+
+  QR QR[]
+
+  print Print[]
+
+  createdAt DateTime @default(now()) @db.Timestamp
+}
+
+model Store{
+  id String @id @default(uuid())
+  name String @unique
+  number Int?
+  orders Order []
+  keyLog Keylog []
+  keyImage Keyimage []
+  callLog CallLog []
+  employees Employees[]
+
+   createdAt DateTime @default(now()) @db.Timestamp
+
+}
+
+//list stuff
 model List{
   id String @id @default(uuid())
   name String
@@ -24,7 +56,6 @@ model List{
 
 }
 
-//order can have one store, one item, but item can have many orders and store can have many orders
 model Category{
   id String @id @default(uuid())
   name String @unique
@@ -69,21 +100,6 @@ model Shipment{
   itemId String
 }
 
-
-model Store{
-  id String @id @default(uuid())
-  name String @unique
-  number Int?
-  orders Order []
-  keyLog Keylog []
-  keyImage Keyimage []
-  callLog CallLog []
-  employees Employees[]
-
-   createdAt DateTime @default(now()) @db.Timestamp
-
-}
-
 model Order {
   id String @id @default(uuid())
   item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
@@ -102,22 +118,6 @@ model Order {
   completedAt DateTime @default(now()) @db.Timestamp
 }
 
-model User{
-  id String @id @default(uuid())
-  name String
-  orders Order []
-  email String? @unique //optional for now, so when i migrate it wont return error
-  password String? //optional for now
-
-  lists List[]
-  sharedLists List[] @relation("shared")
-
-  QR QR[]
-
-  print Print[]
-
-  createdAt DateTime @default(now()) @db.Timestamp
-}
 
 //keys stuff below
 model Keylog{
