@@ -28,6 +28,7 @@ const corsOptions = {
     "http://it.citysportsusa.com/main/index.asp",
     "http://localhost:4000",
     "http://it.citysportsusa.com:88/main/index.asp",
+    "http://192.168.10.40",
   ],
   optionsSuccessStatus: 200,
 };
