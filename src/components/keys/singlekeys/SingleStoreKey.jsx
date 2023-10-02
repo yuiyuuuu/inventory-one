@@ -86,22 +86,34 @@ const SingleKey = () => {
 
   if (authState.loading === "false" && !authState.id) {
     return (
-      <div className="home-parent">
-        <img
-          className="home-logo"
-          src="/assets/logo.jpeg"
-          onClick={() => (window.location.href = "/keys")}
-          style={{ cursor: "pointer" }}
-        />
+      // <div className="home-parent">
+      //   <img
+      //     className="home-logo"
+      //     src="/assets/logo.jpeg"
+      //     onClick={() => (window.location.href = "/keys")}
+      //     style={{ cursor: "pointer" }}
+      //   />
 
-        <div className="home-krink">Keys</div>
+      //   <div className="home-krink">Keys</div>
 
-        <div className="home-none">
-          <a className="home-siredir" href="/login">
-            Log in
-          </a>{" "}
-          to see keylogs
-        </div>
+      //   <div className="home-none">
+      //     <a className="home-siredir" href="/login">
+      //       Log in
+      //     </a>{" "}
+      //     to see keylogs
+      //   </div>
+      // </div>
+
+      <div>
+        {/*if user is not logged in, then force go to login page
+        
+        this is an edge case because since we use usenavigate, the app component wont rerender when we click on a store from /keys. /keys is the only page that any user can access without a login
+
+        this will check and ensure user is not on this page if they are not logged in
+        */}
+        {(function () {
+          window.location.href = "/login";
+        })()}
       </div>
     );
   }

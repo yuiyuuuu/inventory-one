@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeGetRequestWithAuth } from "./requests/helperFunctions";
@@ -44,6 +44,8 @@ const App = () => {
   const loading = useSelector((state) => state.loading);
   const authstate = useSelector((state) => state.auth);
 
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     if (!authstate?.id) return;
 
@@ -83,13 +85,40 @@ const App = () => {
   }, [window.location.href]);
 
   useEffect(() => {
+    if (authstate.loading === true) return;
+
     //not logged in redirect
-    if (window.location.pathname !== "/login") {
-      if (authstate.loading === "false" && !authstate.id) {
-        window.location.href = "/login";
+    if (window.location.pathname !== "/keys") {
+      if (window.location.pathname !== "/login") {
+        if (authstate.loading === "false" && !authstate.id) {
+          window.location.href = "/login";
+        }
       }
     }
-  }, []);
+
+    setReady(true);
+  }, [window.location.pathname, authstate]);
+
+  if (window.location.pathname !== "/keys") {
+    if (
+      (window.location.pathname !== "/login" &&
+        authstate.loading === "false" &&
+        !authstate.id) ||
+      !ready ||
+      authstate.loading === true
+    ) {
+      return (
+        <div className="abs-loading2">
+          <div className="lds-ring" id="spinner-form">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      );
+    }
+  }
 
   return (
     <div>
