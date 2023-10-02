@@ -49,6 +49,7 @@ const ExportOverlay = ({ set }) => {
   const [selectedInfo, setSelectedInfo] = useState([]);
 
   const [newSheetEachStore, setNewSheetEachStore] = useState(false);
+  const [spaceBetweenStores, setSpaceBetweenStores] = useState(false);
 
   const [infoError, setInfoError] = useState(false);
   const [storeError, setStoreError] = useState(false);
@@ -106,9 +107,17 @@ const ExportOverlay = ({ set }) => {
         employees.forEach((emp) => {
           const obj = {};
 
+          //if object has id, means its not a empty space placeholder
+          if (!emp.id) {
+            sheet.addRow(obj);
+            return;
+          }
+
+          if (!selectedRoles.includes(emp.role)) return;
+
           selectedInfo.forEach((v) => {
             obj[v.name] ||=
-              v.prop === "store" ? emp[v.prop]?.name : emp[v.prop]; //for each selected info, add onto object with corresponding key
+              v.prop === "store" ? emp[v.prop]?.name : emp[v.prop] || null; //for each selected info, add onto object with corresponding key
           });
 
           sheet.addRow(obj); //add the obj
@@ -121,19 +130,35 @@ const ExportOverlay = ({ set }) => {
 
     //if user wants to split each store by sheet
     if (newSheetEachStore) {
-      selectedStores.forEach((store) => {
-        populateSheet(book, store.name.replace(/\//g, "-"), store.employees);
-      });
+      selectedStores
+        .sort(function (a, b) {
+          return a.number - b.number;
+        })
+        .forEach((store) => {
+          populateSheet(book, store.name.replace(/\//g, "-"), store.employees);
+        });
     } else {
       const all = [];
 
       //else we combine all employees into one array and populate sheet once, seperating stores by one space
-      selectedStores.forEach((store) => {
-        if (!store.employees.length) return;
+      selectedStores
+        .sort(function (a, b) {
+          return a.number - b.number;
+        })
+        .forEach((store) => {
+          if (!store.employees.length) return;
+          const filter = store.employees.filter((v) =>
+            selectedRoles.includes(v.role)
+          );
 
-        all.push(...store.employees);
-        all.push({}); //space to sep stores?
-      });
+          //if the store has none of this role, do nothing
+          if (!filter.length) return;
+
+          all.push(...store.employees);
+          if (spaceBetweenStores) {
+            all.push({});
+          }
+        });
 
       populateSheet(book, "CombinedSheet", all);
     }
@@ -258,6 +283,20 @@ const ExportOverlay = ({ set }) => {
             New Sheet for Each Store
           </label>
         </div>
+
+        {!newSheetEachStore && (
+          <div className="emp-r">
+            <input
+              type="checkbox"
+              id="spacebetweenstores"
+              checked={spaceBetweenStores}
+              onClick={() => setSpaceBetweenStores((prev) => !prev)}
+            />
+            <label htmlFor="spacebetweenstores" style={{ marginLeft: "10px" }}>
+              Space Between Stores
+            </label>
+          </div>
+        )}
 
         <div style={{ width: "100%", marginTop: "15px" }}>
           <div className="pi-octoggle">Roles</div>

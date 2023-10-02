@@ -60,34 +60,42 @@ const Sidebar = () => {
         </a>
       </div> */}
 
-      <div className="side-acontainer">
-        <div className="side-a" onClick={() => go("/")}>
-          Inventory One
-        </div>
-        <div className="side-a" onClick={() => go("/stores")}>
-          Store Statistics
-        </div>
+      {authState.id ? (
+        <div className="side-acontainer">
+          <div className="side-a" onClick={() => go("/")}>
+            Inventory One
+          </div>
+          <div className="side-a" onClick={() => go("/stores")}>
+            Store Statistics
+          </div>
 
-        <div className="side-a" onClick={() => go("/keys")}>
-          Key Checkout
-        </div>
+          <div className="side-a" onClick={() => go("/keys")}>
+            Key Checkout
+          </div>
 
-        <div className="side-a" onClick={() => go("/qr")}>
-          QR Codes
-        </div>
+          <div className="side-a" onClick={() => go("/qr")}>
+            QR Codes
+          </div>
 
-        <div className="side-a" onClick={() => go("/print")}>
-          Print Forms
-        </div>
+          <div className="side-a" onClick={() => go("/print")}>
+            Print Forms
+          </div>
 
-        <div className="side-a" onClick={() => go("/calls")}>
-          Call Logs
-        </div>
+          <div className="side-a" onClick={() => go("/calls")}>
+            Call Logs
+          </div>
 
-        <div className="side-a" onClick={() => go("/employees")}>
-          Employee Export
+          <div className="side-a" onClick={() => go("/employees")}>
+            Employee Export
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="side-acontainer">
+          <div className="side-a" onClick={() => go("/keys")}>
+            Key Checkout
+          </div>
+        </div>
+      )}
 
       {authState?.id && !authState.loading ? (
         <div className="side-user">
