@@ -81,6 +81,8 @@ const Login = () => {
 
   useEffect(() => {
     if (screenWidth < 500) {
+      if (!atroRef.current) return;
+      atroRef.current.destroy();
       return;
     }
 
