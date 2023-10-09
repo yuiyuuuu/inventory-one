@@ -76,6 +76,10 @@
   @media only screen and (max-width: 500px) {
     font-size: 29px;
     padding: 15px 0;
+
+    @media only screen and (max-height: 770px) {
+      font-size: 25px;
+    }
   }
 }
 
@@ -97,6 +101,14 @@
   margin-top: 15px;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-height: 770px) {
+    margin-top: 0;
+
+    & > div:first-child {
+      padding-top: 0;
+    }
+  }
 }
 
 .side-user {
@@ -128,6 +140,10 @@
 .side-infocol {
   margin-left: 10px;
   max-width: 65%;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+  }
 }
 
 .side-ell {

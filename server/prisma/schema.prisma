@@ -10,204 +10,220 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id String @id @default(uuid())
-  name String
-  orders Order []
-  email String? @unique //optional for now, so when i migrate it wont return error
+model User {
+  id       String  @id @default(uuid())
+  name     String
+  orders   Order[]
+  email    String? @unique //optional for now, so when i migrate it wont return error
   password String? //optional for now
-  
-  lists List[]
+
+  lists       List[]
   sharedLists List[] @relation("shared")
 
   QR QR[]
 
   print Print[]
 
+  TimeTracker TimeTracker[]
+
   createdAt DateTime @default(now()) @db.Timestamp
 }
 
-model Store{
-  id String @id @default(uuid())
-  name String @unique
-  number Int?
-  orders Order []
-  keyLog Keylog []
-  keyImage Keyimage []
-  callLog CallLog []
+model Store {
+  id        String      @id @default(uuid())
+  name      String      @unique
+  number    Int?
+  orders    Order[]
+  keyLog    Keylog[]
+  keyImage  Keyimage[]
+  callLog   CallLog[]
   employees Employees[]
 
-   createdAt DateTime @default(now()) @db.Timestamp
-
+  createdAt DateTime @default(now()) @db.Timestamp
 }
 
 //list stuff
-model List{
-  id String @id @default(uuid())
-  name String
-  item Item []
-  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId String
-  sharedUsers User[] @relation("shared")
-  category Category[]
-  orders Order[]
-  
-  createdAt DateTime @default(now()) @db.Timestamp
+model List {
+  id          String     @id @default(uuid())
+  name        String
+  item        Item[]
+  owner       User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  sharedUsers User[]     @relation("shared")
+  category    Category[]
+  orders      Order[]
 
+  createdAt DateTime @default(now()) @db.Timestamp
 }
 
-model Category{
-  id String @id @default(uuid())
-  name String @unique
-  items Item []
-  list List? @relation(fields: [listId], references: [id], onDelete: Cascade)
+model Category {
+  id     String  @id @default(uuid())
+  name   String  @unique
+  items  Item[]
+  list   List?   @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String?
 
   createdAt DateTime @default(now()) @db.Timestamp
-
 }
 
-model Item{
-  id String @id @default(uuid())
-  seedid String? @unique//if seeded from script id
-  name String @unique
-  quantity Int @default(0) //current quantity
-  historyQTY Int @default(0)//how many sold in the past
-  image String?
-  units String?
+model Item {
+  id         String  @id @default(uuid())
+  seedid     String? @unique //if seeded from script id
+  name       String  @unique
+  quantity   Int     @default(0) //current quantity
+  historyQTY Int     @default(0) //how many sold in the past
+  image      String?
+  units      String?
 
-  list List? @relation(fields: [listId], references: [id], onDelete: Cascade)
+  list   List?   @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String?
 
-  category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String?
 
   orders Order[]
 
-  shipments Shipment []
-  
+  shipments Shipment[]
+
   createdAt DateTime @default(now()) @db.Timestamp
 }
 
-model Shipment{
-  id String @id @default(uuid())
-  store String
-  orderLink String?
-  quantity Int 
+model Shipment {
+  id           String   @id @default(uuid())
+  store        String
+  orderLink    String?
+  quantity     Int
   shipmentDate DateTime @db.Timestamp
 
-  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId String
 }
 
 model Order {
-  id String @id @default(uuid())
-  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  itemId String
+  id       String @id @default(uuid())
+  item     Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId   String
   quantity Int
 
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
   storeId String
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  list List @relation(fields: [listId], references: [id], onDelete: Cascade)
+  list   List   @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId String
 
   completedAt DateTime @default(now()) @db.Timestamp
 }
 
-
 //keys stuff below
-model Keylog{
-  id String @id @default(uuid())
-  name String //name of person taking key
-  memo String?
-  takeTime DateTime
+model Keylog {
+  id         String    @id @default(uuid())
+  name       String //name of person taking key
+  memo       String?
+  takeTime   DateTime
   returnTime DateTime?
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  storeId String
-
+  store      Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  storeId    String
 }
 
-model Keyimage{
-  id String @id @default(uuid())
+model Keyimage {
+  id    String @id @default(uuid())
   image String
 
-  store Store @relation(fields: [storeId], references: [id])
-  storeId String
+  store     Store    @relation(fields: [storeId], references: [id])
+  storeId   String
   createdAt DateTime @default(now()) @db.Timestamp
 }
 
 //qr section
-model QR{
-  id String @id @default(uuid())
-  name String
-  link String
-  image String? //qr image, optional because we are making two requests
-  user User @relation(fields: [userid], references: [id], onDelete: Cascade)
+model QR {
+  id     String  @id @default(uuid())
+  name   String
+  link   String
+  image  String? //qr image, optional because we are making two requests
+  user   User    @relation(fields: [userid], references: [id], onDelete: Cascade)
   userid String
-  count Int @default(0)
+  count  Int     @default(0)
 
- createdAt DateTime @default(now()) @db.Timestamp
+  createdAt DateTime @default(now()) @db.Timestamp
 }
 
 //print section
-model Print{
-  id String @id @default(uuid())
-  name String @unique
-  user User @relation(fields: [userid], references: [id])
+model Print {
+  id     String @id @default(uuid())
+  name   String @unique
+  user   User   @relation(fields: [userid], references: [id])
   userid String
 
-printFiles PrintFile[]
+  printFiles PrintFile[]
 
   createdAt DateTime @default(now()) @db.Timestamp
 }
 
-model PrintFile{
-  id String @id @default(uuid())
+model PrintFile {
+  id       String @id @default(uuid())
   pathName String @unique
 
-  printList Print @relation(fields: [printListId], references: [id], onDelete: Cascade)
+  printList   Print  @relation(fields: [printListId], references: [id], onDelete: Cascade)
   printListId String
 
-    createdAt DateTime @default(now()) @db.Timestamp
+  createdAt DateTime @default(now()) @db.Timestamp
 }
 
 //call logs section
-model CallLog{
+model CallLog {
   id String @id @default(uuid())
 
-  name String
+  name  String
   title String
-  body String
+  body  String
 
   createdAt DateTime @default(now()) @db.Timestamp
 
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
   storeId String
 }
 
-
 //employees section
-model Employees{
-  id String @id @default(uuid())
+model Employees {
+  id         String  @id @default(uuid())
   intranetId String?
 
   firstName String
-  lastName String
-  email String?
-  phone String? 
-  address String?
+  lastName  String
+  email     String?
+  phone     String?
+  address   String?
 
-  store Store @relation(fields: [storeId], references: [id]) //string for now, later ill find a way to connect it to the store model
+  store   Store  @relation(fields: [storeId], references: [id]) //string for now, later ill find a way to connect it to the store model
   storeId String
 
   role String
 
-  startDate DateTime @db.Timestamp
-  endDate DateTime? @db.Timestamp
-
+  startDate DateTime  @db.Timestamp
+  endDate   DateTime? @db.Timestamp
 }
 
+//time tracker section
+model TimeTracker {
+  id   String @id @default(uuid())
+  name String
+
+  history TimeLog[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  currentTimeIn DateTime? @db.Timestamp
+}
+
+model TimeLog {
+  id      String    @id @default(uuid())
+  timeIn  DateTime? @db.Timestamp
+  timeOut DateTime? @db.Timestamp
+
+  timeTracker TimeTracker @relation(fields: [trackerId], references: [id])
+  trackerId   String
+}

@@ -35,6 +35,8 @@ import PrintListInfo from "./components/productinfo/printlist/PrintListInfo";
 import CallLogs from "./components/calls/CallLogs";
 import SingleStoreCallLog from "./components/calls/singlestorecalllog/SingleStoreCallLog";
 import Employees from "./components/employees/Employees";
+import TimeTracker from "./components/timetracker/TimeTracker";
+import SingleTracker from "./components/timetracker/SingleTracker";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -201,6 +203,10 @@ const App = () => {
 
           {/* users routes */}
           <Route exact path="/employees" element={<Employees />} />
+
+          {/* time tracker routes */}
+          <Route exact path="/time" element={<TimeTracker />} />
+          <Route exact path="/time/:id" element={<SingleTracker />} />
         </Routes>
       </BrowserRouter>
     </div>

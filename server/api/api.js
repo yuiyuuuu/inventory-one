@@ -11,3 +11,4 @@ router.use("/list", require("./list.js"));
 router.use("/qr", require("./qr.js"));
 router.use("/print", require("./print.js"));
 router.use("/calllog", require("./calls.js"));
+router.use("/time", require("./time.js"));

@@ -274,6 +274,10 @@
   &:hover {
     border: 1px solid rgba(0, 255, 255);
   }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+  }
 }
 
 .homec-del {

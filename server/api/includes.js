@@ -67,6 +67,7 @@ const userinclude = JSON.stringify({
       printFiles: true,
     },
   },
+  TimeTracker: true,
 });
 
 const item = JSON.stringify({
