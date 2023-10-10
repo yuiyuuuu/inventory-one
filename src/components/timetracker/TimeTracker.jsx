@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import "./t.scss";
@@ -8,10 +8,17 @@ import AddTrackerOverlay from "./AddTrackerOverlay";
 
 const TimeTracker = () => {
   const authstate = useSelector((state) => state.auth);
-
   console.log(authstate);
 
+  const [trackers, setTrackers] = useState(authstate.TimeTracker);
+
   const [showAddOverlay, setShowAddOverlay] = useState(false);
+
+  // useEffect(() => {
+  //   if (!authstate.id) return;
+
+  //   setTrackers(authstate.TimeTracker)
+  // }, [authstate]);
 
   if (authstate.loading === "false" && !authstate.id) {
     return (
@@ -21,7 +28,7 @@ const TimeTracker = () => {
         <div className="home-none">
           <a className="home-siredir" href="/login">
             Log in
-          </a>{" "}
+          </a>
           to export
         </div>
       </div>
@@ -46,8 +53,10 @@ const TimeTracker = () => {
       </div>
 
       <div className="home-mapcontainer">
-        {authstate?.TimeTracker?.length > 0
-          ? authstate?.TimeTracker?.map((tr) => <TrackerMap tracker={tr} />)
+        {trackers.length > 0
+          ? trackers?.map((tr) => (
+              <TrackerMap tracker={tr} setTrackers={setTrackers} />
+            ))
           : "You have no active trackers"}
       </div>
 
