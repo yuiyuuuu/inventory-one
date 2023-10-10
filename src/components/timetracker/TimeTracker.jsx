@@ -54,9 +54,13 @@ const TimeTracker = () => {
 
       <div className="home-mapcontainer">
         {trackers.length > 0
-          ? trackers?.map((tr) => (
-              <TrackerMap tracker={tr} setTrackers={setTrackers} />
-            ))
+          ? trackers
+              ?.sort(function (a, b) {
+                return a.name.localeCompare(b.name);
+              })
+              ?.map((tr) => (
+                <TrackerMap tracker={tr} setTrackers={setTrackers} />
+              ))
           : "You have no active trackers"}
       </div>
 
