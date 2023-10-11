@@ -53,9 +53,11 @@ const TrackerMap = ({ tracker, setTrackers }) => {
 
         <div style={{ marginTop: "5px" }}>
           Current clock in:{" "}
-          {new Date(tracker.currentTimeIn).toLocaleString("en-US", {
-            timeZone: "America/Chicago",
-          }) || "null"}
+          {tracker.currentTimeIn
+            ? new Date(tracker.currentTimeIn).toLocaleString("en-US", {
+                timeZone: "America/Chicago",
+              })
+            : "null"}
         </div>
       </div>
 

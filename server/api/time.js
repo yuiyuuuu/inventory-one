@@ -1,7 +1,44 @@
 const router = require("express").Router();
 const prisma = require("../prisma/prismaClient.js");
 
+const jwt = require("jsonwebtoken");
+
 module.exports = router;
+
+router.post("/getone", async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const auth = req.body.auth;
+
+    const j = jwt.verify(req.body.auth, process.env.jwt);
+
+    const finduser = await prisma.user.findUnique({
+      where: {
+        id: j.iat ? j.id : j,
+      },
+      include: {
+        TimeTracker: true,
+      },
+    });
+
+    if (finduser.TimeTracker.map((v) => v.id).includes(id)) {
+      res.send(
+        await prisma.timeTracker.findUnique({
+          where: {
+            id: id,
+          },
+          include: {
+            history: true,
+          },
+        })
+      );
+    } else {
+      res.send("unauthorized");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/create", async (req, res, next) => {
   try {
@@ -61,7 +98,7 @@ router.put("/clockout", async (req, res, next) => {
         id: req.body.id,
       },
 
-      data: { currentTimeIn: null },
+      data: { currentTimeIn: { set: null } },
 
       include: {
         history: true,
