@@ -36,7 +36,7 @@ router.post("/getone", async (req, res, next) => {
     const id = req.body.id;
     const auth = req.body.auth;
 
-    const j = jwt.verify(req.body.auth, process.env.jwt);
+    const j = jwt.verify(req.body.auth, process.env.JWT);
 
     const finduser = await prisma.user.findUnique({
       where: {
