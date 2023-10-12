@@ -1,6 +1,7 @@
 import React from "react";
 
 const HistoryMap = ({ tr }) => {
+  console.log(tr);
   return (
     <tr>
       <td>{new Date(tr.timeIn).toLocaleString("en-US")}</td>
