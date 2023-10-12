@@ -5,6 +5,32 @@ const jwt = require("jsonwebtoken");
 
 module.exports = router;
 
+router.post("/addhistory", async (req, res, next) => {
+  try {
+    await prisma.timeLog.create({
+      data: {
+        trackerId: req.body.trackerid,
+        timeIn: new Date(req.body.timein).toISOString(),
+        timeOut: new Date(req.body.timeout).toISOString(),
+      },
+    });
+
+    const send = await prisma.timeTracker.findUnique({
+      where: {
+        id: req.body.trackerid,
+      },
+
+      include: {
+        history: true,
+      },
+    });
+
+    res.send(send);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/getone", async (req, res, next) => {
   try {
     const id = req.body.id;

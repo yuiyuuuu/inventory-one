@@ -53,6 +53,10 @@ input[type="checkbox"] {
   border-radius: 0;
 }
 
+input[type="datetime-local"] {
+  background: none;
+}
+
 pre {
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -86,6 +90,14 @@ td {
 @media print {
   .pagebreak {
     page-break-after: always;
+  }
+}
+
+.f-s-main {
+  font-size: 16px;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
   }
 }
 
