@@ -207,7 +207,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
 
               const d = new Date(order.completedAt);
               const str = `${
-                d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
+                d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
               }/${d.getDate()}/${d.getFullYear()}`;
 
               const orderTimeStamp = new Date(str).getTime();
@@ -275,7 +275,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
           }
 
           const str = `${
-            d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
+            d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
           }/${d.getDate()}/${d.getFullYear()}`;
 
           result[str] ||= { store: [], user: [], quantity: 0 };
