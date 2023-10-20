@@ -8,6 +8,10 @@ import {
 import HistoryMap from "./HistoryMap";
 import AddTimeOverlay from "./AddTimeOverlay";
 
+import * as Excel from "exceljs";
+
+import { saveAs } from "file-saver";
+
 const SingleTracker = () => {
   const params = useParams();
   const nav = useNavigate();
@@ -48,6 +52,47 @@ const SingleTracker = () => {
       .catch(() => {
         alert("Something went wrong, please try again");
       });
+  }
+
+  async function exportTimeTracker() {
+    if (!selectedTracker.history.length) return;
+
+    const book = new Excel.Workbook();
+
+    const sheet = book.addWorksheet(`${selectedTracker.name} Time History`, {
+      views: [{ state: "frozen", ySplit: 1 }],
+    });
+
+    sheet.columns = [
+      { header: "Start", key: "Start" },
+      { header: "End", key: "End" },
+      { header: "Hours", key: "Hours" },
+      { header: "Memo", key: "Memo" },
+    ];
+
+    selectedTracker.history.forEach((t) => {
+      const obj = {};
+
+      obj["Start"] ||= new Date(t.timeIn).toLocaleString("en-us", {
+        timeZone: "America/Chicago",
+      });
+
+      obj["End"] ||= new Date(t.timeOut).toLocaleString("en-us", {
+        timeZone: "America/Chicago",
+      });
+
+      obj["Hours"] ||= (
+        Math.abs(new Date(t.timeIn) - new Date(t.timeOut)) / 36e5
+      ).toFixed(2);
+
+      obj["Memo"] ||= t.memo || "";
+
+      sheet.addRow(obj);
+    });
+
+    const buf = await book.xlsx.writeBuffer();
+
+    saveAs(new Blob([buf]), `${selectedTracker.name}Time.xlsx`);
   }
 
   useEffect(() => {
@@ -139,6 +184,13 @@ const SingleTracker = () => {
           onClick={() => setShowAddOverlay(true)}
         >
           Add
+        </div>
+        <div
+          className="home-add home-create"
+          style={{ backgroundColor: "orange", marginLeft: "15px" }}
+          onClick={() => exportTimeTracker()}
+        >
+          Export
         </div>
       </div>
 
