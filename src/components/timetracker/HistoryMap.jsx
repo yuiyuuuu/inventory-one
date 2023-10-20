@@ -1,8 +1,6 @@
 import React from "react";
 
 const HistoryMap = ({ tr }) => {
-  console.log(tr);
-
   return (
     <tr>
       <td>
@@ -21,6 +19,8 @@ const HistoryMap = ({ tr }) => {
           2
         )}
       </td>
+
+      <td>{tr?.memo || "---"}</td>
     </tr>
   );
 };

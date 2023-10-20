@@ -6,6 +6,8 @@ const AddTimeOverlay = ({ selectedTracker, setSelectedTracker, set }) => {
   const [timeIn, setTimeIn] = useState(null);
   const [timeOut, setTimeOut] = useState(null);
 
+  const [memo, setMemo] = useState(null);
+
   const [timeError, setTimeError] = useState(false);
 
   const [t1Error, sett1Error] = useState(false);
@@ -38,6 +40,7 @@ const AddTimeOverlay = ({ selectedTracker, setSelectedTracker, set }) => {
       trackerid: selectedTracker.id,
       timein: timeIn,
       timeout: timeOut,
+      memo,
     })
       .then((res) => {
         if (res?.id) {
@@ -98,6 +101,15 @@ const AddTimeOverlay = ({ selectedTracker, setSelectedTracker, set }) => {
             type="datetime-local"
             value={timeOut}
             onChange={(e) => setTimeOut(e.target.value)}
+          />
+        </div>
+
+        <div className="homec-inputcontainer">
+          <input
+            className="homec-input"
+            value={memo}
+            onChange={(e) => setMemo(e.target.value)}
+            placeholder="Memo (optional)"
           />
         </div>
 

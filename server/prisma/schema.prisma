@@ -224,6 +224,8 @@ model TimeLog {
   timeIn  DateTime? @db.Timestamp
   timeOut DateTime? @db.Timestamp
 
+  memo String?
+
   timeTracker TimeTracker @relation(fields: [trackerId], references: [id], onDelete: Cascade)
   trackerId   String
 }

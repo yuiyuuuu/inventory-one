@@ -93,6 +93,25 @@ td {
   }
 }
 
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    height: 14px;
+    width: 14px;
+    background-color: #0a0e13;
+    margin: 0 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #252c32;
+    -webkit-border-radius: 1ex;
+    border: 3px solid #0a0e13;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: #000;
+  }
+}
+
 .f-s-main {
   font-size: 16px;
 

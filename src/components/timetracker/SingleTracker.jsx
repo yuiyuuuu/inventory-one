@@ -150,6 +150,7 @@ const SingleTracker = () => {
                 <td>Start</td>
                 <td>End</td>
                 <td>Hours</td>
+                <td>Memo</td>
               </tr>
             </thead>
             <tbody>

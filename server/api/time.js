@@ -12,6 +12,7 @@ router.post("/addhistory", async (req, res, next) => {
         trackerId: req.body.trackerid,
         timeIn: new Date(req.body.timein).toISOString(),
         timeOut: new Date(req.body.timeout).toISOString(),
+        memo: req.body.memo,
       },
     });
 
