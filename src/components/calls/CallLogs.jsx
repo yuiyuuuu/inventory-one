@@ -84,9 +84,12 @@ const CallLogs = () => {
       {view === "default" ? (
         <div>
           <div className="store-mapc">
-            {stores?.slice(1)?.map((store) => (
-              <CallLogsStoreMap store={store} />
-            ))}
+            {stores
+              ?.slice(1)
+              ?.filter((t) => t.number < 100) //removes city web and gb
+              ?.map((store) => (
+                <CallLogsStoreMap store={store} />
+              ))}
           </div>
         </div>
       ) : (

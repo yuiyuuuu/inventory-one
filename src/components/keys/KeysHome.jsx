@@ -108,19 +108,22 @@ const KeysHome = () => {
 
       {view === "default" ? (
         <div className="store-mapc">
-          {stores?.slice(1)?.map((store) => (
-            <div
-              className="store-map"
-              onClick={() => nav(`/keys/${store?.id}`)}
-            >
-              <div className="store-name">{store?.name}</div>
-              <div className="grow" />
+          {stores
+            ?.slice(1)
+            ?.filter((t) => t.number < 100)
+            ?.map((store) => (
               <div
-                className="mitem-caret"
-                style={{ transform: "rotate(-90deg)" }}
-              />
-            </div>
-          ))}
+                className="store-map"
+                onClick={() => nav(`/keys/${store?.id}`)}
+              >
+                <div className="store-name">{store?.name}</div>
+                <div className="grow" />
+                <div
+                  className="mitem-caret"
+                  style={{ transform: "rotate(-90deg)" }}
+                />
+              </div>
+            ))}
         </div>
       ) : (
         <KeysChartView />

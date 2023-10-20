@@ -18,9 +18,12 @@ const KeysChartView = () => {
           </tr>
         </thead>
         <tbody>
-          {stores?.slice(1)?.map((store) => (
-            <KeysChartTr store={store} />
-          ))}
+          {stores
+            ?.slice(1)
+            ?.filter((t) => t.number < 100)
+            ?.map((store) => (
+              <KeysChartTr store={store} />
+            ))}
         </tbody>
       </table>
     </div>

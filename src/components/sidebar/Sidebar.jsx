@@ -70,24 +70,24 @@ const Sidebar = () => {
           </div>
 
           <div className="side-a" onClick={() => go("/keys")}>
-            Key Checkout
+            Key Tracker
           </div>
 
           <div className="side-a" onClick={() => go("/qr")}>
             QR Codes
           </div>
 
-          <div className="side-a" onClick={() => go("/print")}>
+          {/* <div className="side-a" onClick={() => go("/print")}>
             Print Forms
-          </div>
+          </div> */}
 
           <div className="side-a" onClick={() => go("/calls")}>
             Call Logs
           </div>
 
-          <div className="side-a" onClick={() => go("/employees")}>
+          {/* <div className="side-a" onClick={() => go("/employees")}>
             Employee Export
-          </div>
+          </div> */}
 
           <div className="side-a" onClick={() => go("/time")}>
             Time Tracker
@@ -96,7 +96,7 @@ const Sidebar = () => {
       ) : (
         <div className="side-acontainer">
           <div className="side-a" onClick={() => go("/keys")}>
-            Key Checkout
+            Key Tracker
           </div>
         </div>
       )}
