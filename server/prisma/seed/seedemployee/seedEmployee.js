@@ -33,10 +33,6 @@ async function f() {
       },
     });
   }
-
-  // axios.get("https://www.npoint.io/docs/f958615a1dcaf60b2a51").then((res) => {
-  //   console.log(res);
-  // });
 }
 
 f().then(() => {

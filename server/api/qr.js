@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const prisma = require("../prisma/prismaClient.js");
 
+const { getUser } = require("./helper/getUser.js");
+
 module.exports = router;
 
 router.get("/fetch/:id", async (req, res, next) => {
@@ -130,8 +132,11 @@ router.put("/editqr", async (req, res, next) => {
 });
 
 router.delete("/deleteqr/:id", async (req, res, next) => {
-  if (req.headers.authorization !== process.env.ROUTEPASS) {
-    res.send("access denied").status(401);
+  console.log(req.headers.authorization);
+  const user = await getUser(req.headers.authorization);
+
+  if (!user || !user.id) {
+    res.send("Internal Server Error").status(500);
     return;
   }
 

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { makeDeleteRequest } from "../../requests/helperFunctions";
+import {
+  makeDeleteRequest,
+  makeDeleteRequestWithAuth,
+} from "../../requests/helperFunctions";
 
 import "./qr.scss";
 
@@ -9,6 +12,7 @@ import CreateQROverlay from "./CreateQROverlay";
 import Pen from "../item/svg/Pen";
 import TrashIcon from "./svg/TrashIcon";
 import EditQROverlay from "./EditQROverlay";
+import { getToken } from "../../requests/getToken";
 
 const QR = () => {
   const nav = useNavigate();
@@ -26,7 +30,7 @@ const QR = () => {
     const c = confirm(`Confirm delete "${qr.name}" QR?`);
 
     if (c) {
-      await makeDeleteRequest(`/qr/deleteqr/${qr.id}`)
+      await makeDeleteRequestWithAuth(`/qr/deleteqr/${qr.id}`, getToken())
         .then((res) => {
           if (res.id) {
             setUserQrCodes((prev) => prev.filter((v) => v.id !== res.id));
@@ -52,8 +56,8 @@ const QR = () => {
 
   if (authState.loading && authState.loading !== "false") {
     return (
-      <div className='abs-loading2'>
-        <div className='lds-ring' id='spinner-form'>
+      <div className="abs-loading2">
+        <div className="lds-ring" id="spinner-form">
           <div></div>
           <div></div>
           <div></div>
@@ -64,16 +68,16 @@ const QR = () => {
   }
 
   return (
-    <div className='home-parent'>
-      <img className='home-logo' src='/assets/logo.jpeg' />
-      <div className='home-krink'>QR Codes</div>
+    <div className="home-parent">
+      <img className="home-logo" src="/assets/logo.jpeg" />
+      <div className="home-krink">QR Codes</div>
 
-      <div className='home-f home-lp'>
+      <div className="home-f home-lp">
         <span>Your QR Codes</span>
-        <div className='grow' />
+        <div className="grow" />
         {authState?.id && (
           <div
-            className='home-add home-create'
+            className="home-add home-create"
             onClick={() => setShowCreateOverlay(true)}
           >
             Create
@@ -82,14 +86,14 @@ const QR = () => {
       </div>
 
       {authState?.loading !== "loading" && !authState?.id ? (
-        <div className='home-none'>
-          <a className='home-siredir' href='/login'>
+        <div className="home-none">
+          <a className="home-siredir" href="/login">
             Log in
           </a>{" "}
           to view and create QR codes
         </div>
       ) : userQRCodes.length > 0 ? (
-        <div className='home-mapcontainer qr-mapcontainer'>
+        <div className="home-mapcontainer qr-mapcontainer">
           {userQRCodes
             .sort(function (a, b) {
               if (a.name < b.name) {
@@ -101,27 +105,27 @@ const QR = () => {
               return 0;
             })
             .map((qr) => (
-              <div className='home-mapch' onClick={() => nav(`/qr/${qr.id}`)}>
-                <div className='ellipsis' style={{ width: "75%", flexGrow: 1 }}>
+              <div className="home-mapch" onClick={() => nav(`/qr/${qr.id}`)}>
+                <div className="ellipsis" style={{ width: "75%", flexGrow: 1 }}>
                   <div
-                    className='ellipsis elli-media qr-name'
+                    className="ellipsis elli-media qr-name"
                     style={{ marginBottom: "5px" }}
                   >
                     {qr?.name}
                   </div>
 
                   <div
-                    className='ellipsis elli-media'
+                    className="ellipsis elli-media"
                     style={{ marginBottom: "5px" }}
                   >
                     Scanned: {qr?.count}
                   </div>
 
                   <a
-                    className='ellipsis qr-hov elli-media'
+                    className="ellipsis qr-hov elli-media"
                     href={qr?.link}
-                    target='_blank'
-                    rel='noreferrer'
+                    target="_blank"
+                    rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {qr?.link}
@@ -129,7 +133,7 @@ const QR = () => {
                 </div>
 
                 <div
-                  className='item-overwrite item-cli'
+                  className="item-overwrite item-cli"
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowEditOverlay(true);
@@ -140,7 +144,7 @@ const QR = () => {
                 </div>
 
                 <div
-                  className='item-overwrite item-cli qr-trash'
+                  className="item-overwrite item-cli qr-trash"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDeleteQR(qr);
@@ -152,10 +156,10 @@ const QR = () => {
             ))}
         </div>
       ) : (
-        <div className='home-none'>
+        <div className="home-none">
           You have no QR codes.{" "}
           <span
-            className='pointer underline'
+            className="pointer underline"
             onClick={() => setShowCreateOverlay(true)}
           >
             Create

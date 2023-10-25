@@ -6,7 +6,8 @@ import {
   makeGetRequest,
   makeGetRequestWithAuth,
 } from "../../requests/helperFunctions";
-import { makeDeleteRequest } from "../../requests/helperFunctions";
+
+import { getToken } from "../../requests/getToken";
 
 import EditQROverlay from "./EditQROverlay";
 
@@ -27,10 +28,7 @@ const SingleQR = () => {
     const c = confirm(`Confirm delete "${qr.name}" QR?`);
 
     if (c) {
-      await makeDeleteRequestWithAuth(
-        `/qr/deleteqr/${qr.id}`,
-        import.meta.env.VITE_ROUTEPASS
-      )
+      await makeDeleteRequestWithAuth(`/qr/deleteqr/${qr.id}`, getToken())
         .then((res) => {
           if (res.id) {
             alert("QR Deleted");
