@@ -124,8 +124,6 @@ const TakeKeyOverlay = ({
     });
   }, []);
 
-  console.log(allStores, "all");
-
   return (
     <div
       className="home-createoverlay"

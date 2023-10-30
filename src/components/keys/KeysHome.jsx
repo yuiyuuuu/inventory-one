@@ -50,8 +50,6 @@ const KeysHome = () => {
     }
   }, [s]);
 
-  console.log(stores);
-
   useEffect(() => {
     const url = new URL(window.location.href);
     const search = new URLSearchParams(url.search).get("take");
