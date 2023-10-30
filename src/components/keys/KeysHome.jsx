@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { makeGetRequest } from "../../requests/helperFunctions";
+
+import { dispatchSetAllStores } from "../../store/allStores";
 
 import "./kh.scss";
 
@@ -8,9 +11,9 @@ import TakeKeyOverlay from "./singlekeys/TakeKeyOverlay";
 import ReturnKeyOverlay from "./ReturnKeyOverlay";
 import TakeOrReturnOverlay from "./TakeOrReturnOverlay";
 import KeysChartView from "./keyschartview/KeysChartView";
-import { makeGetRequest } from "../../requests/helperFunctions";
 
 const KeysHome = () => {
+  const dispatch = useDispatch();
   const nav = useNavigate();
 
   const s = useSelector((state) => state.allStores);
@@ -33,10 +36,12 @@ const KeysHome = () => {
     } else {
       async function f() {
         await makeGetRequest("/stores/fetchall/golyek").then((res) => {
-          setStores(
-            res.sort(function (a, b) {
-              return a.name.localeCompare(b.name);
-            })
+          dispatch(
+            dispatchSetAllStores(
+              res.sort(function (a, b) {
+                return a.name.localeCompare(b.name);
+              })
+            )
           );
         });
       }
@@ -44,6 +49,8 @@ const KeysHome = () => {
       f();
     }
   }, [s]);
+
+  console.log(stores);
 
   useEffect(() => {
     const url = new URL(window.location.href);

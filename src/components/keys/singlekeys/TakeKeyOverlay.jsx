@@ -16,6 +16,7 @@ const TakeKeyOverlay = ({
   setSelectedStore,
 }) => {
   const allStores = useSelector((state) => state.allStores);
+  const authstate = useSelector((state) => state.auth);
 
   const [name, setName] = useState("");
   const [memo, setMemo] = useState("");
@@ -72,7 +73,12 @@ const TakeKeyOverlay = ({
     )
       .then((res) => {
         if (res?.id) {
-          window.location.href = `/keys/${res.id}`;
+          if (authstate.id) {
+            window.location.href = `/keys/${res.id}`;
+          } else {
+            alert("Successfully Logged");
+            setShowTakeOverlay(false);
+          }
         }
       })
       .catch(() => {
@@ -118,68 +124,70 @@ const TakeKeyOverlay = ({
     });
   }, []);
 
+  console.log(allStores, "all");
+
   return (
     <div
-      className='home-createoverlay'
+      className="home-createoverlay"
       onClick={() => {
         document.querySelector("html").style.overflow = "";
         setShowTakeOverlay(false);
       }}
     >
       <div
-        className='homec-inner'
-        id='kh-inner'
+        className="homec-inner"
+        id="kh-inner"
         onClick={(e) => e.stopPropagation()}
         style={{ minHeight: show && "50vh", justifyContent: show && "unset" }}
       >
-        <div className='homec-l'>Take Key</div>
-        <div className='homec-inputcontainer'>
-          {noName && <div className='kh-error'>Name is required!</div>}
+        <div className="homec-l">Take Key</div>
+        <div className="homec-inputcontainer">
+          {noName && <div className="kh-error">Name is required!</div>}
           <input
-            className='homec-input'
+            className="homec-input"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            id='kh-namein'
-            placeholder='Name'
+            id="kh-namein"
+            placeholder="Name"
           />
         </div>
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            className='homec-input'
+            className="homec-input"
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
-            id='kh-memo'
-            placeholder='Memo (Optional)'
+            id="kh-memo"
+            placeholder="Memo (Optional)"
           />
         </div>
 
-        <div className='pio-rel' style={{ flexDirection: "column" }}>
-          {noStore && <div className='kh-error'>Select a store!</div>}
+        <div className="pio-rel" style={{ flexDirection: "column" }}>
+          {noStore && <div className="kh-error">Select a store!</div>}
 
           <div
-            className='pio-select'
+            className="pio-select"
             onClick={() => setShow((prev) => !prev)}
-            id='kh-sel'
+            id="kh-sel"
             style={{ width: "calc(100% - 16px)" }}
           >
-            <div className='ellipsis'>
+            <div className="ellipsis">
               {selected?.length > 0
                 ? selected
                     .map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
                     ?.toString()
                 : "Select a store"}
             </div>
-            <div className='grow' />
+            <div className="grow" />
             <div
-              className='mitem-caret'
+              className="mitem-caret"
               style={{ transform: !show && "rotate(-90deg)" }}
             />
           </div>
           {show && (
-            <div className='pio-selch' id='kh-selc'>
+            <div className="pio-selch" id="kh-selc">
               {allStores.map((store, i, a) => (
                 <div
-                  className='pio-ch'
+                  className="pio-ch"
                   style={{
                     borderBottom:
                       i === a.length - 1
@@ -209,7 +217,7 @@ const TakeKeyOverlay = ({
                 >
                   {store.name}
 
-                  <div className='grow' />
+                  <div className="grow" />
 
                   {selected.find((v) => v.id === store.id)?.id && <CheckMark />}
                 </div>
@@ -218,7 +226,7 @@ const TakeKeyOverlay = ({
           )}
         </div>
         <button
-          className='homec-submit homec-but'
+          className="homec-submit homec-but"
           onClick={() => {
             handleSubmit();
           }}
