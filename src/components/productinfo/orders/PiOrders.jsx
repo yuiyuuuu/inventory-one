@@ -37,6 +37,8 @@ const PiOrders = ({ orders, selectedDate, showOrders, setSelectedDate }) => {
     });
   }, []);
 
+  console.log(selectedDate);
+
   return (
     <div className="pio-parent" style={{ display: !showOrders && "none" }}>
       <div className="pio-rel">

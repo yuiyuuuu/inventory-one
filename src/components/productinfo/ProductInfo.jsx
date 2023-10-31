@@ -111,7 +111,7 @@ const ProductInfo = ({ data, setShowSingleProduct }) => {
     data.orders.forEach((v) => {
       const d = new Date(v.completedAt);
       const str = `${
-        d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
+        d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
       }/${d.getDate()}/${d.getFullYear()}`;
 
       sort[str] ||= [];
