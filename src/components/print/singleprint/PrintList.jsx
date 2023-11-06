@@ -78,7 +78,7 @@ const PrintList = () => {
                       window.close();
                     }, 2000);
                   }
-                }, 2500);
+                }, 8000);
               }
 
               loop(0);
@@ -97,8 +97,8 @@ const PrintList = () => {
   }, []);
 
   return (
-    <div className='abs-loading2'>
-      <div className='lds-ring' id='spinner-form'>
+    <div className="abs-loading2">
+      <div className="lds-ring" id="spinner-form">
         <div></div>
         <div></div>
         <div></div>
