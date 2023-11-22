@@ -7,15 +7,16 @@ import CheckMark from "../keys/singlekeys/svg/CheckMark";
 import { saveAs } from "file-saver";
 
 const roles = [
-  "Senior manager",
+  //lowercase because in fucntion we turn the role to lowercase when filtering
+  "senior manager",
   "manager",
-  "Assistant manager",
-  "Senior associate",
-  "Associate",
-  "Intern",
-  "Ware house",
-  "Security",
-  "Backup manager",
+  "assistant manager",
+  "senior associate",
+  "associate",
+  "intern",
+  "ware house",
+  "security",
+  "backup manager",
 ];
 
 const info = [
@@ -113,7 +114,7 @@ const ExportOverlay = ({ set }) => {
             return;
           }
 
-          if (!selectedRoles.includes(emp.role)) return;
+          if (!selectedRoles.includes(emp.role.toLowerCase())) return;
 
           selectedInfo.forEach((v) => {
             obj[v.name] ||=
@@ -148,7 +149,7 @@ const ExportOverlay = ({ set }) => {
         .forEach((store) => {
           if (!store.employees.length) return;
           const filter = store.employees.filter((v) =>
-            selectedRoles.includes(v.role)
+            selectedRoles.includes(v.role.toLowerCase())
           );
 
           //if the store has none of this role, do nothing
@@ -162,6 +163,120 @@ const ExportOverlay = ({ set }) => {
 
       populateSheet(book, "CombinedSheet", all);
     }
+    const buf = await book.xlsx.writeBuffer();
+
+    saveAs(new Blob([buf]), "SheetJSReactAoO.xlsx");
+  }
+
+  async function handleSubmit2() {
+    const book = new Excel.Workbook();
+
+    const all = [];
+
+    stores.forEach((t) => {
+      all.push(...t.employees);
+    });
+
+    const sheet1 = book.addWorksheet("oneandonly");
+    sheet1.columns = [
+      {
+        header: "First Name",
+        key: "firstName",
+      },
+
+      {
+        header: "Middle Name",
+        key: "middleName",
+      },
+
+      {
+        header: "Last Name",
+        key: "lastName",
+      },
+
+      {
+        header: "Email",
+        key: "email",
+      },
+      {
+        header: "Training Type",
+        key: "trainingType",
+      },
+      {
+        header: "Location",
+        key: "Loc",
+      },
+      {
+        header: "Region",
+        key: "reg",
+      },
+      {
+        header: "Role",
+        key: "role",
+      },
+      {
+        header: "ID",
+        key: "id",
+      },
+      {
+        header: "Title",
+        key: "title",
+      },
+      {
+        header: "Department",
+        key: "department",
+      },
+      {
+        header: "Manager",
+        key: "manager",
+      },
+
+      {
+        header: "Phone Number",
+        key: "phoneNumber",
+      },
+    ];
+
+    all.forEach((t) => {
+      const obj = {};
+
+      obj["firstName"] = `${t.store.name}: ${t.firstName
+        .replace(/ *\([^)]*\) */g, "")
+        //remove periods first
+        //sometimes we get middle names like H., so we always want to remove periods first
+        .split(".")
+        .join("")
+        //then split the string by spaces and everything with only 1 letter is most likely a middle names
+        //e.g jack k lin, k is most likely a middle names
+        .split(" ")
+        .filter((v) => v.length > 1)
+        .join(" ")}`;
+
+      obj["lastName"] = t.lastName;
+
+      obj["Loc"] = t.store.name;
+
+      obj["reg"] = "Illinois";
+
+      obj["role"] =
+        t.store.number === 1
+          ? "Supervisor"
+          : t.role.toLowerCase() === "senior associate" ||
+            t.role.toLowerCase() === "manager"
+          ? "Supervisor"
+          : "Non-supervisor";
+
+      obj["trainingType"] =
+        t.store.number === 1
+          ? "hp-il-sup-retail"
+          : t.role.toLowerCase() === "senior associate" ||
+            t.role.toLowerCase() === "manager"
+          ? "hp-il-sup-retail"
+          : "hp-il-non-retail";
+
+      sheet1.addRow(obj);
+    });
+
     const buf = await book.xlsx.writeBuffer();
 
     saveAs(new Blob([buf]), "SheetJSReactAoO.xlsx");
@@ -399,6 +514,13 @@ const ExportOverlay = ({ set }) => {
           onClick={() => excelDownload("sheet1")}
         >
           Submit
+        </button>
+
+        <button
+          className="homec-submit homec-but ov-submut emp-submit"
+          onClick={() => handleSubmit2()}
+        >
+          Submit222
         </button>
       </div>
     </div>
