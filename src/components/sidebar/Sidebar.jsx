@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className="side-inner"
+      className='side-inner'
       style={{
         transform: sidebarState.display
           ? "translate(0)"
@@ -61,19 +61,19 @@ const Sidebar = () => {
       </div> */}
 
       {authState.id ? (
-        <div className="side-acontainer">
-          <div className="side-a" onClick={() => go("/")}>
+        <div className='side-acontainer'>
+          <div className='side-a' onClick={() => go("/")}>
             Inventory One
           </div>
-          <div className="side-a" onClick={() => go("/stores")}>
+          <div className='side-a' onClick={() => go("/stores")}>
             Store Statistics
           </div>
 
-          <div className="side-a" onClick={() => go("/keys")}>
+          <div className='side-a' onClick={() => go("/keys")}>
             Key Tracker
           </div>
 
-          <div className="side-a" onClick={() => go("/qr")}>
+          <div className='side-a' onClick={() => go("/qr")}>
             QR Codes
           </div>
 
@@ -81,7 +81,7 @@ const Sidebar = () => {
             Print Forms
           </div> */}
 
-          <div className="side-a" onClick={() => go("/calls")}>
+          <div className='side-a' onClick={() => go("/calls")}>
             Call Logs
           </div>
 
@@ -89,28 +89,32 @@ const Sidebar = () => {
             Employee Export
           </div> */}
 
-          <div className="side-a" onClick={() => go("/time")}>
+          <div className='side-a' onClick={() => go("/time")}>
             Time Tracker
+          </div>
+
+          <div className='side-a' onClick={() => go("/visit")}>
+            Store Visits Tracker
           </div>
         </div>
       ) : (
-        <div className="side-acontainer">
-          <div className="side-a" onClick={() => go("/keys")}>
+        <div className='side-acontainer'>
+          <div className='side-a' onClick={() => go("/keys")}>
             Key Tracker
           </div>
         </div>
       )}
 
       {authState?.id && !authState.loading ? (
-        <div className="side-user">
-          <div className="side-userin">
-            <div className="side-img"></div>
-            <div className="side-infocol">
-              <div className="side-username side-ell">{authState?.name}</div>
-              <div className="side-email side-ell">{authState?.email}</div>
+        <div className='side-user'>
+          <div className='side-userin'>
+            <div className='side-img'></div>
+            <div className='side-infocol'>
+              <div className='side-username side-ell'>{authState?.name}</div>
+              <div className='side-email side-ell'>{authState?.email}</div>
             </div>
 
-            <div className="grow" />
+            <div className='grow' />
 
             <LogoutIcon
               oc={() => {
@@ -121,11 +125,11 @@ const Sidebar = () => {
           </div>
         </div>
       ) : (
-        <div className="side-user">
-          <div className="side-userin">
-            <div className="side-log">
+        <div className='side-user'>
+          <div className='side-userin'>
+            <div className='side-log'>
               <span
-                className="side-sp"
+                className='side-sp'
                 onClick={() => (window.location.href = "/login")}
               >
                 Login
