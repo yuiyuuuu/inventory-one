@@ -26,18 +26,21 @@ model User {
 
   TimeTracker TimeTracker[]
 
+  visitTrackers VisitTracker[]
+
   createdAt DateTime @default(now()) @db.Timestamp
 }
 
 model Store {
-  id        String      @id @default(uuid())
-  name      String      @unique
-  number    Int?
-  orders    Order[]
-  keyLog    Keylog[]
-  keyImage  Keyimage[]
-  callLog   CallLog[]
-  employees Employees[]
+  id           String         @id @default(uuid())
+  name         String         @unique
+  number       Int?
+  orders       Order[]
+  keyLog       Keylog[]
+  keyImage     Keyimage[]
+  callLog      CallLog[]
+  employees    Employees[]
+  visitTracker VisitTracker[]
 
   createdAt DateTime @default(now()) @db.Timestamp
 }
@@ -228,4 +231,23 @@ model TimeLog {
 
   timeTracker TimeTracker @relation(fields: [trackerId], references: [id], onDelete: Cascade)
   trackerId   String
+}
+
+//visit tracker section
+model VisitTracker {
+  id String @id @default(uuid())
+
+  memo String?
+
+  store   Store? @relation(fields: [storeId], references: [id])
+  storeId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  //date of the visit
+  actionTime DateTime? @db.Timestamp
+
+  //when this was created
+  createdAt DateTime? @db.Timestamp
 }

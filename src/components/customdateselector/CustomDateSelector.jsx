@@ -15,6 +15,8 @@ import {
   endOfMonth,
 } from "date-fns";
 
+import CdsSelect from "./CdsSelect";
+
 const CustomDateSelector = ({
   selectedDate,
   setFunction,
@@ -22,6 +24,8 @@ const CustomDateSelector = ({
   zIndex,
   setDisplay,
 }) => {
+  const [showSelectYear, setShowSelectYear] = useState(false);
+
   //current date will be todays date for now, but later on will be the selected date
   const [currentDate, setCurrentDate] = useState(
     selectedDate ? new Date(selectedDate) : new Date()
@@ -64,7 +68,9 @@ const CustomDateSelector = ({
     const date = new Date(
       `${
         index < indexOfPreviousMonth
-          ? month
+          ? month === 0
+            ? 12
+            : month
           : index > indexOfNextMonth + lenBefore
           ? month === 11
             ? //if its december we have to go to the next year janurary.
@@ -76,6 +82,11 @@ const CustomDateSelector = ({
         month === 11
           ? index > indexOfNextMonth + lenBefore
             ? year + 1
+            : year
+          : month === 0
+          ? //if january, and we selected previous month, then we need to go to the deceomber of the year before
+            index < indexOfPreviousMonth
+            ? year - 1
             : year
           : year
       }`
@@ -121,6 +132,29 @@ const CustomDateSelector = ({
     }
   }, [allDaysofThisMonth]);
 
+  useEffect(() => {
+    if (!showSelectYear) return;
+
+    // if (!$(`#cds-selyr-${new Date(currentDate).getFullYear()}`)) {
+    //   return;
+    // }
+
+    //find the element of the year and scroll to it so user doesnt have to scroll all the way down
+    const find = $(
+      `#cds-selyr-${new Date(currentDate).getFullYear()}-${idv}`
+    ).outerHeight();
+
+    if (!find && find !== 0) {
+      return;
+    }
+
+    //take the total # of years and the height of each year elemnt
+    //scroll to that position when user wants to select a year
+    $(".cds-yearselect").scrollTop(
+      find * Math.abs(2050 - new Date(currentDate).getFullYear() - 80)
+    );
+  }, [showSelectYear]);
+
   const c = useCallback(() => {
     clickout([`cds-${idv || "m"}`], `cds-${idv || "m"}`, setDisplay, false);
   }, []);
@@ -130,74 +164,104 @@ const CustomDateSelector = ({
   if (!allDaysofThisMonth) return;
 
   return (
-    <div
-      className={`cds-parent-${idv} cds-parent`}
-      id={`cds-${idv || "m"}`}
-      style={{ zIndex: zIndex && zIndex }}
-    >
-      <div className='cds-prev'>
-        <div className='cds-arrow' onClick={() => subtractDate()}>
-          ←
-        </div>
-        <div className={`cds-currentmonth-${idv}`}></div>
-        <div className='cds-arrow' onClick={() => addDate()}>
-          →
-        </div>
-      </div>
-      <div className={`cds-grid`}>
-        <div className={`cds-day cds-day-${idv}`}>Sun</div>
-        <div className={`cds-day cds-day-${idv}`}>Mon</div>
-        <div className={`cds-day cds-day-${idv}`}>Tue</div>
-        <div className={`cds-day cds-day-${idv}`}>Wed</div>
-        <div className={`cds-day cds-day-${idv}`}>Thu</div>
-        <div className={`cds-day cds-day-${idv}`}>Fri</div>
-        <div className={`cds-day cds-day-${idv}`}>Sat</div>
-      </div>
-
-      <div className={`cds-grid-${idv} cds-grid`}>
-        {/* {Array(allDaysofThisMonth.length)
-          .fill("") */}
-        {allDaysofThisMonth.map((t, i) => (
+    <div>
+      <div id={`cds-${idv || "m"}`}>
+        {!showSelectYear ? (
           <div
-            className={`cds-date cds-date-${idv} ${
-              new Date(t).toLocaleDateString("en-US", {
-                timeZone: "America/Chicago",
-              }) ===
-              new Date(selectedDate).toLocaleDateString("en-US", {
-                timeZone: "America/Chicago",
-              })
-                ? "cds-date-active"
-                : ""
-            }`}
-            onClick={(e) => {
-              const c = setValue($(e.target).html(), i);
-              setFunction(c);
-              setDisplay(false);
-            }}
-          ></div>
-        ))}
-      </div>
+            className={`cds-parent-${idv} cds-parent`}
+            style={{ zIndex: zIndex && zIndex }}
+          >
+            <div className='cds-prev'>
+              <div className='cds-arrow' onClick={() => subtractDate()}>
+                ←
+              </div>
+              <div
+                className='flexa pointer'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowSelectYear((prev) => !prev);
+                }}
+              >
+                <div className={`cds-currentmonth-${idv}`}></div>
+                <div
+                  className='mitem-caret-small'
+                  style={{ marginLeft: "2.5px" }}
+                />
+              </div>
+              <div className='cds-arrow' onClick={() => addDate()}>
+                →
+              </div>
+            </div>
+            <div className={`cds-grid`}>
+              <div className={`cds-day cds-day-${idv}`}>Sun</div>
+              <div className={`cds-day cds-day-${idv}`}>Mon</div>
+              <div className={`cds-day cds-day-${idv}`}>Tue</div>
+              <div className={`cds-day cds-day-${idv}`}>Wed</div>
+              <div className={`cds-day cds-day-${idv}`}>Thu</div>
+              <div className={`cds-day cds-day-${idv}`}>Fri</div>
+              <div className={`cds-day cds-day-${idv}`}>Sat</div>
+            </div>
 
-      <div className='cds-opt'>
-        <div
-          className='cds-opt-ch'
-          onClick={() => {
-            setFunction(null);
-            setDisplay(false);
-          }}
-        >
-          Clear
-        </div>
-        <div className='grow' />
-        <div
-          className='cds-opt-ch'
-          onClick={() => {
-            setFunction(new Date());
-            setDisplay(false);
-          }}
-        >
-          Today
-        </div>
+            <div className={`cds-grid-${idv} cds-grid`}>
+              {/* {Array(allDaysofThisMonth.length)
+          .fill("") */}
+              {allDaysofThisMonth.map((t, i) => (
+                <div
+                  className={`cds-date cds-date-${idv} ${
+                    new Date(t).toLocaleDateString("en-US", {
+                      timeZone: "America/Chicago",
+                    }) ===
+                    new Date(selectedDate).toLocaleDateString("en-US", {
+                      timeZone: "America/Chicago",
+                    })
+                      ? "cds-date-active"
+                      : ""
+                  }`}
+                  onClick={(e) => {
+                    const c = setValue($(e.target).html(), i);
+                    setFunction(c);
+                    setDisplay(false);
+                  }}
+                ></div>
+              ))}
+            </div>
+
+            <div className='cds-opt'>
+              <div
+                className='cds-opt-ch'
+                onClick={() => {
+                  setFunction(null);
+                  setDisplay(false);
+                }}
+              >
+                Clear
+              </div>
+              <div className='grow' />
+              <div
+                className='cds-opt-ch'
+                onClick={() => {
+                  setFunction(new Date());
+                  setDisplay(false);
+                }}
+              >
+                Today
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className='cds-yearselect'>
+            {[
+              ...Array.from(Array(2050 - 1970).keys()).map((t) => t + 1970),
+            ].map((t) => (
+              <CdsSelect
+                cur={t}
+                setCurrentDate={setCurrentDate}
+                setShowSelectYear={setShowSelectYear}
+                idv={idv}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
