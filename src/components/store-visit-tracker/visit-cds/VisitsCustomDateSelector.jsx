@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useCallback } from "react";
-import { clickout } from "../../requests/clickout";
+import "./vcds.scss";
 
 import $ from "jquery";
 
@@ -17,19 +16,11 @@ import {
 
 import CdsSelect from "./CdsSelect";
 
-const CustomDateSelector = ({
-  selectedDate,
-  setFunction,
-  idv,
-  zIndex,
-  setDisplay,
-}) => {
+const VisitsCustomDateSelector = ({ idv }) => {
   const [showSelectYear, setShowSelectYear] = useState(false);
 
   //current date will be todays date for now, but later on will be the selected date
-  const [currentDate, setCurrentDate] = useState(
-    selectedDate ? new Date(selectedDate) : new Date()
-  );
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const [allDaysofThisMonth, setAllDaysofThisMonth] = useState(null);
 
@@ -95,6 +86,8 @@ const CustomDateSelector = ({
     return date;
   }
 
+  console.log(currentDate);
+
   //format month and set the text
   useEffect(() => {
     //will not be able to find element if all days of this month is null
@@ -112,7 +105,18 @@ const CustomDateSelector = ({
       end: endOfWeek(endOfMonth(currentDate)),
     });
 
-    setAllDaysofThisMonth(days);
+    let daysCopy = days.slice();
+
+    const re = [];
+
+    while (daysCopy.length) {
+      re.push(daysCopy.slice(0, 7));
+      daysCopy = daysCopy.slice(7);
+    }
+
+    console.log(re);
+
+    setAllDaysofThisMonth(re);
   }, [currentDate]);
 
   useEffect(() => {
@@ -120,12 +124,14 @@ const CustomDateSelector = ({
 
     const cdsDays = document.querySelectorAll(`.cds-date-${idv}`);
 
-    for (let i = 0; i < allDaysofThisMonth.length; i++) {
-      if (!allDaysofThisMonth[i]) continue;
-      cdsDays[i].innerHTML = format(allDaysofThisMonth[i], "d");
+    console.log(allDaysofThisMonth.flat(Infinity).length);
+
+    for (let i = 0; i < allDaysofThisMonth.flat(Infinity).length; i++) {
+      if (!allDaysofThisMonth.flat(Infinity)[i]) continue;
+      cdsDays[i].innerHTML = format(allDaysofThisMonth.flat(Infinity)[i], "d");
 
       cdsDays[i].dataset.date = new Date(
-        allDaysofThisMonth[i]
+        allDaysofThisMonth.flat(Infinity)[i]
       ).toLocaleDateString("en-US", {
         timeZone: "America/Chicago",
       });
@@ -155,11 +161,12 @@ const CustomDateSelector = ({
     );
   }, [showSelectYear]);
 
-  const c = useCallback(() => {
-    clickout([`cds-${idv || "m"}`], `cds-${idv || "m"}`, setDisplay, false);
-  }, []);
+  //no need for clickout since this will not be overlay
+  // const c = useCallback(() => {
+  //   clickout([`cds-${idv || "m"}`], `cds-${idv || "m"}`, setDisplay, false);
+  // }, []);
 
-  $(document).unbind("click", c).click(c);
+  // $(document).unbind("click", c).click(c);
 
   if (!allDaysofThisMonth) return;
 
@@ -167,12 +174,12 @@ const CustomDateSelector = ({
     <div>
       <div id={`cds-${idv || "m"}`}>
         {!showSelectYear ? (
-          <div
-            className={`cds-parent-${idv} cds-parent`}
-            style={{ zIndex: zIndex && zIndex }}
-          >
+          <div className={`cds-parent-${idv} v-cds-parent`}>
             <div className="cds-prev">
-              <div className="cds-arrow" onClick={() => subtractDate()}>
+              <div
+                className="cds-arrow v-cds-arrow"
+                onClick={() => subtractDate()}
+              >
                 ←
               </div>
               <div
@@ -182,66 +189,52 @@ const CustomDateSelector = ({
                   setShowSelectYear((prev) => !prev);
                 }}
               >
-                <div className={`cds-currentmonth-${idv}`}></div>
+                <div className={`cds-currentmonth-${idv} f-t-main`}></div>
                 <div
                   className="mitem-caret-small"
                   style={{ marginLeft: "2.5px" }}
                 />
               </div>
-              <div className="cds-arrow" onClick={() => addDate()}>
+              <div className="cds-arrow v-cds-arrow" onClick={() => addDate()}>
                 →
               </div>
             </div>
-            <div className={`cds-grid`}>
-              <div className={`cds-day cds-day-${idv}`}>Sun</div>
-              <div className={`cds-day cds-day-${idv}`}>Mon</div>
-              <div className={`cds-day cds-day-${idv}`}>Tue</div>
-              <div className={`cds-day cds-day-${idv}`}>Wed</div>
-              <div className={`cds-day cds-day-${idv}`}>Thu</div>
-              <div className={`cds-day cds-day-${idv}`}>Fri</div>
-              <div className={`cds-day cds-day-${idv}`}>Sat</div>
+            <div className={`v-cds-row v-cds-dateofweek`}>
+              <div className={`cds-day cds-day-${idv} v-cds-day`}>Sun</div>
+              <div className={`cds-day cds-day-${idv} v-cds-day`}>Mon</div>
+              <div className={`cds-day cds-day-${idv} v-cds-day`}>Tue</div>
+              <div className={`cds-day cds-day-${idv} v-cds-day`}>Wed</div>
+              <div className={`cds-day cds-day-${idv} v-cds-day`}>Thu</div>
+              <div className={`cds-day cds-day-${idv} v-cds-day`}>Fri</div>
+              <div className={`cds-day cds-day-${idv} v-cds-day`}>Sat</div>
             </div>
 
-            <div className={`cds-grid-${idv} cds-grid`}>
+            <div className={`cds-grid-${idv} v-cds-rowcon`}>
               {/* {Array(allDaysofThisMonth.length)
           .fill("") */}
               {allDaysofThisMonth.map((t, i) => (
-                <div
-                  className={`cds-date cds-date-${idv} ${
-                    new Date(t).toLocaleDateString("en-US", {
-                      timeZone: "America/Chicago",
-                    }) ===
-                    new Date(selectedDate).toLocaleDateString("en-US", {
-                      timeZone: "America/Chicago",
-                    })
-                      ? "cds-date-active"
-                      : ""
-                  }`}
-                  onClick={(e) => {
-                    const c = setValue($(e.target).html(), i);
-                    setFunction(c);
-                    setDisplay(false);
-                  }}
-                ></div>
+                <div className="v-cds-row v-cds-row-dates">
+                  {t.map((v) => (
+                    <div
+                      className={`v-cds-date cds-date-${idv}`}
+                      onClick={(e) => {
+                        const c = setValue($(e.target).html(), i);
+                        setFunction(c);
+                        setDisplay(false);
+                      }}
+                    ></div>
+                  ))}
+                </div>
               ))}
             </div>
 
             <div className="cds-opt">
-              <div
-                className="cds-opt-ch"
-                onClick={() => {
-                  setFunction(null);
-                  setDisplay(false);
-                }}
-              >
-                Clear
-              </div>
+              <div></div>
               <div className="grow" />
               <div
                 className="cds-opt-ch"
                 onClick={() => {
-                  setFunction(new Date());
-                  setDisplay(false);
+                  setCurrentDate(new Date());
                 }}
               >
                 Today
@@ -267,4 +260,4 @@ const CustomDateSelector = ({
   );
 };
 
-export default CustomDateSelector;
+export default VisitsCustomDateSelector;

@@ -1,0 +1,68 @@
+@import url("../../../index.scss");
+
+.v-cds-parent {
+  background-color: black;
+  box-shadow: ""; //fix box shadow later
+  padding: 20px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  @extend .f-s-main !optional;
+}
+
+.v-cds-rowcon {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  border: 1px solid white;
+  margin-top: 12px;
+
+  & > div:not(:last-child) {
+    border-bottom: 1px solid white;
+  }
+}
+
+.v-cds-row {
+  display: flex;
+  align-items: center;
+}
+
+.v-cds-row-dates {
+  flex: 1 1 0;
+
+  & div:not(:last-child) {
+    border-right: 1px solid white;
+  }
+}
+
+.v-cds-dateofweek {
+  margin-top: 20px;
+}
+
+.v-cds-day {
+  display: flex;
+  flex: 1 1 0;
+}
+
+.v-cds-date {
+  flex: 1 1 0;
+  transition: 0.3s ease all;
+  cursor: pointer;
+  text-align: center;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+  &:hover:not(.cds-date-active) {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.v-cds-arrow {
+  font-size: 30px !important;
+}

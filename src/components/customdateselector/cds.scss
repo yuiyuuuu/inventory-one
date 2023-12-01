@@ -1,17 +1,29 @@
+@import url("../../index.scss");
+
 .cds-parent {
-  margin: 50px; //remove later, this element should positioned absolutely
   background-color: black;
   box-shadow: ""; //fix box shadow later
-  padding: 10px;
-  width: 300;
+  padding: 20px;
   display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid white;
+  position: absolute;
+  margin-top: -1px;
+  @extend .f-s-main !optional;
 }
 
 .cds-grid {
   display: grid;
-  grid-template-columns: repeat(7, 2rem);
-  gap: 0.5rem;
-  margin-top: 10px;
+  grid-template-columns: repeat(7, auto);
+  gap: 2rem 0;
+  margin-top: 2rem;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 500px) {
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
 }
 
 .cds-prev {
@@ -24,10 +36,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 30px;
+  width: 30px;
 }
 
 .cds-arrow {
   cursor: pointer;
+  user-select: none;
 }
 
 .cds-date {
@@ -35,4 +50,80 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  height: 30px;
+  width: 30px;
+  transition: 0.3s ease all;
+
+  &:hover:not(.cds-date-active) {
+    background-color: white;
+    color: black;
+  }
+}
+
+.cds-date-active {
+  background-color: white;
+  color: black;
+}
+
+.cds-opt {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.cds-opt-ch {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.cds-yearselect {
+  max-height: 450px;
+  overflow: auto;
+  border: 1px solid white;
+  margin-top: -1px;
+  padding: 12px 0;
+}
+
+.cds-yr {
+  padding: 20px 0;
+  text-align: center;
+  cursor: pointer;
+
+  @media only screen and (max-width: 500px) {
+    padding: 12px 0;
+  }
+
+  @extend .f-s-main !optional;
+}
+
+.cds-selmonth {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  margin-top: 10px;
+
+  @extend .f-s-main !optional;
+}
+
+.cds-m {
+  padding: 10px 0;
+  transition: 0.3s ease all;
+  text-align: center;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+
+  @extend .f-s-main !optional;
+}
+
+.cds-yearselect {
+  position: absolute;
+  width: 100%;
+  background-color: black;
+  z-index: 7;
 }

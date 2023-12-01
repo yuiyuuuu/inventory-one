@@ -112,6 +112,14 @@ td {
   }
 }
 
+.f-t-main {
+  font-size: 22px;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 18px;
+  }
+}
+
 .f-s-main {
   font-size: 16px;
 
