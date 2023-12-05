@@ -45,17 +45,21 @@ router.get("/fetchredirect/:id", async (req, res, next) => {
       },
     });
 
-    await prisma.qR.update({
-      where: {
-        id: req.params.id,
-      },
+    if (find?.id) {
+      await prisma.qR.update({
+        where: {
+          id: req.params.id,
+        },
 
-      data: {
-        count: find.count + 1,
-      },
-    });
+        data: {
+          count: find.count + 1,
+        },
+      });
 
-    res.send(find);
+      res.send(find);
+    } else {
+      res.send("not found");
+    }
   } catch (error) {
     next(error);
   }

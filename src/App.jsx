@@ -42,6 +42,7 @@ import VisitTracker from "./components/store-visit-tracker/VisitTracker";
 
 const App = () => {
   const dispatch = useDispatch();
+  // const match = useMatch("/r/:id");
 
   const sidebarState = useSelector((state) => state.sidebarState);
   const datePickerState = useSelector((state) => state.datePicker);
@@ -49,6 +50,9 @@ const App = () => {
   const authstate = useSelector((state) => state.auth);
 
   const [ready, setReady] = useState(false);
+
+  //if the link is a qr code redirect
+  const [qrRedirect, setQrRedirect] = useState(false);
 
   useEffect(() => {
     if (!authstate?.id) return;
@@ -91,10 +95,16 @@ const App = () => {
   useEffect(() => {
     if (authstate.loading === true) return;
 
+    if (window.location.href.includes("/r/")) {
+      setQrRedirect(true);
+      return;
+    }
+
     //not logged in redirect
     if (window.location.pathname !== "/keys") {
       if (window.location.pathname !== "/login") {
         if (authstate.loading === "false" && !authstate.id) {
+          //to handle qr code redirects
           window.location.href = "/login";
         }
       }
@@ -102,6 +112,16 @@ const App = () => {
 
     setReady(true);
   }, [window.location.pathname, authstate]);
+
+  if (qrRedirect) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/r/:id" element={<RedirectQR />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 
   if (window.location.pathname !== "/keys") {
     if (
