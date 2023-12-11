@@ -81,9 +81,9 @@ const SingleTracker = () => {
         timeZone: "America/Chicago",
       });
 
-      obj["Hours"] ||= (
-        Math.abs(new Date(t.timeIn) - new Date(t.timeOut)) / 36e5
-      ).toFixed(2);
+      obj["Hours"] ||= Number(
+        (Math.abs(new Date(t.timeIn) - new Date(t.timeOut)) / 36e5).toFixed(2)
+      );
 
       obj["Memo"] ||= t.memo || "";
 
