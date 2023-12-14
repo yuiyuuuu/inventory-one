@@ -18,7 +18,10 @@ const TakeKeyOverlay = ({
   const allStores = useSelector((state) => state.allStores);
   const authstate = useSelector((state) => state.auth);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(
+    new URLSearchParams(new URL(window.location.href).search).get("name") || ""
+  );
+
   const [memo, setMemo] = useState("");
 
   const [show, setShow] = useState(false);
