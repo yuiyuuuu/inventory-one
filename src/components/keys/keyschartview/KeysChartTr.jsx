@@ -30,7 +30,7 @@ const KeysChartTr = ({ store }) => {
   }, [store]);
 
   return (
-    <tr onClick={() => nav(`/keys/${store?.id}`)}>
+    <tr onClick={() => nav(`/keys/k/${store?.id}`)}>
       <td style={{ maxWidth: "25%" }} className="ellipsis">
         {store?.name}
       </td>

@@ -119,7 +119,7 @@ const KeysHome = () => {
             ?.map((store) => (
               <div
                 className="store-map"
-                onClick={() => nav(`/keys/${store?.id}`)}
+                onClick={() => nav(`/keys/k/${store?.id}`)}
               >
                 <div className="store-name">{store?.name}</div>
                 <div className="grow" />

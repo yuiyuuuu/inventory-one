@@ -6,13 +6,13 @@ import {
   makeGetRequest,
   makeGetRequestWithAuth,
 } from "../../../requests/helperFunctions";
+import { useSelector } from "react-redux";
 
 import TakeKeyOverlay from "./TakeKeyOverlay";
 import KeyLogMap from "./KeyLogMap";
 import KeyLogMapArchived from "./KeyLongMapArchived";
 import AddImageOverlay from "./AddImageOverlay";
 import TrashCanSvg from "../../print/svg/TrashCanSvg";
-import { useSelector } from "react-redux";
 
 const SingleKey = () => {
   const params = useParams();

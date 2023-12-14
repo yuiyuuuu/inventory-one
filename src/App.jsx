@@ -101,7 +101,7 @@ const App = () => {
     }
 
     //not logged in redirect
-    if (window.location.pathname !== "/keys") {
+    if (!window.location.href.includes("/keys")) {
       if (window.location.pathname !== "/login") {
         if (authstate.loading === "false" && !authstate.id) {
           //to handle qr code redirects
@@ -123,7 +123,7 @@ const App = () => {
     );
   }
 
-  if (window.location.pathname !== "/keys") {
+  if (!window.location.href.includes("/keys")) {
     if (
       (window.location.pathname !== "/login" &&
         authstate.loading === "false" &&
@@ -203,7 +203,7 @@ const App = () => {
 
           {/* keys routes*/}
           <Route exact path="/keys" element={<KeysHome />} />
-          <Route exact path="/keys/:id" element={<SingleStoreKey />} />
+          <Route exact path="/keys/k/:id" element={<SingleStoreKey />} />
 
           {/* QR routes*/}
           <Route exact path="/qr" element={<QR />} />
