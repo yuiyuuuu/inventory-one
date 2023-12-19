@@ -1,8 +1,17 @@
 import React from "react";
+import { makePostRequest } from "../../requests/helperFunctions";
 
 const HistoryMap = ({ tr }) => {
   return (
-    <tr>
+    <tr
+      onClick={async () => {
+        const c = confirm("Confirm Delete this time log?");
+
+        if (c) {
+          await makePostRequest("time/deleteone", { id: tr.id });
+        }
+      }}
+    >
       <td>
         {new Date(tr.timeIn).toLocaleString("en-US", {
           timeZone: "America/Chicago",

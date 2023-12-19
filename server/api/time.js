@@ -82,6 +82,20 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
+router.post("/deleteone", async (req, res, next) => {
+  try {
+    const del = await prisma.timeLog.delete({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.send("deleted");
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.put("/clockin", async (req, res, next) => {
   try {
     const update = await prisma.timeTracker.update({
