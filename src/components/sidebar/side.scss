@@ -67,6 +67,7 @@
   text-align: center;
   box-sizing: border-box;
   transition: 0.8s ease all;
+  user-select: none;
 
   &:hover {
     box-shadow: inset 65vw 20vh black;

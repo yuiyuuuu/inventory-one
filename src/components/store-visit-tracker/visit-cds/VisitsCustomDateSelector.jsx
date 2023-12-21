@@ -24,6 +24,7 @@ const VisitsCustomDateSelector = ({ idv }) => {
 
   const [allDaysofThisMonth, setAllDaysofThisMonth] = useState(null);
 
+  console.log(allDaysofThisMonth, "all");
   function addDate() {
     const a = add(currentDate, { months: 1 });
     setCurrentDate(a);
@@ -85,8 +86,6 @@ const VisitsCustomDateSelector = ({ idv }) => {
 
     return date;
   }
-
-  console.log(currentDate);
 
   //format month and set the text
   useEffect(() => {
@@ -168,6 +167,12 @@ const VisitsCustomDateSelector = ({ idv }) => {
 
   // $(document).unbind("click", c).click(c);
 
+  console.log(new Date(), "today");
+  console.log(
+    new Date("Thu Dec 21 2023 00:00:00 GMT-0600 (Central Standard Time)"),
+    "ttt"
+  );
+
   if (!allDaysofThisMonth) return;
 
   return (
@@ -183,17 +188,16 @@ const VisitsCustomDateSelector = ({ idv }) => {
                 ←
               </div>
               <div
-                className="flexa pointer"
+                className="pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowSelectYear((prev) => !prev);
                 }}
+                style={{ display: "flex", alignItems: "center" }}
               >
                 <div className={`cds-currentmonth-${idv} f-t-main`}></div>
-                <div
-                  className="mitem-caret-small"
-                  style={{ marginLeft: "2.5px" }}
-                />
+
+                <div className="mitem-caret" style={{ marginLeft: "2.5px" }} />
               </div>
               <div className="cds-arrow v-cds-arrow" onClick={() => addDate()}>
                 →
@@ -216,13 +220,27 @@ const VisitsCustomDateSelector = ({ idv }) => {
                 <div className="v-cds-row v-cds-row-dates">
                   {t.map((v) => (
                     <div
-                      className={`v-cds-date cds-date-${idv}`}
-                      onClick={(e) => {
-                        const c = setValue($(e.target).html(), i);
-                        setFunction(c);
-                        setDisplay(false);
-                      }}
-                    ></div>
+                      className={`v-cds-date`}
+                      // onClick={(e) => {
+                      //   const c = setValue($(e.target).html(), i);
+                      //   setFunction(c);
+                      //   setDisplay(false);
+                      // }}
+                    >
+                      <div
+                        className={`cds-date-${idv} v-cds-p`}
+                        style={{
+                          backgroundColor:
+                            new Date(
+                              new Date().setHours(0, 0, 0, 0)
+                            ).getTime() === new Date(v).getTime() && "white",
+                          color:
+                            new Date(
+                              new Date().setHours(0, 0, 0, 0)
+                            ).getTime() === new Date(v).getTime() && "black",
+                        }}
+                      ></div>
+                    </div>
                   ))}
                 </div>
               ))}

@@ -179,8 +179,6 @@ const CreateCallLogOverlay = ({ setShow, prefill }) => {
         </div>
 
         <div className="homec-inputcontainer">
-          {titleError && <div className="kh-error">Title missing!</div>}
-
           <input
             className="homec-input rel"
             placeholder="Time"
