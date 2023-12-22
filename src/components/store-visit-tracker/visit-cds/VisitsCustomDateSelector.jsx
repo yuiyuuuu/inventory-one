@@ -15,8 +15,12 @@ import {
 } from "date-fns";
 
 import CdsSelect from "./CdsSelect";
+import CdsDate from "./CdsDate";
 
-const VisitsCustomDateSelector = ({ idv }) => {
+//colors for the legend
+const colors = ["orange", "aqua", "lightgreen", "#f1807e"];
+
+const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
   const [showSelectYear, setShowSelectYear] = useState(false);
 
   //current date will be todays date for now, but later on will be the selected date
@@ -24,7 +28,6 @@ const VisitsCustomDateSelector = ({ idv }) => {
 
   const [allDaysofThisMonth, setAllDaysofThisMonth] = useState(null);
 
-  console.log(allDaysofThisMonth, "all");
   function addDate() {
     const a = add(currentDate, { months: 1 });
     setCurrentDate(a);
@@ -219,28 +222,17 @@ const VisitsCustomDateSelector = ({ idv }) => {
               {allDaysofThisMonth.map((t, i) => (
                 <div className="v-cds-row v-cds-row-dates">
                   {t.map((v) => (
-                    <div
-                      className={`v-cds-date`}
-                      // onClick={(e) => {
-                      //   const c = setValue($(e.target).html(), i);
-                      //   setFunction(c);
-                      //   setDisplay(false);
-                      // }}
-                    >
-                      <div
-                        className={`cds-date-${idv} v-cds-p`}
-                        style={{
-                          backgroundColor:
-                            new Date(
-                              new Date().setHours(0, 0, 0, 0)
-                            ).getTime() === new Date(v).getTime() && "white",
-                          color:
-                            new Date(
-                              new Date().setHours(0, 0, 0, 0)
-                            ).getTime() === new Date(v).getTime() && "black",
-                        }}
-                      ></div>
-                    </div>
+                    <CdsDate
+                      v={v}
+                      idv={idv}
+                      trackers={
+                        trackersSorted[
+                          new Date(v).toDateString().replace(/^\S+\s/, "")
+                        ]
+                      }
+                      visitorsSorted={visitorsSorted}
+                      colors={colors}
+                    />
                   ))}
                 </div>
               ))}

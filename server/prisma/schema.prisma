@@ -237,7 +237,8 @@ model TimeLog {
 model VisitTracker {
   id String @id @default(uuid())
 
-  memo String?
+  memo     String?
+  visitors String?
 
   store   Store? @relation(fields: [storeId], references: [id])
   storeId String

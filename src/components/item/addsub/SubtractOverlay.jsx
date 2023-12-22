@@ -179,10 +179,7 @@ const SubtractOverlay = ({
           />
         </div>
 
-        <div
-          className="homec-submit homec-but ov-submit"
-          onClick={() => handleSubmit()}
-        >
+        <div className="homec-submit homec-but " onClick={() => handleSubmit()}>
           Submit
         </div>
       </div>

@@ -17,17 +17,6 @@
   margin: 20px 0;
 }
 
-.ov-submit {
-  cursor: pointer;
-  border: 1px solid red;
-  background: none !important;
-  transition: 0.3s ease all;
-
-  &:hover {
-    border: 1px solid rgba(0, 255, 255);
-  }
-}
-
 .ov-error {
   margin: 10px 0 0 0;
   color: red;

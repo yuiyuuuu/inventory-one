@@ -106,44 +106,41 @@ const CreateQROverlay = ({ setShowCreateOverlay }) => {
 
   return (
     <div
-      className='home-createoverlay'
+      className="home-createoverlay"
       onClick={() => setShowCreateOverlay(false)}
     >
-      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
-        <div className='homec-l'>Create QR</div>
+      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
+        <div className="homec-l">Create QR</div>
 
-        <div className='homec-inputcontainer'>
-          {noName && <div className='ov-error homec-l'>Name is required</div>}
+        <div className="homec-inputcontainer">
+          {noName && <div className="ov-error homec-l">Name is required</div>}
           <input
-            placeholder='Name'
-            className='homec-input'
+            placeholder="Name"
+            className="homec-input"
             value={qrName}
             onChange={(e) => setQrName(e.target.value)}
           />
         </div>
 
-        <div className='homec-inputcontainer'>
-          {invalidURL && <div className='ov-error homec-l'>Invalid URL</div>}
+        <div className="homec-inputcontainer">
+          {invalidURL && <div className="ov-error homec-l">Invalid URL</div>}
 
           <input
-            placeholder='URL'
-            className='homec-input'
+            placeholder="URL"
+            className="homec-input"
             value={qrRedirectLink}
             onChange={(e) => setQrRedirectLink(e.target.value)}
           />
         </div>
 
-        <div
-          className='homec-submit homec-but ov-submit'
-          onClick={() => handleSubmit()}
-        >
+        <div className="homec-submit homec-but" onClick={() => handleSubmit()}>
           Create
         </div>
       </div>
 
       {loading && (
-        <div className='submit-loading'>
-          <div className='lds-ring' id='spinner-form'>
+        <div className="submit-loading">
+          <div className="lds-ring" id="spinner-form">
             <div></div>
             <div></div>
             <div></div>

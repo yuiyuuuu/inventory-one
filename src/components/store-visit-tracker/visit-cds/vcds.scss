@@ -10,7 +10,7 @@
   border: 1px solid white;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 1000px;
 
   @extend .f-s-main !optional;
 }
@@ -35,7 +35,7 @@
 .v-cds-row-dates {
   flex: 1 1 0;
 
-  & div:not(:last-child) {
+  & > div:not(:last-child) {
     border-right: 1px solid white;
   }
 }
@@ -58,7 +58,10 @@
   padding-top: 10px;
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  position: relative;
 
   &:hover:not(.cds-date-active) {
     background-color: rgba(255, 255, 255, 0.2);
@@ -89,5 +92,30 @@
 
   @media only screen and (max-width: 500px) {
     font-size: 24px !important;
+  }
+}
+
+.cds-visit-mapcon {
+  user-select: none;
+  position: absolute;
+  top: 24%;
+  width: calc(100% - 10px);
+
+  & > div:first-child {
+    margin-top: 5px;
+  }
+}
+
+.cds-visit-map {
+  font-size: 13px;
+  height: 16px;
+  margin-bottom: 5px;
+  padding: 3px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 12px;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 11px;
   }
 }

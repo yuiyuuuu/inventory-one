@@ -1,23 +1,41 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makePostRequestWithAuth } from "../../../requests/helperFunctions";
+
+import { dispatchSetLoading } from "../../../store/global/loading";
 
 import SubmitButton from "../../global/OvlerlaySubmitButton";
-import { useSelector } from "react-redux";
 
 const AddVisitTrackerOverlay = ({ set }) => {
-  const allStores = useSelector((state) => state.allStores);
+  const dispatch = useDispatch();
 
-  console.log(allStores);
+  const allStores = useSelector((state) => state.allStores);
+  const authstate = useSelector((state) => state.auth);
 
   const [date, setDate] = useState(new Date());
 
   const [selectedStore, setSelectedStore] = useState(null);
   const [showSelectStore, setShowSelectStore] = useState(false);
 
+  const [visitors, setVisitors] = useState(null);
+
   const [body, setBody] = useState(null);
 
   const [bodyError, setBodyError] = useState(false);
 
-  async function handleSubmit() {}
+  async function handleSubmit() {
+    dispatch(dispatchSetLoading(true));
+
+    await makePostRequestWithAuth("visit/create", {
+      storeId: selectedStore.id,
+      date: date,
+      memo: body,
+      visitors,
+      userId: authstate.id,
+    }).then((res) => {
+      dispatch(dispatchSetLoading(false));
+    });
+  }
 
   useEffect(() => {
     $(".cl-textarea")
@@ -102,6 +120,15 @@ const AddVisitTrackerOverlay = ({ set }) => {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+
+        <div className="homec-inputcontainer">
+          <input
+            className="homec-input rel"
+            placeholder="Visitors"
+            onChange={(e) => setVisitors(e.target.value)}
+            value={visitors}
           />
         </div>
 
