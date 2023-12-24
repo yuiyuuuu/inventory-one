@@ -36,6 +36,11 @@ router.post("/create", async (req, res, next) => {
         actionTime: new Date(req.body.date).toISOString(),
         memo: req.body.body,
       },
+
+      include: {
+        user: true,
+        store: true,
+      },
     });
 
     res.send(create);

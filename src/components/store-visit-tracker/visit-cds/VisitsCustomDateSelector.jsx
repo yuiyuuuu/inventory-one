@@ -116,8 +116,6 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
       daysCopy = daysCopy.slice(7);
     }
 
-    console.log(re);
-
     setAllDaysofThisMonth(re);
   }, [currentDate]);
 
@@ -170,12 +168,6 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
 
   // $(document).unbind("click", c).click(c);
 
-  console.log(new Date(), "today");
-  console.log(
-    new Date("Thu Dec 21 2023 00:00:00 GMT-0600 (Central Standard Time)"),
-    "ttt"
-  );
-
   if (!allDaysofThisMonth) return;
 
   return (
@@ -183,15 +175,15 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
       <div id={`cds-${idv || "m"}`}>
         {!showSelectYear ? (
           <div className={`cds-parent-${idv} v-cds-parent`}>
-            <div className="cds-prev">
+            <div className='cds-prev'>
               <div
-                className="cds-arrow v-cds-arrow"
+                className='cds-arrow v-cds-arrow'
                 onClick={() => subtractDate()}
               >
                 ←
               </div>
               <div
-                className="pointer"
+                className='pointer'
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowSelectYear((prev) => !prev);
@@ -200,9 +192,9 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
               >
                 <div className={`cds-currentmonth-${idv} f-t-main`}></div>
 
-                <div className="mitem-caret" style={{ marginLeft: "2.5px" }} />
+                <div className='mitem-caret' style={{ marginLeft: "2.5px" }} />
               </div>
-              <div className="cds-arrow v-cds-arrow" onClick={() => addDate()}>
+              <div className='cds-arrow v-cds-arrow' onClick={() => addDate()}>
                 →
               </div>
             </div>
@@ -220,14 +212,18 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
               {/* {Array(allDaysofThisMonth.length)
           .fill("") */}
               {allDaysofThisMonth.map((t, i) => (
-                <div className="v-cds-row v-cds-row-dates">
+                <div className='v-cds-row v-cds-row-dates'>
                   {t.map((v) => (
                     <CdsDate
                       v={v}
                       idv={idv}
                       trackers={
                         trackersSorted[
-                          new Date(v).toDateString().replace(/^\S+\s/, "")
+                          new Date(v)
+                            .toLocaleDateString("UTC", {
+                              timeZone: "Etc/UTC",
+                            })
+                            .replace(/^\S+\s/, "")
                         ]
                       }
                       visitorsSorted={visitorsSorted}
@@ -238,11 +234,11 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
               ))}
             </div>
 
-            <div className="cds-opt">
+            <div className='cds-opt'>
               <div></div>
-              <div className="grow" />
+              <div className='grow' />
               <div
-                className="cds-opt-ch"
+                className='cds-opt-ch'
                 onClick={() => {
                   setCurrentDate(new Date());
                 }}
@@ -252,7 +248,7 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
             </div>
           </div>
         ) : (
-          <div className="cds-yearselect">
+          <div className='cds-yearselect'>
             {[
               ...Array.from(Array(2050 - 1970).keys()).map((t) => t + 1970),
             ].map((t) => (

@@ -98,7 +98,7 @@
 .cds-visit-mapcon {
   user-select: none;
   position: absolute;
-  top: 24%;
+  top: 22%;
   width: calc(100% - 10px);
 
   & > div:first-child {
@@ -118,4 +118,8 @@
   @media only screen and (max-width: 500px) {
     font-size: 11px;
   }
+}
+
+.cds-visit-more {
+  margin: 5px 0;
 }

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 const CdsDate = ({ v, idv, trackers, visitorsSorted, colors }) => {
+  const nav = useNavigate();
+
   const [trackersTd, setTrackersTd] = useState();
 
   useEffect(() => {
@@ -26,6 +29,7 @@ const CdsDate = ({ v, idv, trackers, visitorsSorted, colors }) => {
       //   setFunction(c);
       //   setDisplay(false);
       // }}
+      onClick={() => nav(`/visit/?sel=${v}`)}
     >
       <div
         className={`cds-date-${idv} v-cds-p`}
@@ -40,10 +44,10 @@ const CdsDate = ({ v, idv, trackers, visitorsSorted, colors }) => {
       ></div>
 
       {trackers && (
-        <div className="cds-visit-mapcon">
-          {trackers.map((t) => (
+        <div className='cds-visit-mapcon'>
+          {trackers.slice(0, 3).map((t) => (
             <div
-              className="cds-visit-map ellipsis"
+              className='cds-visit-map ellipsis'
               style={{
                 backgroundColor:
                   colors[visitorsSorted.map((t) => t.id).indexOf(t.user.id)],
@@ -52,6 +56,12 @@ const CdsDate = ({ v, idv, trackers, visitorsSorted, colors }) => {
               {t.store.name}
             </div>
           ))}
+
+          {trackers.length > 3 && (
+            <div className='f-s-main cds-visit-more'>
+              + {trackers.length - 3}
+            </div>
+          )}
         </div>
       )}
     </div>
