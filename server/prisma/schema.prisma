@@ -250,5 +250,5 @@ model VisitTracker {
   actionTime DateTime? @db.Timestamp
 
   //when this was created
-  createdAt DateTime? @db.Timestamp
+  createdAt DateTime? @default(now()) @db.Timestamp
 }

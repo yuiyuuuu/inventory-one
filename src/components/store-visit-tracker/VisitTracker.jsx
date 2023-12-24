@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import { makeGetRequestWithAuth } from "../../requests/helperFunctions";
 import { getToken } from "../../requests/getToken";
 
+import "./vt.scss";
+
 import VisitsCustomDateSelector from "./visit-cds/VisitsCustomDateSelector";
 import AddVisitTrackerOverlay from "./overlay/AddVisitTrackerOverlay";
 import Loading from "../global/LoadingComponent";
@@ -81,7 +83,13 @@ const VisitTracker = () => {
     const search = new URLSearchParams(url.search).get("sel");
 
     //no selected date, set it to null
-    if (!search) {
+    if (
+      !search ||
+      //checks if the value is a valid date
+      !new Date(search) instanceof Date ||
+      //checks if the value is a number, if not it is invalid date
+      isNaN(new Date(search).valueOf())
+    ) {
       setSelectedDate(null);
       return;
     }
@@ -136,6 +144,7 @@ const VisitTracker = () => {
       {selectedDate && (
         <SelectedDateOverlay
           set={() => nav("/visit")}
+          selectedDate={selectedDate}
           selectedTrackers={visitTrackerSortedByDate[selectedDate]}
         />
       )}

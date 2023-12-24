@@ -1,0 +1,26 @@
+.vt-selcon {
+  padding: 20px 0;
+  position: relative;
+}
+
+.vt-sel {
+  padding-bottom: 10px;
+  border-bottom: 3px solid white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  font-size: 21px;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+  }
+}
+
+.vt-desc {
+  margin: 10px 0;
+}
+
+.vt-desccon {
+  margin-top: 10px;
+}
