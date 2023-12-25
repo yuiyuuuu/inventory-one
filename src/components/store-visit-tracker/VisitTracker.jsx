@@ -146,6 +146,7 @@ const VisitTracker = () => {
           set={() => nav("/visit")}
           selectedDate={selectedDate}
           selectedTrackers={visitTrackerSortedByDate[selectedDate]}
+          setVisitTrackerSortedByDate={setVisitTrackerSortedByDate}
         />
       )}
     </div>

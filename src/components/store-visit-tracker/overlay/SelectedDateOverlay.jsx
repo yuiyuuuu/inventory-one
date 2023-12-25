@@ -3,7 +3,12 @@ import React from "react";
 import { months } from "../../../requests/dateObj";
 import SelectedDateOverlayMap from "./SelectedDateOverlayMap";
 
-const SelectedDateOverlay = ({ set, selectedTrackers, selectedDate }) => {
+const SelectedDateOverlay = ({
+  set,
+  selectedTrackers,
+  selectedDate,
+  setVisitTrackerSortedByDate,
+}) => {
   console.log(selectedTrackers, "sel");
 
   if (!selectedTrackers || selectedTrackers?.length < 1) {
@@ -44,7 +49,11 @@ const SelectedDateOverlay = ({ set, selectedTrackers, selectedDate }) => {
             );
           })
           .map((t) => (
-            <SelectedDateOverlayMap t={t} />
+            <SelectedDateOverlayMap
+              t={t}
+              setVisitTrackerSortedByDate={setVisitTrackerSortedByDate}
+              selectedDate={selectedDate}
+            />
           ))}
       </div>
     </div>

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const prisma = require("../prisma/prismaClient.js");
+const { getUser } = require("./helper/getUser.js");
 
 module.exports = router;
 
@@ -45,6 +46,28 @@ router.post("/create", async (req, res, next) => {
     });
 
     res.send(create);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//delete a visit
+router.post("/delete", async (req, res, next) => {
+  const user = await getUser(req.headers.authorization);
+
+  if (!user?.id) {
+    res.send("Internal Server Error").status(500);
+    return;
+  }
+
+  try {
+    await prisma.visitTracker.delete({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.send("deleted");
   } catch (error) {
     next(error);
   }
