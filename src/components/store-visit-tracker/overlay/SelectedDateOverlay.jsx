@@ -7,21 +7,21 @@ const SelectedDateOverlay = ({
   set,
   selectedTrackers,
   selectedDate,
-  setVisitTrackerSortedByDate,
+  setVisit,
 }) => {
   console.log(selectedTrackers, "sel");
 
   if (!selectedTrackers || selectedTrackers?.length < 1) {
     return (
-      <div className='home-createoverlay' onClick={() => set()}>
-        <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
-          <div className='homec-l'>
+      <div className="home-createoverlay" onClick={() => set()}>
+        <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
+          <div className="homec-l">
             {`${months[new Date(selectedDate).getMonth()]} ${new Date(
               selectedDate
             ).getDate()} ${new Date(selectedDate).getFullYear()}`}
           </div>
 
-          <div className='f-s-main' style={{ marginTop: "20px" }}>
+          <div className="f-s-main" style={{ marginTop: "20px" }}>
             There are no visits on this day
           </div>
         </div>
@@ -30,13 +30,13 @@ const SelectedDateOverlay = ({
   }
 
   return (
-    <div className='home-createoverlay' onClick={() => set()}>
+    <div className="home-createoverlay" onClick={() => set()}>
       <div
-        className='homec-inner'
+        className="homec-inner"
         onClick={(e) => e.stopPropagation()}
         style={{ maxHeight: "80vh" }}
       >
-        <div className='homec-l'>
+        <div className="homec-l">
           {`${months[new Date(selectedDate).getMonth()]} ${new Date(
             selectedDate
           ).getDate()} ${new Date(selectedDate).getFullYear()}`}
@@ -51,8 +51,8 @@ const SelectedDateOverlay = ({
           .map((t) => (
             <SelectedDateOverlayMap
               t={t}
-              setVisitTrackerSortedByDate={setVisitTrackerSortedByDate}
               selectedDate={selectedDate}
+              setVisit={setVisit}
             />
           ))}
       </div>

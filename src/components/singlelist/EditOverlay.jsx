@@ -156,15 +156,15 @@ const EditOverlay = ({
   }, []);
 
   return (
-    <div className='home-createoverlay'>
-      <div className='homec-inner'>
-        <div className='homec-l'>Edit a Product</div>
+    <div className="home-createoverlay">
+      <div className="homec-inner">
+        <div className="homec-l">Edit a Product</div>
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Name'
-            className='homec-input'
-            id='create-name'
+            placeholder="Name"
+            className="homec-input"
+            id="create-name"
             value={selectedProduct?.name}
             onChange={(e) =>
               setSelectedProduct((prev) => {
@@ -174,13 +174,13 @@ const EditOverlay = ({
           />
         </div>
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Quantity'
-            className='homec-input'
-            id='create-qty'
+            placeholder="Quantity"
+            className="homec-input"
+            id="create-qty"
             value={selectedProduct.quantity}
-            type='number'
+            type="number"
             onChange={(e) =>
               setSelectedProduct((prev) => {
                 return { ...prev, quantity: e.target.value };
@@ -189,11 +189,11 @@ const EditOverlay = ({
           />
         </div>
 
-        <div className='homec-inputcontainer'>
+        <div className="homec-inputcontainer">
           <input
-            placeholder='Units'
-            className='homec-input'
-            id='create-units'
+            placeholder="Units"
+            className="homec-input"
+            id="create-units"
             value={selectedProduct.units}
             onChange={(e) =>
               setSelectedProduct((prev) => {
@@ -202,47 +202,61 @@ const EditOverlay = ({
             }
           />
         </div>
-        {!selectedProduct?.image && (
-          <button className='homec-upload' onClick={() => handleImageUpload()}>
-            Upload Image
-          </button>
-        )}
-
-        {selectedProduct.image && (
-          <div className='flexcol-aligncenter'>
-            <img
-              src={
-                imagePreview
-                  ? imagePreview
-                  : `data:image/png;base64,${selectedProduct.image}`
-              }
-              className='homec-imgpre'
-            />
-            <button
-              className='homec-but homec-remove'
-              onClick={() => {
-                setSelectedProduct((prev) => {
-                  return { ...prev, image: null };
-                });
-              }}
-            >
-              Remove Image
-            </button>
-          </div>
-        )}
-
-        <div className='homec-div'></div>
-
-        <button
-          className='homec-submit homec-but'
-          onClick={() => handleSubmitEdit()}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
         >
-          Submit
-        </button>
+          {!selectedProduct?.image && (
+            <button
+              className="homec-upload"
+              onClick={() => handleImageUpload()}
+            >
+              Upload Image
+            </button>
+          )}
 
-        <button className='homec-del homec-but' onClick={() => handleDelete()}>
-          Delete Product
-        </button>
+          {selectedProduct.image && (
+            <div className="flexcol-aligncenter">
+              <img
+                src={
+                  imagePreview
+                    ? imagePreview
+                    : `data:image/png;base64,${selectedProduct.image}`
+                }
+                className="homec-imgpre"
+              />
+              <button
+                className="homec-but homec-remove"
+                onClick={() => {
+                  setSelectedProduct((prev) => {
+                    return { ...prev, image: null };
+                  });
+                }}
+              >
+                Remove Image
+              </button>
+            </div>
+          )}
+
+          <div className="homec-div"></div>
+
+          <button
+            className="homec-submit homec-but"
+            onClick={() => handleSubmitEdit()}
+          >
+            Submit
+          </button>
+
+          <button
+            className="homec-del homec-but"
+            onClick={() => handleDelete()}
+          >
+            Delete Product
+          </button>
+        </div>
 
         <XIcon
           top={"21px"}
@@ -255,7 +269,7 @@ const EditOverlay = ({
       </div>
 
       <div
-        className='homec-clickback'
+        className="homec-clickback"
         onClick={() => {
           setShowEditOverlay(false);
           setSelectedProduct(null);
@@ -264,8 +278,8 @@ const EditOverlay = ({
       />
 
       {loading && (
-        <div className='submit-loading'>
-          <div className='lds-ring' id='spinner-form'>
+        <div className="submit-loading">
+          <div className="lds-ring" id="spinner-form">
             <div></div>
             <div></div>
             <div></div>

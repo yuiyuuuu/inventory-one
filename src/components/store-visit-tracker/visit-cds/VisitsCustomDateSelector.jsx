@@ -18,9 +18,13 @@ import CdsSelect from "./CdsSelect";
 import CdsDate from "./CdsDate";
 
 //colors for the legend
-const colors = ["orange", "aqua", "lightgreen", "#f1807e"];
 
-const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
+const VisitsCustomDateSelector = ({
+  idv,
+  trackersSorted,
+  visitorsSorted,
+  colors,
+}) => {
   const [showSelectYear, setShowSelectYear] = useState(false);
 
   //current date will be todays date for now, but later on will be the selected date
@@ -175,15 +179,15 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
       <div id={`cds-${idv || "m"}`}>
         {!showSelectYear ? (
           <div className={`cds-parent-${idv} v-cds-parent`}>
-            <div className='cds-prev'>
+            <div className="cds-prev">
               <div
-                className='cds-arrow v-cds-arrow'
+                className="cds-arrow v-cds-arrow"
                 onClick={() => subtractDate()}
               >
                 ←
               </div>
               <div
-                className='pointer'
+                className="pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowSelectYear((prev) => !prev);
@@ -192,9 +196,9 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
               >
                 <div className={`cds-currentmonth-${idv} f-t-main`}></div>
 
-                <div className='mitem-caret' style={{ marginLeft: "2.5px" }} />
+                <div className="mitem-caret" style={{ marginLeft: "2.5px" }} />
               </div>
-              <div className='cds-arrow v-cds-arrow' onClick={() => addDate()}>
+              <div className="cds-arrow v-cds-arrow" onClick={() => addDate()}>
                 →
               </div>
             </div>
@@ -212,7 +216,7 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
               {/* {Array(allDaysofThisMonth.length)
           .fill("") */}
               {allDaysofThisMonth.map((t, i) => (
-                <div className='v-cds-row v-cds-row-dates'>
+                <div className="v-cds-row v-cds-row-dates">
                   {t.map((v) => (
                     <CdsDate
                       v={v}
@@ -234,11 +238,11 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
               ))}
             </div>
 
-            <div className='cds-opt'>
+            <div className="cds-opt">
               <div></div>
-              <div className='grow' />
+              <div className="grow" />
               <div
-                className='cds-opt-ch'
+                className="cds-opt-ch"
                 onClick={() => {
                   setCurrentDate(new Date());
                 }}
@@ -248,7 +252,7 @@ const VisitsCustomDateSelector = ({ idv, trackersSorted, visitorsSorted }) => {
             </div>
           </div>
         ) : (
-          <div className='cds-yearselect'>
+          <div className="cds-yearselect">
             {[
               ...Array.from(Array(2050 - 1970).keys()).map((t) => t + 1970),
             ].map((t) => (

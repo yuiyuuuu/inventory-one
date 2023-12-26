@@ -24,3 +24,16 @@
 .vt-desccon {
   margin-top: 10px;
 }
+
+.vt-legend {
+  display: flex;
+  align-items: center;
+  margin: 7px 0;
+}
+
+.vt-color {
+  width: 30px;
+  height: 5px;
+  border-radius: 20px;
+  margin-right: 5px;
+}

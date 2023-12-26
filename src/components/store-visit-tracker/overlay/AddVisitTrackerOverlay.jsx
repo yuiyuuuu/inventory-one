@@ -4,9 +4,10 @@ import { makePostRequestWithAuth } from "../../../requests/helperFunctions";
 
 import { dispatchSetLoading } from "../../../store/global/loading";
 import { setErrorStatesFalse, validateForm } from "../../../store/validateForm";
+
 import SubmitButton from "../../global/OvlerlaySubmitButton";
 
-const AddVisitTrackerOverlay = ({ set, setVisit }) => {
+const AddVisitTrackerOverlay = ({ set, setVisit, setVisitors2 }) => {
   const dispatch = useDispatch();
 
   const allStores = useSelector((state) => state.allStores);
@@ -59,15 +60,31 @@ const AddVisitTrackerOverlay = ({ set, setVisit }) => {
     }).then((res) => {
       dispatch(dispatchSetLoading(false));
       if (res) {
-        setVisit((prev) => {
-          const time = new Date(date)
-            .toLocaleDateString("UTC", {
-              timeZone: "Etc/UTC",
-            })
-            .replace(/^\S+\s/, "");
+        // setVisit((prev) => {
+        //   const time = new Date(date)
+        //     .toLocaleDateString("UTC", {
+        //       timeZone: "Etc/UTC",
+        //     })
+        //     .replace(/^\S+\s/, "");
 
-          return { ...prev, [time]: prev[time] ? [...prev[time], res] : [res] };
-        });
+        //   return { ...prev, [time]: prev[time] ? [...prev[time], res] : [res] };
+        // });
+
+        setVisit((prev) => [...prev, res]);
+
+        //set the list of visitors and insert if this is a new person
+        // setVisitors2((prev) =>
+        //   !prev.map((t) => t.id).includes(authstate.id)
+        //     ? [
+        //         ...prev,
+        //         {
+        //           id: authstate.id,
+        //           name: authstate.name,
+        //           email: authstate.email,
+        //         },
+        //       ]
+        //     : prev
+        // );
 
         set(false);
       }
@@ -89,38 +106,38 @@ const AddVisitTrackerOverlay = ({ set, setVisit }) => {
   }, []);
 
   return (
-    <div className='home-createoverlay' onClick={() => set(false)}>
-      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
-        <div className='homec-l'>Add Visit</div>
+    <div className="home-createoverlay" onClick={() => set(false)}>
+      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
+        <div className="homec-l">Add Visit</div>
 
         <div style={{ width: "100%", marginTop: "12px" }}>
-          {storeError && <div className='kh-error'>Store is required!</div>}
+          {storeError && <div className="kh-error">Store is required!</div>}
 
-          <div className='pio-rel' style={{ display: "unset" }}>
+          <div className="pio-rel" style={{ display: "unset" }}>
             <div
-              className='pio-select'
+              className="pio-select"
               style={{ margin: 0 }}
-              id='fe-store'
+              id="fe-store"
               onClick={() => setShowSelectStore((prev) => !prev)}
             >
-              <div className='ellipsis'>
+              <div className="ellipsis">
                 {/* {storeFilter
                   ?.map((v, i) => (i !== 0 ? " " + v?.name : v?.name))
                   ?.toString() || "Select Store"} */}
                 {selectedStore?.name || "Select Store"}
               </div>
 
-              <div className='grow' />
+              <div className="grow" />
               <div
-                className='mitem-caret'
+                className="mitem-caret"
                 style={{ transform: !showSelectStore && "rotate(-90deg)" }}
               />
             </div>
 
             {showSelectStore && (
               <div
-                className='pio-selch pi-qpa'
-                id='fe-storec'
+                className="pio-selch pi-qpa"
+                id="fe-storec"
                 style={{ position: "unset", marginTop: "-1px" }}
               >
                 {/* <div
@@ -134,7 +151,7 @@ const AddVisitTrackerOverlay = ({ set, setVisit }) => {
                 </div> */}
                 {allStores.map((store, i, a) => (
                   <div
-                    className='pio-ch'
+                    className="pio-ch"
                     onClick={() => {
                       setSelectedStore(store);
                       setShowSelectStore(false);
@@ -148,38 +165,38 @@ const AddVisitTrackerOverlay = ({ set, setVisit }) => {
           </div>
         </div>
 
-        <div className='homec-inputcontainer'>
-          {dateError && <div className='kh-error'>Date is required!</div>}
-          <div className='f-s-main' style={{ marginBottom: "8px" }}>
+        <div className="homec-inputcontainer">
+          {dateError && <div className="kh-error">Date is required!</div>}
+          <div className="f-s-main" style={{ marginBottom: "8px" }}>
             Date of Visit
           </div>
 
           <input
-            className='homec-input rel'
-            placeholder='Time'
-            type='date'
+            className="homec-input rel"
+            placeholder="Time"
+            type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
 
-        <div className='homec-inputcontainer'>
-          {visitorError && <div className='kh-error'>Vistor is required!</div>}
+        <div className="homec-inputcontainer">
+          {visitorError && <div className="kh-error">Vistor is required!</div>}
 
           <input
-            className='homec-input rel'
-            placeholder='Visitors'
+            className="homec-input rel"
+            placeholder="Visitors"
             onChange={(e) => setVisitors(e.target.value)}
             value={visitors}
           />
         </div>
 
-        <div className='homec-inputcontainer'>
-          {bodyError && <div className='kh-error'>Body Missing!</div>}
+        <div className="homec-inputcontainer">
+          {bodyError && <div className="kh-error">Body Missing!</div>}
 
           <textarea
-            className='cl-textarea'
-            placeholder='Body'
+            className="cl-textarea"
+            placeholder="Body"
             onChange={(e) => setBody(e.target.value)}
           />
         </div>

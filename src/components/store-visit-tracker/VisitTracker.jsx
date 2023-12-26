@@ -11,6 +11,15 @@ import AddVisitTrackerOverlay from "./overlay/AddVisitTrackerOverlay";
 import Loading from "../global/LoadingComponent";
 import SelectedDateOverlay from "./overlay/SelectedDateOverlay";
 
+const colors = [
+  "#4e79a7",
+  "#f28e2c",
+  "#e15759",
+  "#76b7b2",
+  "#59a14f",
+  "#edc949",
+];
+
 const VisitTracker = () => {
   const nav = useNavigate();
 
@@ -103,41 +112,60 @@ const VisitTracker = () => {
     }
   }, [window.location.href]);
 
+  console.log(visitorsSorted, "vvv");
+
   if (!visitTrackerSortedByDate || !visitorsSorted) {
     return <Loading />;
   }
 
   return (
-    <div className='home-parent'>
-      <div className='v-topcon'>
-        <img className='home-logo' src='/assets/logo.jpeg' />
-        <div className='home-krink'>Visits Tracker</div>
+    <div className="home-parent">
+      <div className="v-topcon">
+        <img className="home-logo" src="/assets/logo.jpeg" />
+        <div className="home-krink">Visits Tracker</div>
       </div>
 
-      <div className='flex-justcenter'>
+      <div className="flex-justcenter">
         <button
-          className='home-add kh-take'
+          className="home-add kh-take"
           onClick={() => setShowAddVisitOverlay(true)}
         >
           Add
         </button>
         <button
-          className='home-add kh-take'
+          className="home-add kh-take"
           style={{ backgroundColor: "orange", marginLeft: "10px" }}
         >
           Switch View
         </button>
       </div>
+
+      {visitorsSorted.length && (
+        <div>
+          {visitorsSorted.map((t, i) => (
+            <div className="vt-legend">
+              <div
+                className="vt-color"
+                style={{ backgroundColor: colors[i] }}
+              />
+              <div className="f-s-main">{t.name}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <VisitsCustomDateSelector
         idv={"visit-tracker"}
         trackersSorted={visitTrackerSortedByDate}
         visitorsSorted={visitorsSorted}
+        colors={colors}
       />
 
       {showAddVisitOverlay && (
         <AddVisitTrackerOverlay
           set={setShowAddVisitOverlay}
-          setVisit={setVisitTrackerSortedByDate}
+          setVisit={setVisitTrackers}
+          setVisitors2={setVisitorsSorted}
         />
       )}
 
@@ -146,7 +174,7 @@ const VisitTracker = () => {
           set={() => nav("/visit")}
           selectedDate={selectedDate}
           selectedTrackers={visitTrackerSortedByDate[selectedDate]}
-          setVisitTrackerSortedByDate={setVisitTrackerSortedByDate}
+          setVisit={setVisitTrackers}
         />
       )}
     </div>
