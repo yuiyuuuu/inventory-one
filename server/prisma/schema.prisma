@@ -252,3 +252,32 @@ model VisitTracker {
   //when this was created
   createdAt DateTime? @default(now()) @db.Timestamp
 }
+
+//car tracker section
+model CarTracker {
+  id String @id @default(uuid())
+
+  name String // car name
+
+  plate String //plate of car
+
+  trackerInputs CarTrackerInput[]
+}
+
+enum car_tacker_input_status {
+  damaged
+  notdamaged
+}
+
+model CarTrackerInput {
+  id String @id @default(uuid())
+
+  takeTime   DateTime? @default(now()) @db.Timestamp
+  returnTime DateTime? @db.Timestamp
+
+  // //questions 
+  // bodyStatus
+
+  carTracker   CarTracker? @relation(fields: [carTrackerId], references: [id])
+  carTrackerId String?
+}

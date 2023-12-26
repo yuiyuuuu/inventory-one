@@ -13,3 +13,4 @@ router.use("/print", require("./print.js"));
 router.use("/calllog", require("./calls.js"));
 router.use("/time", require("./time.js"));
 router.use("/visit", require("./visit.js"));
+router.use("/car", require("./car.js"));

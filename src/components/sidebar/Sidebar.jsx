@@ -96,11 +96,19 @@ const Sidebar = () => {
           <div className='side-a' onClick={() => go("/visit")}>
             Store Visits Tracker
           </div>
+
+          <div className='side-a' onClick={() => go("/cars")}>
+            Car Tracker
+          </div>
         </div>
       ) : (
         <div className='side-acontainer'>
           <div className='side-a' onClick={() => go("/keys")}>
             Key Tracker
+          </div>
+
+          <div className='side-a' onClick={() => go("/cars")}>
+            Car Tracker
           </div>
         </div>
       )}

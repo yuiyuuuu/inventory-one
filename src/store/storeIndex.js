@@ -8,6 +8,7 @@ import datePicker from "./datePicker";
 import allStores from "./allStores";
 import loading from "./global/loading";
 import auth from "./auth/auth";
+import carTrackers from "./cartrackers/cars";
 
 const reducer = combineReducers({
   sidebarState,
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   allStores,
   loading,
   auth,
+  carTrackers,
 });
 
 let middleware = "";
