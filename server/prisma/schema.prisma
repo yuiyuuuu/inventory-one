@@ -262,6 +262,8 @@ model CarTracker {
   plate String //plate of car
 
   trackerInputs CarTrackerInput[]
+
+  lastServiceDate DateTime? @db.Timestamp
 }
 
 enum car_tacker_input_status {
@@ -272,11 +274,21 @@ enum car_tacker_input_status {
 model CarTrackerInput {
   id String @id @default(uuid())
 
-  takeTime   DateTime? @default(now()) @db.Timestamp
+  //time car was taken
+  takeTime DateTime? @default(now()) @db.Timestamp
+
+  //time car was returned, can be null until returned
   returnTime DateTime? @db.Timestamp
 
   // //questions 
-  // bodyStatus
+  oilStatus              car_tacker_input_status
+  tireStatus             car_tacker_input_status
+  windShieldWipersStatus car_tacker_input_status
+  bodyStatus             car_tacker_input_status
+  lightStatus            car_tacker_input_status
+
+  //in case of damages that are not listed but still need attention
+  other String
 
   carTracker   CarTracker? @relation(fields: [carTrackerId], references: [id])
   carTrackerId String?

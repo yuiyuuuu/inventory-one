@@ -12,3 +12,18 @@ router.get("/fetchall", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post("/create", async (req, res, next) => {
+  try {
+    const create = await prisma.carTracker.create({
+      data: {
+        name: req.body.name,
+        plate: req.body.plate,
+      },
+    });
+
+    res.send(create);
+  } catch (error) {
+    next(error);
+  }
+});

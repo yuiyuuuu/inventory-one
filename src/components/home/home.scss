@@ -29,6 +29,7 @@
   width: 65%;
   margin: 8px auto 40px;
   display: block;
+  user-select: none;
 
   @media only screen and (max-width: 500px) {
     margin: 20px auto 25px;
@@ -110,6 +111,7 @@
   background: #03c1ae;
   position: relative;
   max-height: 33px;
+  user-select: none;
 
   @media only screen and (max-width: 500px) {
     font-size: 12px;

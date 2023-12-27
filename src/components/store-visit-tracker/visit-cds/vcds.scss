@@ -111,9 +111,10 @@
   height: 16px;
   margin-bottom: 5px;
   padding: 3px;
-  border-radius: 5px;
+  border-radius: 20px;
   box-sizing: border-box;
   line-height: 12px;
+  font-weight: 500;
 
   @media only screen and (max-width: 500px) {
     font-size: 11px;

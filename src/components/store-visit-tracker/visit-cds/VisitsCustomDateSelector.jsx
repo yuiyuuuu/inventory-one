@@ -194,7 +194,10 @@ const VisitsCustomDateSelector = ({
                 }}
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <div className={`cds-currentmonth-${idv} f-t-main`}></div>
+                <div
+                  className={`cds-currentmonth-${idv} f-t-main`}
+                  style={{ userSelect: "none" }}
+                ></div>
 
                 <div className="mitem-caret" style={{ marginLeft: "2.5px" }} />
               </div>
