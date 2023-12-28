@@ -5,13 +5,14 @@ const Top = ({ text, href }) => {
   const nav = useNavigate();
 
   return (
-    <div
-      className='v-topcon'
-      onClick={() => href && nav(href)}
-      style={{ cursor: href && "pointer" }}
-    >
-      <img className='home-logo' src='/assets/logo.jpeg' />
-      <div className='home-krink'>{text}</div>
+    <div className="v-topcon">
+      <img
+        className="home-logo"
+        style={{ cursor: href && "pointer" }}
+        src="/assets/logo.jpeg"
+        onClick={() => href && nav(href)}
+      />
+      <div className="home-krink">{text}</div>
     </div>
   );
 };

@@ -1,0 +1,25 @@
+.car-selcon {
+  margin-top: 10px;
+}
+
+.car-choice {
+  font-weight: 500;
+}
+
+.car-checkboxcon {
+  display: flex;
+  align-items: center;
+  margin: 7px 0;
+
+  & > label {
+    margin-left: 7px;
+  }
+}
+
+.car-info {
+  margin: 10px 0;
+}
+
+.car-t {
+  margin-top: 5px;
+}

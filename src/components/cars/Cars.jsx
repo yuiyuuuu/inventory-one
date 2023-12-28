@@ -68,8 +68,13 @@ const Cars = () => {
             <div className="home-mapch" onClick={() => nav(`/cars/c/${t.id}`)}>
               <div>
                 <div className="f-s-main bold">{t.name}</div>
-                <div className="f-s-main bold" style={{ marginTop: "5px" }}>
+                <div className="f-s-main" style={{ marginTop: "5px" }}>
                   {t.plate}
+                </div>
+
+                <div className="f-s-main" style={{ marginTop: "5px" }}>
+                  Last service date:{" "}
+                  {t.lastServiceDate ? new Date(lastServiceDate) : "---"}
                 </div>
               </div>
 

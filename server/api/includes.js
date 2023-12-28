@@ -1,6 +1,10 @@
 //this file includes all includes for the prisma queries.
 //this will ensure we dont repeat the same includes, we can just use JSON.parse
 
+const carIncludes = JSON.stringify({
+  trackerInputs: true,
+});
+
 const list = JSON.stringify({
   item: {
     include: {
@@ -89,4 +93,4 @@ const calls = JSON.stringify({
   store: true,
 });
 
-module.exports = { list, store, userinclude, item, calls };
+module.exports = { list, store, userinclude, item, calls, carIncludes };
