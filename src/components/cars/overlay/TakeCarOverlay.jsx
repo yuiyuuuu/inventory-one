@@ -67,13 +67,15 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
         if (res?.id) {
           dispatch(dispatchSetLoading(false));
 
-          dispatch(
-            dispatchSetCarTrackers(
-              carTrackers.map((t) => (t.id === res.id ? res : t))
-            )
-          );
-
-          //   setSelectedTracker(res);
+          if (carTrackers && !carTrackers?.loading) {
+            dispatch(
+              dispatchSetCarTrackers(
+                carTrackers.map((t) => (t.id === res.id ? res : t))
+              )
+            );
+          } else {
+            setSelectedTracker(res);
+          }
 
           setState(null);
         }
@@ -121,6 +123,7 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
             placeholder="Memo (optional)"
             onChange={(e) => setOtherMemo(e.target.value)}
             id="car-textarea"
+            value={otherMemo}
           />
         </div>
 

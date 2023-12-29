@@ -80,6 +80,13 @@ router.post("/create", async (req, res, next) => {
 });
 
 router.post("/createinput", async (req, res, next) => {
+  const user = await getUser(req.headers.authorization);
+
+  if (!user?.id) {
+    res.send("Internal Server Error").status(500);
+    return;
+  }
+
   try {
     const create = await prisma.carTrackerInput.create({
       data: {
@@ -90,19 +97,21 @@ router.post("/createinput", async (req, res, next) => {
         },
         takenBy: req.body.name,
         other: req.body.memo,
-        oilStatus: req.body.oilStatus
+
+        //false= not damaged, true = damaged
+        oilStatus: !req.body.oilStatus
           ? car_tracker_input_status.notdamaged
           : car_tracker_input_status.damaged,
-        tireStatus: req.body.tireStatus
+        tireStatus: !req.body.tireStatus
           ? car_tracker_input_status.notdamaged
           : car_tracker_input_status.damaged,
-        windShieldWipersStatus: req.body.windShieldWipersStatus
+        windShieldWipersStatus: !req.body.windShieldWipersStatus
           ? car_tracker_input_status.notdamaged
           : car_tracker_input_status.damaged,
-        bodyStatus: req.body.bodyStatus
+        bodyStatus: !req.body.bodyStatus
           ? car_tracker_input_status.notdamaged
           : car_tracker_input_status.damaged,
-        lightStatus: req.body.lightStatus
+        lightStatus: !req.body.lightStatus
           ? car_tracker_input_status.notdamaged
           : car_tracker_input_status.damaged,
       },
@@ -117,6 +126,57 @@ router.post("/createinput", async (req, res, next) => {
     });
 
     res.send(findTracker);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//return car, change car tracker input
+router.put("/return", async (req, res, next) => {
+  const user = await getUser(req.headers.authorization);
+
+  if (!user?.id) {
+    res.send("Internal Server Error").status(500);
+    return;
+  }
+
+  try {
+    const update = await prisma.carTrackerInput.update({
+      where: {
+        id: req.body.currentInput.id,
+      },
+
+      data: {
+        //name will not be updated
+        oilStatus: !req.body.oilStatus
+          ? car_tracker_input_status.notdamaged
+          : car_tracker_input_status.damaged,
+        tireStatus: !req.body.tireStatus
+          ? car_tracker_input_status.notdamaged
+          : car_tracker_input_status.damaged,
+        windShieldWipersStatus: !req.body.windShieldWipersStatus
+          ? car_tracker_input_status.notdamaged
+          : car_tracker_input_status.damaged,
+        bodyStatus: !req.body.bodyStatus
+          ? car_tracker_input_status.notdamaged
+          : car_tracker_input_status.damaged,
+        lightStatus: !req.body.lightStatus
+          ? car_tracker_input_status.notdamaged
+          : car_tracker_input_status.damaged,
+        other: req.body.memo,
+        returnTime: new Date().toISOString(),
+      },
+    });
+
+    const find = await prisma.carTracker.findUnique({
+      where: {
+        id: req.body.car.id,
+      },
+
+      include: JSON.parse(carIncludes),
+    });
+
+    res.send(find);
   } catch (error) {
     next(error);
   }

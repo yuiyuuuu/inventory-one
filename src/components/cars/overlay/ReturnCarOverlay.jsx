@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setErrorStatesFalse, validateForm } from "../../../store/validateForm";
-import { makePostRequestWithAuth } from "../../../requests/helperFunctions";
+import { makePutRequestWithAuth } from "../../../requests/helperFunctions";
 import { getToken } from "../../../requests/getToken";
 import { dispatchSetLoading } from "../../../store/global/loading";
+import { dispatchSetCarTrackers } from "../../../store/cartrackers/cars";
 
-const ReturnCarOverlay = ({ setState, state }) => {
+const ReturnCarOverlay = ({ setState, state, setSelectedTracker }) => {
   const dispatch = useDispatch();
+
+  const carTrackers = useSelector((state) => state.carTrackers);
 
   const [selectedInput, setSelectedInput] = useState(
     state.car.trackerInputs.find((t) => !t.returnTime)
@@ -32,7 +35,14 @@ const ReturnCarOverlay = ({ setState, state }) => {
   const [e5, setE5] = useState(false); //light
 
   //other memo in case something else is broken or needs to be noted
-  const [otherMemo, setOtherMemo] = useState(null);
+  const [otherMemo, setOtherMemo] = useState(
+    state.car.trackerInputs.find((t) => !t.returnTime).other || null
+  );
+
+  console.log(
+    state.car.trackerInputs.find((t) => !t.returnTime),
+    "fksj"
+  );
 
   async function handleSubmit() {
     setErrorStatesFalse([setE1, setE2, setE3, setE4, setE5]);
@@ -49,8 +59,8 @@ const ReturnCarOverlay = ({ setState, state }) => {
 
     dispatch(dispatchSetLoading(true));
 
-    await makePostRequestWithAuth(
-      "cars/createinput",
+    await makePutRequestWithAuth(
+      "cars/return",
       {
         name,
         oilStatus,
@@ -59,10 +69,36 @@ const ReturnCarOverlay = ({ setState, state }) => {
         lightStatus,
         bodyStatus,
         car: state.car,
+        currentInput: selectedInput,
         memo: otherMemo,
       },
       getToken()
-    );
+    )
+      .then((res) => {
+        if (res?.id) {
+          dispatch(dispatchSetLoading(false));
+
+          //if car tracker state is fetched, then map
+          if (carTrackers && !carTrackers?.loading) {
+            dispatch(
+              dispatchSetCarTrackers(
+                carTrackers.map((t) => (t.id === res.id ? res : t))
+              )
+            );
+
+            //if the state is null, then we just set the state of the local selected tracker
+          } else {
+            setSelectedTracker(res);
+          }
+
+          setState(null);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Something went wrong, please try again");
+        dispatch(dispatchSetLoading(false));
+      });
   }
 
   useEffect(() => {
@@ -84,7 +120,9 @@ const ReturnCarOverlay = ({ setState, state }) => {
       <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
         <div className="homec-l">Return Car - {state.car.name}</div>
 
-        <div className="f-s-main">Name: {name}</div>
+        <div className="f-s-main" style={{ marginTop: "5px" }}>
+          Name: {name}
+        </div>
 
         <div className="homec-inputcontainer">
           <textarea
@@ -92,6 +130,7 @@ const ReturnCarOverlay = ({ setState, state }) => {
             placeholder="Memo (optional)"
             onChange={(e) => setOtherMemo(e.target.value)}
             id="car-textarea"
+            value={otherMemo}
           />
         </div>
 

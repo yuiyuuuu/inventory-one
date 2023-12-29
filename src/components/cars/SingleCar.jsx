@@ -8,17 +8,18 @@ import Top from "../global/Top";
 import LoadingComponent from "../global/LoadingComponent";
 import TakeCarOverlay from "./overlay/TakeCarOverlay";
 import ReturnCarOverlay from "./overlay/ReturnCarOverlay";
+import CarHistoryMap from "./CarHistoryMap";
 
 const SingleCar = () => {
   const params = useParams();
 
   const carTrackers = useSelector((state) => state.carTrackers);
 
-  console.log(carTrackers);
-
   const [selectedTracker, setSelectedTracker] = useState(null);
 
   const [currentActiveInput, setCurrentActiveInput] = useState(null);
+
+  const [showHistory, setShowHistory] = useState(false);
 
   //show overlay states
   const [showTakeCarOverlay, setTakeCarOverlay] = useState(false);
@@ -70,6 +71,8 @@ const SingleCar = () => {
 
     if (findActiveInput) {
       setCurrentActiveInput(findActiveInput);
+    } else {
+      setCurrentActiveInput(null);
     }
   }, [selectedTracker]);
 
@@ -93,6 +96,34 @@ const SingleCar = () => {
     <div className="home-parent">
       <Top text={selectedTracker.name} href={"/cars"} />
 
+      <div className="car-p">
+        {!currentActiveInput ? (
+          <div
+            className="home-add home-create car-but"
+            onClick={(e) => {
+              e.stopPropagation();
+              setTakeCarOverlay({ display: true, car: selectedTracker });
+            }}
+          >
+            Take Car
+          </div>
+        ) : (
+          <div
+            className="home-add home-create car-but"
+            style={{ backgroundColor: "orange" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowReturnCarOverlay({
+                display: true,
+                car: selectedTracker,
+              });
+            }}
+          >
+            Return Car
+          </div>
+        )}
+      </div>
+
       {currentActiveInput && (
         <div className="car-info">
           <div className="f-s-main car-t">
@@ -108,42 +139,70 @@ const SingleCar = () => {
         </div>
       )}
 
-      <div>
+      <div style={{ margin: "20px 0" }}>
         <div className="home-f home-lp">
-          History <div className="grow" />
-          {!currentActiveInput ? (
-            <div
-              className="home-add home-create"
-              onClick={(e) => {
-                e.stopPropagation();
-                setTakeCarOverlay({ display: true, car: selectedTracker });
-              }}
-            >
-              Take Car
-            </div>
-          ) : (
-            <div
-              className="home-add home-create"
-              style={{ backgroundColor: "orange" }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowReturnCarOverlay({
-                  display: true,
-                  car: selectedTracker,
-                });
-              }}
-            >
-              Return Car
-            </div>
-          )}
+          Car Info <div className="grow" />
         </div>
 
-        {selectedTracker.trackerInputs.length < 1 ? (
-          <div className="f-s-main" style={{ marginTop: "12px" }}>
-            No history for this car
+        <div style={{ marginTop: "15px" }}>
+          <div className="f-s-main car-histinfo">
+            <span className="bold">Car Name: </span>
+            {selectedTracker.name}
           </div>
-        ) : (
-          ""
+
+          <div className="f-s-main car-histinfo">
+            <span className="bold">Car Plate: </span>
+            {selectedTracker.plate}
+          </div>
+
+          <div className="f-s-main car-histinfo">
+            <span className="bold">Last Service Date: </span>
+            {selectedTracker.lastSeriveDate
+              ? new Date(selectedTracker.lastSeriveDate).toLocaleString(
+                  "en-us",
+                  {
+                    timeZone: "America/Chicago",
+                  }
+                )
+              : "---"}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div
+          className="home-f home-lp pointer"
+          onClick={() => setShowHistory((prev) => !prev)}
+        >
+          History <div className="grow" />
+          <div
+            className="mitem-caret"
+            style={{ transform: !showHistory && "rotate(-90deg)" }}
+          />
+        </div>
+        {showHistory && (
+          <div>
+            {selectedTracker.trackerInputs.filter((t) => t.returnTime).length <
+            1 ? (
+              <div className="f-s-main" style={{ marginTop: "12px" }}>
+                No history for this car
+              </div>
+            ) : (
+              <div className="car-maphistory">
+                {selectedTracker.trackerInputs
+                  .filter((t) => t.returnTime)
+                  .sort((a, b) => {
+                    return (
+                      new Date(b.returnTime).getTime() -
+                      new Date(a.returnTime).getTime()
+                    );
+                  })
+                  .map((t) => (
+                    <CarHistoryMap t={t} />
+                  ))}
+              </div>
+            )}
+          </div>
         )}
       </div>
 
@@ -159,6 +218,7 @@ const SingleCar = () => {
         <ReturnCarOverlay
           setState={setShowReturnCarOverlay}
           state={showReturnCarOverlay}
+          setSelectedTracker={setSelectedTracker}
         />
       )}
     </div>
