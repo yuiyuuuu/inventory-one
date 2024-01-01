@@ -8,7 +8,7 @@ import AddTrackerOverlay from "./AddTrackerOverlay";
 
 const TimeTracker = () => {
   const authstate = useSelector((state) => state.auth);
-  console.log(authstate);
+  authstate;
 
   const [trackers, setTrackers] = useState(authstate.TimeTracker);
 
@@ -22,11 +22,11 @@ const TimeTracker = () => {
 
   if (authstate.loading === "false" && !authstate.id) {
     return (
-      <div className="home-parent">
-        <img className="home-logo" src="/assets/logo.jpeg" />
-        <div className="home-krink">Export</div>{" "}
-        <div className="home-none">
-          <a className="home-siredir" href="/login">
+      <div className='home-parent'>
+        <img className='home-logo' src='/assets/logo.jpeg' />
+        <div className='home-krink'>Export</div>{" "}
+        <div className='home-none'>
+          <a className='home-siredir' href='/login'>
             Log in
           </a>
           to export
@@ -36,23 +36,23 @@ const TimeTracker = () => {
   }
 
   return (
-    <div className="home-parent">
-      <img className="home-logo" src="/assets/logo.jpeg" />
-      <div className="home-krink">Time Tracker</div>
+    <div className='home-parent'>
+      <img className='home-logo' src='/assets/logo.jpeg' />
+      <div className='home-krink'>Time Tracker</div>
 
-      <div className="home-f home-lp">
+      <div className='home-f home-lp'>
         <span>Your Trackers</span>
-        <div className="grow" />
+        <div className='grow' />
 
         <div
-          className="home-add home-create"
+          className='home-add home-create'
           onClick={() => setShowAddOverlay(true)}
         >
           Create
         </div>
       </div>
 
-      <div className="home-mapcontainer">
+      <div className='home-mapcontainer'>
         {trackers.length > 0
           ? trackers
               ?.sort(function (a, b) {

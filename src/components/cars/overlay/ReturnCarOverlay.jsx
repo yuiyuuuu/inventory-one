@@ -21,11 +21,36 @@ const ReturnCarOverlay = ({ setState, state, setSelectedTracker }) => {
   );
 
   //false = damaged/bad, true = good/not damaged
-  const [oilStatus, setOilStatus] = useState(null);
-  const [tireStatus, setTireStatus] = useState(null);
-  const [windShieldWiperStatus, setWindShieldWiperStatus] = useState(null);
-  const [bodyStatus, setBodyStatus] = useState(null);
-  const [lightStatus, setLightStatus] = useState(null);
+  const [oilStatus, setOilStatus] = useState(
+    state.car.trackerInputs.find((t) => !t.returnTime).oilStatus ===
+      "notdamaged"
+      ? false
+      : true
+  );
+  const [tireStatus, setTireStatus] = useState(
+    state.car.trackerInputs.find((t) => !t.returnTime).tireStatus ===
+      "notdamaged"
+      ? false
+      : true
+  );
+  const [windShieldWiperStatus, setWindShieldWiperStatus] = useState(
+    state.car.trackerInputs.find((t) => !t.returnTime)
+      .windShieldWipersStatus === "notdamaged"
+      ? false
+      : true
+  );
+  const [bodyStatus, setBodyStatus] = useState(
+    state.car.trackerInputs.find((t) => !t.returnTime).bodyStatus ===
+      "notdamaged"
+      ? false
+      : true
+  );
+  const [lightStatus, setLightStatus] = useState(
+    state.car.trackerInputs.find((t) => !t.returnTime).lightStatus ===
+      "notdamaged"
+      ? false
+      : true
+  );
 
   //error states
   const [e1, setE1] = useState(false); //oil
@@ -116,145 +141,145 @@ const ReturnCarOverlay = ({ setState, state, setSelectedTracker }) => {
   }, []);
 
   return (
-    <div className="home-createoverlay" onClick={() => setState(null)}>
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Return Car - {state.car.name}</div>
+    <div className='home-createoverlay' onClick={() => setState(null)}>
+      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Return Car - {state.car.name}</div>
 
-        <div className="f-s-main" style={{ marginTop: "5px" }}>
+        <div className='f-s-main' style={{ marginTop: "5px" }}>
           Name: {name}
         </div>
 
-        <div className="homec-inputcontainer">
+        <div className='homec-inputcontainer'>
           <textarea
-            className="cl-textarea"
-            placeholder="Memo (optional)"
+            className='cl-textarea'
+            placeholder='Memo (optional)'
             onChange={(e) => setOtherMemo(e.target.value)}
-            id="car-textarea"
+            id='car-textarea'
             value={otherMemo}
           />
         </div>
 
-        <div className="car-selcon">
-          {e1 && <div className="kh-error">Select Oil Status!</div>}
+        <div className='car-selcon'>
+          {e1 && <div className='kh-error'>Select Oil Status!</div>}
 
-          <div className="f-s-main car-choice">Oil Status</div>
+          <div className='f-s-main car-choice'>Oil Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={oilStatus === false}
               onClick={() => setOilStatus(false)}
             />
-            <label className="f-s-main">Not Damaged</label>
+            <label className='f-s-main'>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={oilStatus === true}
               onClick={() => setOilStatus(true)}
             />
-            <label className="f-s-main">Damaged</label>
+            <label className='f-s-main'>Damaged</label>
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e2 && <div className="kh-error">Select Tire Status!</div>}
+        <div className='car-selcon'>
+          {e2 && <div className='kh-error'>Select Tire Status!</div>}
 
-          <div className="f-s-main car-choice">Tire Status</div>
+          <div className='f-s-main car-choice'>Tire Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={tireStatus === false}
               onClick={() => setTireStatus(false)}
             />
-            <label className="f-s-main">Not Damaged</label>
+            <label className='f-s-main'>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={tireStatus === true}
               onClick={() => setTireStatus(true)}
             />
-            <label className="f-s-main">Damaged</label>
+            <label className='f-s-main'>Damaged</label>
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e3 && <div className="kh-error">Select Wiper Status!</div>}
+        <div className='car-selcon'>
+          {e3 && <div className='kh-error'>Select Wiper Status!</div>}
 
-          <div className="f-s-main car-choice">Wind Shield Wipers Status</div>
+          <div className='f-s-main car-choice'>Wind Shield Wipers Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={windShieldWiperStatus === false}
               onClick={() => setWindShieldWiperStatus(false)}
             />
-            <label className="f-s-main">Not Damaged</label>
+            <label className='f-s-main'>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={windShieldWiperStatus === true}
               onClick={() => setWindShieldWiperStatus(true)}
             />
-            <label className="f-s-main">Damaged</label>
+            <label className='f-s-main'>Damaged</label>
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e4 && <div className="kh-error">Select Light Status!</div>}
+        <div className='car-selcon'>
+          {e4 && <div className='kh-error'>Select Light Status!</div>}
 
-          <div className="f-s-main car-choice">Light Status</div>
+          <div className='f-s-main car-choice'>Light Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={lightStatus === false}
               onClick={() => setLightStatus(false)}
             />
-            <label className="f-s-main">Not Damaged</label>
+            <label className='f-s-main'>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={lightStatus === true}
               onClick={() => setLightStatus(true)}
             />
-            <label className="f-s-main">Damaged</label>
+            <label className='f-s-main'>Damaged</label>
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e5 && <div className="kh-error">Select Body Status!</div>}
+        <div className='car-selcon'>
+          {e5 && <div className='kh-error'>Select Body Status!</div>}
 
-          <div className="f-s-main car-choice">Body Status</div>
+          <div className='f-s-main car-choice'>Body Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={bodyStatus === false}
               onClick={() => setBodyStatus(false)}
             />
-            <label className="f-s-main">Not Damaged</label>
+            <label className='f-s-main'>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={bodyStatus === true}
               onClick={() => setBodyStatus(true)}
             />
-            <label className="f-s-main">Damaged</label>
+            <label className='f-s-main'>Damaged</label>
           </div>
         </div>
 
-        <div className="homec-submit homec-but" onClick={() => handleSubmit()}>
+        <div className='homec-submit homec-but' onClick={() => handleSubmit()}>
           Submit
         </div>
       </div>

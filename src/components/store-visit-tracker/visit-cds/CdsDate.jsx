@@ -19,7 +19,7 @@ const CdsDate = ({ v, idv, trackers, visitorsSorted, colors }) => {
     );
   }, [trackers]);
 
-  console.log(trackersTd);
+  trackersTd;
 
   return (
     <div

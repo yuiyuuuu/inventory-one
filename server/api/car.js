@@ -97,6 +97,11 @@ router.post("/createinput", async (req, res, next) => {
         },
         takenBy: req.body.name,
         other: req.body.memo,
+        actionUser: {
+          connect: {
+            id: req.body.actionUser.id,
+          },
+        },
 
         //false= not damaged, true = damaged
         oilStatus: !req.body.oilStatus
@@ -177,6 +182,41 @@ router.put("/return", async (req, res, next) => {
     });
 
     res.send(find);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//delete an input
+router.post("/deletecarinput", async (req, res, next) => {
+  const user = await getUser(req.headers.authorization);
+
+  if (!user?.id) {
+    res.send("Internal Server Error").status(500);
+    return;
+  }
+
+  try {
+    const findCarInput = await prisma.carTrackerInput.findUnique({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    //if the user that created the input is not the same one deleting
+    if (!findCarInput?.id || findCarInput.actionUserId !== user.id) {
+      res.send("Internal Server Error").status(500);
+
+      return;
+    }
+
+    await prisma.carTrackerInput.delete({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.send("deleted").status(200);
   } catch (error) {
     next(error);
   }

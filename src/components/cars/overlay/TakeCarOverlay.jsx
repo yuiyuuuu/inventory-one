@@ -11,6 +11,7 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
   const dispatch = useDispatch();
 
   const carTrackers = useSelector((state) => state.carTrackers);
+  const authstate = useSelector((state) => state.auth);
 
   const [name, setName] = useState(null);
 
@@ -60,6 +61,7 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
         bodyStatus,
         car: state.car,
         memo: otherMemo,
+        actionUser: authstate,
       },
       getToken()
     )
@@ -102,48 +104,48 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
   }, []);
 
   return (
-    <div className="home-createoverlay" onClick={() => setState(null)}>
-      <div className="homec-inner" onClick={(e) => e.stopPropagation()}>
-        <div className="homec-l">Take Car - {state.car.name}</div>
+    <div className='home-createoverlay' onClick={() => setState(null)}>
+      <div className='homec-inner' onClick={(e) => e.stopPropagation()}>
+        <div className='homec-l'>Take Car - {state.car.name}</div>
 
-        <div className="homec-inputcontainer">
-          {nameError && <div className="kh-error">Name Missing!</div>}
+        <div className='homec-inputcontainer'>
+          {nameError && <div className='kh-error'>Name Missing!</div>}
 
           <input
-            className="homec-input"
-            placeholder="Name"
+            className='homec-input'
+            placeholder='Name'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-        <div className="homec-inputcontainer">
+        <div className='homec-inputcontainer'>
           <textarea
-            className="cl-textarea"
-            placeholder="Memo (optional)"
+            className='cl-textarea'
+            placeholder='Memo (optional)'
             onChange={(e) => setOtherMemo(e.target.value)}
-            id="car-textarea"
+            id='car-textarea'
             value={otherMemo}
           />
         </div>
 
-        <div className="car-selcon">
-          {e1 && <div className="kh-error">Select Oil Status!</div>}
+        <div className='car-selcon'>
+          {e1 && <div className='kh-error'>Select Oil Status!</div>}
 
-          <div className="f-s-main car-choice">Oil Status</div>
+          <div className='f-s-main car-choice'>Oil Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={oilStatus === false}
               onClick={() => setOilStatus(false)}
             />
             <label>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={oilStatus === true}
               onClick={() => setOilStatus(true)}
             />
@@ -151,23 +153,23 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e2 && <div className="kh-error">Select Tire Status!</div>}
+        <div className='car-selcon'>
+          {e2 && <div className='kh-error'>Select Tire Status!</div>}
 
-          <div className="f-s-main car-choice">Tire Status</div>
+          <div className='f-s-main car-choice'>Tire Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={tireStatus === false}
               onClick={() => setTireStatus(false)}
             />
             <label>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={tireStatus === true}
               onClick={() => setTireStatus(true)}
             />
@@ -175,23 +177,23 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e3 && <div className="kh-error">Select Wiper Status!</div>}
+        <div className='car-selcon'>
+          {e3 && <div className='kh-error'>Select Wiper Status!</div>}
 
-          <div className="f-s-main car-choice">Wind Shield Wipers Status</div>
+          <div className='f-s-main car-choice'>Wind Shield Wipers Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={windShieldWiperStatus === false}
               onClick={() => setWindShieldWiperStatus(false)}
             />
             <label>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={windShieldWiperStatus === true}
               onClick={() => setWindShieldWiperStatus(true)}
             />
@@ -199,23 +201,23 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e4 && <div className="kh-error">Select Light Status!</div>}
+        <div className='car-selcon'>
+          {e4 && <div className='kh-error'>Select Light Status!</div>}
 
-          <div className="f-s-main car-choice">Light Status</div>
+          <div className='f-s-main car-choice'>Light Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={lightStatus === false}
               onClick={() => setLightStatus(false)}
             />
             <label>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={lightStatus === true}
               onClick={() => setLightStatus(true)}
             />
@@ -223,23 +225,23 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
           </div>
         </div>
 
-        <div className="car-selcon">
-          {e5 && <div className="kh-error">Select Body Status!</div>}
+        <div className='car-selcon'>
+          {e5 && <div className='kh-error'>Select Body Status!</div>}
 
-          <div className="f-s-main car-choice">Body Status</div>
+          <div className='f-s-main car-choice'>Body Status</div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={bodyStatus === false}
               onClick={() => setBodyStatus(false)}
             />
             <label>Not Damaged</label>
           </div>
 
-          <div className="car-checkboxcon">
+          <div className='car-checkboxcon'>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={bodyStatus === true}
               onClick={() => setBodyStatus(true)}
             />
@@ -247,7 +249,7 @@ const TakeCarOverlay = ({ setState, state, setSelectedTracker }) => {
           </div>
         </div>
 
-        <div className="homec-submit homec-but" onClick={() => handleSubmit()}>
+        <div className='homec-submit homec-but' onClick={() => handleSubmit()}>
           Submit
         </div>
       </div>

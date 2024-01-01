@@ -28,6 +28,8 @@ model User {
 
   visitTrackers VisitTracker[]
 
+  carTrackerInputs CarTrackerInput[]
+
   createdAt DateTime @default(now()) @db.Timestamp
 }
 
@@ -294,4 +296,7 @@ model CarTrackerInput {
 
   carTracker   CarTracker? @relation(fields: [carTrackerId], references: [id])
   carTrackerId String?
+
+  actionUser   User?   @relation(fields: [actionUserId], references: [id])
+  actionUserId String?
 }

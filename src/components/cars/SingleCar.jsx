@@ -78,7 +78,7 @@ const SingleCar = () => {
 
   if (notFound) {
     return (
-      <div className="home-parent">
+      <div className='home-parent'>
         <Top text={"Not Found"} />
       </div>
     );
@@ -93,13 +93,13 @@ const SingleCar = () => {
   }
 
   return (
-    <div className="home-parent">
+    <div className='home-parent'>
       <Top text={selectedTracker.name} href={"/cars"} />
 
-      <div className="car-p">
+      <div className='car-p'>
         {!currentActiveInput ? (
           <div
-            className="home-add home-create car-but"
+            className='home-add home-create car-but'
             onClick={(e) => {
               e.stopPropagation();
               setTakeCarOverlay({ display: true, car: selectedTracker });
@@ -109,7 +109,7 @@ const SingleCar = () => {
           </div>
         ) : (
           <div
-            className="home-add home-create car-but"
+            className='home-add home-create car-but'
             style={{ backgroundColor: "orange" }}
             onClick={(e) => {
               e.stopPropagation();
@@ -125,12 +125,12 @@ const SingleCar = () => {
       </div>
 
       {currentActiveInput && (
-        <div className="car-info">
-          <div className="f-s-main car-t">
+        <div className='car-info'>
+          <div className='f-s-main car-t'>
             Current Taken By: {currentActiveInput?.takenBy}
           </div>
 
-          <div className="f-s-main car-t">
+          <div className='f-s-main car-t'>
             Current Take Time:{" "}
             {new Date(currentActiveInput?.takeTime).toLocaleString("en-us", {
               timeZone: "America/Chicago",
@@ -140,23 +140,23 @@ const SingleCar = () => {
       )}
 
       <div style={{ margin: "20px 0" }}>
-        <div className="home-f home-lp">
-          Car Info <div className="grow" />
+        <div className='home-f home-lp'>
+          Car Info <div className='grow' />
         </div>
 
         <div style={{ marginTop: "15px" }}>
-          <div className="f-s-main car-histinfo">
-            <span className="bold">Car Name: </span>
+          <div className='f-s-main car-histinfo'>
+            <span className='bold'>Car Name: </span>
             {selectedTracker.name}
           </div>
 
-          <div className="f-s-main car-histinfo">
-            <span className="bold">Car Plate: </span>
+          <div className='f-s-main car-histinfo'>
+            <span className='bold'>Car Plate: </span>
             {selectedTracker.plate}
           </div>
 
-          <div className="f-s-main car-histinfo">
-            <span className="bold">Last Service Date: </span>
+          <div className='f-s-main car-histinfo'>
+            <span className='bold'>Last Service Date: </span>
             {selectedTracker.lastSeriveDate
               ? new Date(selectedTracker.lastSeriveDate).toLocaleString(
                   "en-us",
@@ -171,12 +171,12 @@ const SingleCar = () => {
 
       <div>
         <div
-          className="home-f home-lp pointer"
+          className='home-f home-lp pointer'
           onClick={() => setShowHistory((prev) => !prev)}
         >
-          History <div className="grow" />
+          History <div className='grow' />
           <div
-            className="mitem-caret"
+            className='mitem-caret'
             style={{ transform: !showHistory && "rotate(-90deg)" }}
           />
         </div>
@@ -184,11 +184,11 @@ const SingleCar = () => {
           <div>
             {selectedTracker.trackerInputs.filter((t) => t.returnTime).length <
             1 ? (
-              <div className="f-s-main" style={{ marginTop: "12px" }}>
+              <div className='f-s-main' style={{ marginTop: "12px" }}>
                 No history for this car
               </div>
             ) : (
-              <div className="car-maphistory">
+              <div className='car-maphistory'>
                 {selectedTracker.trackerInputs
                   .filter((t) => t.returnTime)
                   .sort((a, b) => {
@@ -198,7 +198,10 @@ const SingleCar = () => {
                     );
                   })
                   .map((t) => (
-                    <CarHistoryMap t={t} />
+                    <CarHistoryMap
+                      t={t}
+                      setSelectedTracker={setSelectedTracker}
+                    />
                   ))}
               </div>
             )}

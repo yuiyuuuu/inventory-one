@@ -112,28 +112,28 @@ const VisitTracker = () => {
     }
   }, [window.location.href]);
 
-  console.log(visitorsSorted, "vvv");
+  visitorsSorted, "vvv";
 
   if (!visitTrackerSortedByDate || !visitorsSorted) {
     return <Loading />;
   }
 
   return (
-    <div className="home-parent">
-      <div className="v-topcon">
-        <img className="home-logo" src="/assets/logo.jpeg" />
-        <div className="home-krink">Visits Tracker</div>
+    <div className='home-parent'>
+      <div className='v-topcon'>
+        <img className='home-logo' src='/assets/logo.jpeg' />
+        <div className='home-krink'>Visits Tracker</div>
       </div>
 
-      <div className="flex-justcenter">
+      <div className='flex-justcenter'>
         <button
-          className="home-add kh-take"
+          className='home-add kh-take'
           onClick={() => setShowAddVisitOverlay(true)}
         >
           Add
         </button>
         <button
-          className="home-add kh-take"
+          className='home-add kh-take'
           style={{ backgroundColor: "orange", marginLeft: "10px" }}
         >
           Switch View
@@ -143,12 +143,12 @@ const VisitTracker = () => {
       {visitorsSorted.length && (
         <div>
           {visitorsSorted.map((t, i) => (
-            <div className="vt-legend">
+            <div className='vt-legend'>
               <div
-                className="vt-color"
+                className='vt-color'
                 style={{ backgroundColor: colors[i] }}
               />
-              <div className="f-s-main">{t.name}</div>
+              <div className='f-s-main'>{t.name}</div>
             </div>
           ))}
         </div>

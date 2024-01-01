@@ -28,7 +28,6 @@ const TrackerMap = ({ tracker, setTrackers }) => {
     if (!c) return;
 
     await makePutRequest("time/clockout", { id: tracker.id }).then((res) => {
-      console.log(res, "res");
       setTrackers((prev) => prev.map((t) => (t.id === res.id ? res : t)));
     });
   }
@@ -47,8 +46,8 @@ const TrackerMap = ({ tracker, setTrackers }) => {
   }
 
   return (
-    <div className="home-mapch" onClick={() => nav(`/time/${tracker.id}`)}>
-      <div className="ellipsis" style={{ width: "75%", flexGrow: 1 }}>
+    <div className='home-mapch' onClick={() => nav(`/time/${tracker.id}`)}>
+      <div className='ellipsis' style={{ width: "75%", flexGrow: 1 }}>
         <span style={{ fontWeight: "500" }}>{tracker.name}</span>
 
         <div style={{ marginTop: "5px" }}>
@@ -62,7 +61,7 @@ const TrackerMap = ({ tracker, setTrackers }) => {
       </div>
 
       <div
-        className="t-clock t-in"
+        className='t-clock t-in'
         style={{ marginRight: "15px" }}
         onClick={(e) => {
           e.stopPropagation();
@@ -72,7 +71,7 @@ const TrackerMap = ({ tracker, setTrackers }) => {
         IN
       </div>
       <div
-        className="t-clock t-out"
+        className='t-clock t-out'
         style={{ marginRight: "10px" }}
         onClick={(e) => {
           e.stopPropagation();
@@ -83,7 +82,7 @@ const TrackerMap = ({ tracker, setTrackers }) => {
       </div>
 
       <div
-        className="item-overwrite item-cli qr-trash"
+        className='item-overwrite item-cli qr-trash'
         onClick={(e) => {
           e.stopPropagation();
           deleteTracker();

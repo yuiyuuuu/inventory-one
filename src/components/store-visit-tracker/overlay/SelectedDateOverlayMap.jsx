@@ -43,34 +43,34 @@ const SelectedDateOverlayMap = ({ t, selectedDate, setVisit }) => {
   }
 
   return (
-    <div className="vt-selcon">
-      <div className="vt-sel" onClick={() => setShow((prev) => !prev)}>
+    <div className='vt-selcon'>
+      <div className='vt-sel f-s-main' onClick={() => setShow((prev) => !prev)}>
         {t.store.name} - {t.user.name}
-        <div className="grow" />
+        <div className='grow' />
         <div
           onClick={(e) => {
             e.stopPropagation();
             handleDelete();
           }}
-          className="home-add home-create"
+          className='home-add home-create'
           style={{ backgroundColor: "red", marginRight: "5px" }}
         >
           Delete
         </div>
         <div
-          className="mitem-caret"
+          className='mitem-caret'
           style={{ transform: !show && "rotate(-90deg)" }}
         />
       </div>
 
       {show && (
-        <div className="vt-desccon">
-          <div className="f-s-main vt-desc">
-            <span className="bold">Visitors: </span>
+        <div className='vt-desccon'>
+          <div className='f-s-main vt-desc'>
+            <span className='bold'>Visitors: </span>
             {t.visitors}
           </div>
-          <div className="f-s-main vt-desc">
-            <span className="bold">Body: </span>
+          <div className='f-s-main vt-desc'>
+            <span className='bold'>Body: </span>
 
             <pre>{t.memo}</pre>
           </div>

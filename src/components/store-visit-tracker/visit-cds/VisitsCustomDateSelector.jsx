@@ -128,7 +128,7 @@ const VisitsCustomDateSelector = ({
 
     const cdsDays = document.querySelectorAll(`.cds-date-${idv}`);
 
-    console.log(allDaysofThisMonth.flat(Infinity).length);
+    allDaysofThisMonth.flat(Infinity).length;
 
     for (let i = 0; i < allDaysofThisMonth.flat(Infinity).length; i++) {
       if (!allDaysofThisMonth.flat(Infinity)[i]) continue;
@@ -179,15 +179,15 @@ const VisitsCustomDateSelector = ({
       <div id={`cds-${idv || "m"}`}>
         {!showSelectYear ? (
           <div className={`cds-parent-${idv} v-cds-parent`}>
-            <div className="cds-prev">
+            <div className='cds-prev'>
               <div
-                className="cds-arrow v-cds-arrow"
+                className='cds-arrow v-cds-arrow'
                 onClick={() => subtractDate()}
               >
                 ←
               </div>
               <div
-                className="pointer"
+                className='pointer'
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowSelectYear((prev) => !prev);
@@ -199,9 +199,9 @@ const VisitsCustomDateSelector = ({
                   style={{ userSelect: "none" }}
                 ></div>
 
-                <div className="mitem-caret" style={{ marginLeft: "2.5px" }} />
+                <div className='mitem-caret' style={{ marginLeft: "2.5px" }} />
               </div>
-              <div className="cds-arrow v-cds-arrow" onClick={() => addDate()}>
+              <div className='cds-arrow v-cds-arrow' onClick={() => addDate()}>
                 →
               </div>
             </div>
@@ -219,7 +219,7 @@ const VisitsCustomDateSelector = ({
               {/* {Array(allDaysofThisMonth.length)
           .fill("") */}
               {allDaysofThisMonth.map((t, i) => (
-                <div className="v-cds-row v-cds-row-dates">
+                <div className='v-cds-row v-cds-row-dates'>
                   {t.map((v) => (
                     <CdsDate
                       v={v}
@@ -241,11 +241,11 @@ const VisitsCustomDateSelector = ({
               ))}
             </div>
 
-            <div className="cds-opt">
+            <div className='cds-opt'>
               <div></div>
-              <div className="grow" />
+              <div className='grow' />
               <div
-                className="cds-opt-ch"
+                className='cds-opt-ch'
                 onClick={() => {
                   setCurrentDate(new Date());
                 }}
@@ -255,7 +255,7 @@ const VisitsCustomDateSelector = ({
             </div>
           </div>
         ) : (
-          <div className="cds-yearselect">
+          <div className='cds-yearselect'>
             {[
               ...Array.from(Array(2050 - 1970).keys()).map((t) => t + 1970),
             ].map((t) => (

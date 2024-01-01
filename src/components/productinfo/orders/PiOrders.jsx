@@ -37,20 +37,20 @@ const PiOrders = ({ orders, selectedDate, showOrders, setSelectedDate }) => {
     });
   }, []);
 
-  console.log(selectedDate);
+  selectedDate;
 
   return (
-    <div className="pio-parent" style={{ display: !showOrders && "none" }}>
-      <div className="pio-rel">
+    <div className='pio-parent' style={{ display: !showOrders && "none" }}>
+      <div className='pio-rel'>
         <div
-          className="pio-select"
+          className='pio-select'
           onClick={() => setShowSelectDate((prev) => !prev)}
-          id="pio-select"
+          id='pio-select'
         >
           {selectedDate || "Select a date"}
-          <div className="grow" />
+          <div className='grow' />
           <div
-            className="mitem-caret"
+            className='mitem-caret'
             style={{ transform: !showSelectDate && "rotate(-90deg)" }}
           />
         </div>
