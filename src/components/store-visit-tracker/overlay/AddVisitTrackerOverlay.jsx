@@ -196,7 +196,7 @@ const AddVisitTrackerOverlay = ({ set, setVisit, setVisitors2 }) => {
 
           <textarea
             className="cl-textarea"
-            placeholder="Body"
+            placeholder="Memo"
             onChange={(e) => setBody(e.target.value)}
           />
         </div>
